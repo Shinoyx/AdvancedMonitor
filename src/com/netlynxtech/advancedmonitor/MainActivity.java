@@ -23,13 +23,23 @@ public class MainActivity extends SherlockActivity {
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
-				
+
 				if (mTcpClient != null) {
 					Log.e("Send", "Sending command");
 					mTcpClient.sendMessage("^R|00|ZZ~");
 				}
 			}
 		}, 5000);
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		// disconnect
+		mTcpClient.stopClient();
+		mTcpClient = null;
 
 	}
 
@@ -53,10 +63,10 @@ public class MainActivity extends SherlockActivity {
 		protected TCPClient doInBackground(String... message) {
 			// we create a TCPClient object and
 			mTcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
-				@Override
-				// here the messageReceived method is implemented
-				public void messageReceived(String message) {
-					// this method calls the onProgressUpdate
+                @Override
+                //here the messageReceived method is implemented
+                public void messageReceived(String message) {
+                	// this method calls the onProgressUpdate
 					publishProgress(message);
 				}
 			});

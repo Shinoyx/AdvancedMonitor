@@ -11,14 +11,19 @@ import java.net.Socket;
 import android.util.Log;
 
 public class TCPClient {
-	private String serverMessage;
-	public static final String SERVERIP = "192.168.4.1"; // your computer IP address
-	public static final int SERVERPORT = 9012;
-	private OnMessageReceived mMessageListener = null;
-	private boolean mRun = false;
 
-	PrintWriter out;
-	BufferedReader in;
+	public static final String SERVER_IP = "192.168.4.1"; // your computer IP address
+	public static final int SERVER_PORT = 9012;
+	// message to send to the server
+	private String mServerMessage;
+	// sends message received notifications
+	private OnMessageReceived mMessageListener = null;
+	// while this is true, the server will continue running
+	private boolean mRun = false;
+	// used to send messages
+	private PrintWriter mBufferOut;
+	// used to read messages from the server
+	private BufferedReader mBufferIn;
 
 	/**
 	 * Constructor of the class. OnMessagedReceived listens for the messages received from server
@@ -34,17 +39,31 @@ public class TCPClient {
 	 *            text entered by client
 	 */
 	public void sendMessage(String message) {
-		if (out != null && !out.checkError()) {
-			Log.e("message", message);
-			out.print(message);
-			//out.println(message);
-			out.flush();
-			Log.e("sendMessage", "done");
+		if (mBufferOut != null && !mBufferOut.checkError()) {
+			mBufferOut.print(message);
+			mBufferOut.flush();
 		}
 	}
 
+	/**
+	 * Close the connection and release the members
+	 */
 	public void stopClient() {
+
+		// send mesage that we are closing the connection
+		sendMessage(Consts.CLOSED_CONNECTION + "Kazy");
+
 		mRun = false;
+
+		if (mBufferOut != null) {
+			mBufferOut.flush();
+			mBufferOut.close();
+		}
+
+		mMessageListener = null;
+		mBufferIn = null;
+		mBufferOut = null;
+		mServerMessage = null;
 	}
 
 	public void run() {
@@ -53,36 +72,38 @@ public class TCPClient {
 
 		try {
 			// here you must put your computer's IP address.
-			InetAddress serverAddr = InetAddress.getByName(SERVERIP);
+			InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 
-			Log.e("TCP Client", "C: Connecting...");
+			Log.e("TCP Client", "C: Connecting..." + serverAddr.toString());
 
 			// create a socket to make the connection with the server
-			Socket socket = new Socket(serverAddr, SERVERPORT);
+			Socket socket = new Socket(SERVER_IP, SERVER_PORT);
 
 			try {
-				out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-				Log.e("TCP Client", "C: Sent.");
+				// sends the message to the server
+				mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-				Log.e("TCP Client", "C: Done.");
-
-				// receive the message which the server sends back
-				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				// receives the message which the server sends back
+				mBufferIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				// send login name
+				Log.e("TCP Client", "Connected");
+				sendMessage("^R|00|ZZ~");
 
 				// in this while the client listens for the messages sent by the server
 				while (mRun) {
-					serverMessage = in.readLine();
 
-					if (serverMessage != null && mMessageListener != null) {
+					mServerMessage = mBufferIn.readLine();
+
+					if (mServerMessage != null && mMessageListener != null) {
 						// call the method messageReceived from MyActivity class
-						Log.e("RESPONSE FROM SERVER", "S: Received Message: '" + serverMessage + "'");
-						mMessageListener.messageReceived(serverMessage);
-					} else {
-						Log.e("Response", "No message");
+						mMessageListener.messageReceived(mServerMessage);
 					}
-					serverMessage = null;
+
 				}
+
+				Log.e("RESPONSE FROM SERVER", "S: Received Message: '" + mServerMessage + "'");
+
 			} catch (Exception e) {
 
 				Log.e("TCP", "S: Error", e);
