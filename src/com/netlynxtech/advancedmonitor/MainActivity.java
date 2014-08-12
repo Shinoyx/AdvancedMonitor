@@ -1,6 +1,11 @@
 package com.netlynxtech.advancedmonitor;
 
-import java.io.UnsupportedEncodingException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +14,7 @@ import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
+import com.netlynxtech.advancedmonitor.classes.TCPClass;
 import com.netlynxtech.advancedmonitor.classes.TCPClient;
 
 public class MainActivity extends SherlockActivity {
@@ -19,6 +25,8 @@ public class MainActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		new tryConnect().execute();
+/*
 		new connectTask().execute();
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
@@ -29,7 +37,18 @@ public class MainActivity extends SherlockActivity {
 					mTcpClient.sendMessage("^R|00|ZZ~");
 				}
 			}
-		}, 5000);
+		}, 5000);*/
+
+	}
+
+	private class tryConnect extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			TCPClass tcp  = new TCPClass(MainActivity.this, "192.168.4.1", "9012");
+			TCPClass.sendDataWithString("^R|00|ZZ~");
+			return null;
+		}
 
 	}
 
@@ -63,10 +82,11 @@ public class MainActivity extends SherlockActivity {
 		protected TCPClient doInBackground(String... message) {
 			// we create a TCPClient object and
 			mTcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
-                @Override
-                //here the messageReceived method is implemented
-                public void messageReceived(String message) {
-                	// this method calls the onProgressUpdate
+				@Override
+				// here the messageReceived method is implemented
+				public void messageReceived(String message) {
+					// this method calls the onProgressUpdate
+					Log.e("SERVER", message);
 					publishProgress(message);
 				}
 			});
