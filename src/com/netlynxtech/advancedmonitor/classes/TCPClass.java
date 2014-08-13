@@ -117,7 +117,6 @@ public class TCPClass {
 									response = new String(arrayOfChar).substring(0, i);
 									Log.e("RESPONSE", response);
 								}
-								// timerHandler.post(updateUI);
 							}
 						} else {
 							Log.e("Socket", "SOcket is null");
