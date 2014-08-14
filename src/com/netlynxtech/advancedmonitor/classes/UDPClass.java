@@ -4,93 +4,90 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
-import android.net.DhcpInfo;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.MulticastLock;
 import android.util.Log;
 
 public class UDPClass extends Thread {
 	private static final String TAG = "Discovery";
 
-	private static final int DISCOVERY_PORT = 1025;
-	private static final int TIMEOUT_MS = 999000;
+	private static String UDP_IP;
+	private static String UDP_PORT;
+	private static String UDP_MESSAGE;
 
-	private WifiManager mWifi;
-
-	interface DiscoveryReceiver {
-		void addAnnouncedServers(InetAddress[] host, int port[]);
-	}
-
-	public UDPClass(WifiManager wifi) {
-		mWifi = wifi;
+	public UDPClass(String ip, String port, String message) {
+		UDP_IP = ip;
+		UDP_PORT = port;
+		UDP_MESSAGE = message;
 	}
 
 	public void run() {
+		byte[] arrayOfByte;
+		DatagramPacket localDatagramPacket2 = null;
+		String str8;
+
+		DatagramSocket localDatagramSocket = null;
 		try {
-			DatagramSocket socket = new DatagramSocket(DISCOVERY_PORT);
-			socket.setBroadcast(true);
-			socket.setSoTimeout(TIMEOUT_MS);
-
-			sendDiscoveryRequest(socket);
-			listenForResponses(socket);
-		} catch (IOException e) {
-			Log.e(TAG, "Could not send discovery request", e);
+			localDatagramSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Send a broadcast UDP packet containing a request for boxee services to announce themselves.
-	 * 
-	 * @throws IOException
-	 */
-	private void sendDiscoveryRequest(DatagramSocket socket) throws IOException {
-		String data = "HELLO NT";
-		Log.d(TAG, "Sending data " + data);
-
-		DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), getBroadcastAddress(), DISCOVERY_PORT);
-		socket.send(packet);
-	}
-
-	/**
-	 * Calculate the broadcast IP we need to send the packet along. If we send it to 255.255.255.255, it never gets sent. I guess this has something to do with the mobile network not wanting to do
-	 * broadcast.
-	 */
-	private InetAddress getBroadcastAddress() throws IOException {
-		DhcpInfo dhcp = mWifi.getDhcpInfo();
-		if (dhcp == null) {
-			Log.d(TAG, "Could not get dhcp info");
-			return null;
+		InetAddress localInetAddress = null;
+		DatagramPacket localDatagramPacket1 = null;
+		String str2 = UDP_IP;
+		int i = Integer.parseInt(UDP_PORT);
+		String str3 = UDP_MESSAGE;
+		if ((i > 65535) || (i < 0)) {
+			Log.e("Input Error", "ip port invalid");
+			Log.e("PORT ERROR", "PORT INVALID");
+			return;
 		}
-
-		int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
-		byte[] quads = new byte[4];
-		for (int k = 0; k < 4; k++)
-			quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
-		Log.e(TAG, InetAddress.getByName("255.255.255.255").toString());
-		return InetAddress.getByName("255.255.255.255");
-		// return InetAddress.getByAddress(quads);
-	}
-
-	/**
-	 * Listen on socket for responses, timing out after TIMEOUT_MS
-	 * 
-	 * @param socket
-	 *            socket on which the announcement request was sent
-	 * @throws IOException
-	 */
-	private void listenForResponses(DatagramSocket socket) throws IOException {
-		byte[] buf = new byte[1024];
 		try {
-			while (true) {
-				DatagramPacket packet = new DatagramPacket(buf, buf.length);
-				socket.receive(packet);
-				String s = new String(packet.getData(), 0, packet.getLength());
-				Log.d(TAG, "Received response " + s);
+			localInetAddress = InetAddress.getByName(str2);
+			localDatagramPacket1 = new DatagramPacket(str3.getBytes(), str3.length(), localInetAddress, i);
+			try {
+				localDatagramSocket.send(localDatagramPacket1);
+				Log.e("Success", "UDP packet sent");
+				try {
+					localDatagramSocket.setSoTimeout(1000 * Integer.parseInt("5"));
+					arrayOfByte = new byte[1514];
+					localDatagramPacket2 = new DatagramPacket(arrayOfByte, arrayOfByte.length, localInetAddress, localDatagramSocket.getLocalPort());
+					System.out.println("local port: " + localDatagramSocket.getLocalPort());
+					for (;;) {
+						try {
+							localDatagramSocket.receive(localDatagramPacket2);
+							str8 = new String(localDatagramPacket2.getData(), 0, localDatagramPacket2.getLength());
+							System.out.println("received:" + str8);
+							// showDialog("Success", "UDP packet sent and received: '" + str8 + "'");
+							return;
+						} catch (SocketTimeoutException localSocketTimeoutException) {
+							localSocketTimeoutException.printStackTrace();
+							// showDialog("IO Error", "UDP packet sent, but timeout on receipt");
+							return;
+						} catch (IOException localIOException2) {
+							localIOException2.printStackTrace();
+							Log.e("Error", localIOException2.getMessage());
+						}
+
+					}
+				} catch (NumberFormatException localNumberFormatException) {
+					localNumberFormatException.printStackTrace();
+				} catch (SocketException localSocketException1) {
+					localSocketException1.printStackTrace();
+					Log.e("IO Error", "UDP packet sent, but cannot receive message ('DatagramSocket.setSoTimeout()' method failed");
+				}
+			} catch (IOException localIOException1) {
+				localIOException1.printStackTrace();
+				Log.e("IO Error", "cannot send message ('DatagramSocket.send()' method failed" + localIOException1.getMessage());
+				// return;
 			}
-		} catch (SocketTimeoutException e) {
-			Log.d(TAG, "Receive timed out");
+		} catch (UnknownHostException localUnknownHostException) {
+			localUnknownHostException.printStackTrace();
+			Log.e("IO Error", "cannot resolve host address ('InetAddress.getByName()' method failed)" + localUnknownHostException.getMessage());
+			// return;
 		}
 	}
 }

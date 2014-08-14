@@ -1,7 +1,5 @@
 package com.netlynxtech.advancedmonitor;
 
-import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -26,7 +24,7 @@ public class MainActivity extends SherlockActivity {
 			// TCPClass tcp = new TCPClass(MainActivity.this, "255.255.255.255", "1025");
 			// TCPClass.sendDataWithString(Consts.UDP_BROADCAST_TODEVICE);
 
-			new UDPClass((WifiManager) MainActivity.this.getSystemService(Context.WIFI_SERVICE)).start();
+			new UDPClass("255.255.255.255", "1025", "HELLO NT").start();
 			return null;
 		}
 
