@@ -8,9 +8,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.netlynxtech.advancedmonitor.MainActivity" >
 
-    <TextView
+    <Spinner
+        android:id="@+id/sDeviceList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <Spinner
+        android:id="@+id/sWifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sDeviceList"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sDeviceList" />
+
+    <EditText
+        android:id="@+id/etWifiPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sWifi"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/bConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/etWifiPassword"
+        android:layout_below="@+id/etWifiPassword"
+        android:text="Button" />
 
 </RelativeLayout>

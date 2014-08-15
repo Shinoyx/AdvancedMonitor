@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.netlynxtech.advancedmonitor.classes.UDPClass;
 
 public class MainActivity extends SherlockActivity {
 
@@ -24,7 +23,7 @@ public class MainActivity extends SherlockActivity {
 			// TCPClass tcp = new TCPClass(MainActivity.this, "255.255.255.255", "1025");
 			// TCPClass.sendDataWithString(Consts.UDP_BROADCAST_TODEVICE);
 
-			new UDPClass("255.255.255.255", "1025", "HELLO NT").start();
+			//new UDPClass("255.255.255.255", "1025", "HELLO NT").start();
 			return null;
 		}
 

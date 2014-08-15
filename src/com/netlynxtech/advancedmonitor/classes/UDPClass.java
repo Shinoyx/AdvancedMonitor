@@ -10,9 +10,7 @@ import java.net.UnknownHostException;
 
 import android.util.Log;
 
-public class UDPClass extends Thread {
-	private static final String TAG = "Discovery";
-
+public class UDPClass {
 	private static String UDP_IP;
 	private static String UDP_PORT;
 	private static String UDP_MESSAGE;
@@ -23,7 +21,8 @@ public class UDPClass extends Thread {
 		UDP_MESSAGE = message;
 	}
 
-	public void run() {
+	public String run() {
+		String ip = "";
 		byte[] arrayOfByte;
 		DatagramPacket localDatagramPacket2 = null;
 		String str8;
@@ -43,7 +42,7 @@ public class UDPClass extends Thread {
 		if ((i > 65535) || (i < 0)) {
 			Log.e("Input Error", "ip port invalid");
 			Log.e("PORT ERROR", "PORT INVALID");
-			return;
+			return "";
 		}
 		try {
 			localInetAddress = InetAddress.getByName(str2);
@@ -52,7 +51,7 @@ public class UDPClass extends Thread {
 				localDatagramSocket.send(localDatagramPacket1);
 				Log.e("Success", "UDP packet sent");
 				try {
-					localDatagramSocket.setSoTimeout(1000 * Integer.parseInt("5"));
+					localDatagramSocket.setSoTimeout(10000); // 1 min
 					arrayOfByte = new byte[1514];
 					localDatagramPacket2 = new DatagramPacket(arrayOfByte, arrayOfByte.length, localInetAddress, localDatagramSocket.getLocalPort());
 					System.out.println("local port: " + localDatagramSocket.getLocalPort());
@@ -61,12 +60,11 @@ public class UDPClass extends Thread {
 							localDatagramSocket.receive(localDatagramPacket2);
 							str8 = new String(localDatagramPacket2.getData(), 0, localDatagramPacket2.getLength());
 							System.out.println("received:" + str8);
-							// showDialog("Success", "UDP packet sent and received: '" + str8 + "'");
-							return;
+							Log.e("Success", "UDP packet sent and received: '" + str8 + "'");
+							return str8;
 						} catch (SocketTimeoutException localSocketTimeoutException) {
 							localSocketTimeoutException.printStackTrace();
-							// showDialog("IO Error", "UDP packet sent, but timeout on receipt");
-							return;
+							Log.e("IO Error", "UDP packet sent, but timeout on receipt");
 						} catch (IOException localIOException2) {
 							localIOException2.printStackTrace();
 							Log.e("Error", localIOException2.getMessage());
@@ -89,5 +87,6 @@ public class UDPClass extends Thread {
 			Log.e("IO Error", "cannot resolve host address ('InetAddress.getByName()' method failed)" + localUnknownHostException.getMessage());
 			// return;
 		}
+		return "";
 	}
 }
