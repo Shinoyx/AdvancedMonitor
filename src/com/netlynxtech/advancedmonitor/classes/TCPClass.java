@@ -27,6 +27,8 @@ public class TCPClass {
 	static boolean sendException;
 	static Context context;
 
+	static String responseToGetBack = "";
+
 	public TCPClass(Context c, String ip, String port) {
 		context = c;
 		IP = ip;
@@ -116,6 +118,7 @@ public class TCPClass {
 								if (i != -1) {
 									response = new String(arrayOfChar).substring(0, i);
 									Log.e("RESPONSE", response);
+
 								}
 							}
 						} else {
@@ -144,7 +147,7 @@ public class TCPClass {
 		}).start();
 	}
 
-	public static void sendDataWithString(String paramString) {
+	public static boolean sendDataWithString(String paramString, String reply) {
 		Log.e("Message", "Sending message : " + paramString);
 		sendException = false;
 		try {
@@ -153,11 +156,17 @@ public class TCPClass {
 				out.write(paramString);
 				out.flush();
 				Log.e("Message", "SENT!");
+				responseToGetBack = reply;
 			}
-			return;
+			return false;
 		} catch (IOException localIOException) {
 			localIOException.printStackTrace();
 			sendException = true;
+			return false;
 		}
+	}
+
+	public interface OnMessageReceived {
+		public void messageReceived(String message);
 	}
 }

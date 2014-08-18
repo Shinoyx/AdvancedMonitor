@@ -55,21 +55,24 @@ public class ChooseDeviceActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				new AsyncTask<Void, Void, Void>() {
+					
 
 					@Override
 					protected Void doInBackground(Void... params) {
 
-						String data = new UDPClass("255.255.255.255", "1025", Consts.UDP_BROADCAST_TODEVICE).run();
+						
+						/*String data = new UDPClass("255.255.255.255", "1025", Consts.UDP_BROADCAST_TODEVICE).run();
 						Pattern pattern4 = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
 								+ "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]" + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}" + "|[1-9][0-9]|[0-9]))");
-						Matcher matcher = pattern4.matcher(data);
+						Matcher matcher = pattern4.matcher(data);*/
 						String ip = "";
-						if (matcher.find()) {
-							ip = matcher.group(1);
+						//if (matcher.find()) {
+						//	ip = matcher.group(1);
+							ip = "192.168.4.1";
 							Log.e("IP", ip);
 							TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, ip, "9012");
-							TCPClass.sendDataWithString("^X|1|YEN|24AC3A4A5C|192.168.10.101|7777|ZZ~");
-						}
+							TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
+						//}
 						return null;
 					}
 				}.execute();

@@ -43,6 +43,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/etWifiPassword"
         android:layout_below="@+id/etWifiPassword"
-        android:text="Button" />
+        android:text="Connect" />
 
 </RelativeLayout>
