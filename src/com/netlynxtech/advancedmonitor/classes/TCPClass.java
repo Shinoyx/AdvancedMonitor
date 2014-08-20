@@ -15,35 +15,33 @@ import android.util.Log;
 public class TCPClass {
 	static String IP;
 	static String PORT;
-	static boolean connection;
-	static boolean connectionChange;
-	static String date_time;
 	public static File[] file = null;
 	public static BufferedReader in;
 	public static PrintWriter out;
 	static String response;
 	public static Socket sck = null;
-	static int selectedItem;
-	static boolean sendException;
 	static Context context;
 
 	static String responseToGetBack = "";
+	private static OnMessageReceived mMessageListener = null;
 
-	public TCPClass(Context c, String ip, String port) {
+	public TCPClass(Context c, String ip, String port, OnMessageReceived listener) {
 		context = c;
 		IP = ip;
 		PORT = port;
+		mMessageListener = listener;
 		OpenConnection();
 	}
 
-	private void CloseConnection() {
+	public static void CloseConnection() {
 		Log.e("Connection", "Close");
 		context.stopService(new Intent(context, TCPService.class));
 		new Thread(new Runnable() {
 			public void run() {
-				connectionChange = true;
-				connection = false;
 				try {
+					if (mMessageListener != null) {
+						mMessageListener = null;
+					}
 					if (sck != null) {
 						sck.close();
 					}
@@ -55,7 +53,6 @@ public class TCPClass {
 					}
 					return;
 				} catch (IOException localIOException) {
-					connection = true;
 					localIOException.printStackTrace();
 				}
 			}
@@ -72,21 +69,16 @@ public class TCPClass {
 				}
 				try {
 					sck = new Socket(IP, i);
-					connection = true;
 					Log.e("Connected", "true");
 					context.startService(new Intent(context, TCPService.class));
 					return;
 				} catch (UnknownHostException localUnknownHostException) {
 					CloseConnection();
-
-					connection = false;
 					sck = null;
 					localUnknownHostException.printStackTrace();
 					return;
 				} catch (IOException localIOException) {
 					CloseConnection();
-
-					connection = false;
 					localIOException.printStackTrace();
 					sck = null;
 				}
@@ -94,10 +86,8 @@ public class TCPClass {
 		}).start();
 		try {
 			Thread.sleep(101L);
-			connectionChange = true;
 			return;
 		} catch (InterruptedException localInterruptedException) {
-			connection = false;
 			CloseConnection();
 			localInterruptedException.printStackTrace();
 		}
@@ -118,7 +108,7 @@ public class TCPClass {
 								if (i != -1) {
 									response = new String(arrayOfChar).substring(0, i);
 									Log.e("RESPONSE", response);
-
+									mMessageListener.messageReceived(response);
 								}
 							}
 						} else {
@@ -132,8 +122,6 @@ public class TCPClass {
 							in.close();
 							out.close();
 							sck = null;
-							connection = false;
-							connectionChange = true;
 							return;
 						} catch (IOException localIOException2) {
 							localIOException2.printStackTrace();
@@ -147,21 +135,18 @@ public class TCPClass {
 		}).start();
 	}
 
-	public static boolean sendDataWithString(String paramString, String reply) {
+	public static boolean sendDataWithString(String paramString) {
 		Log.e("Message", "Sending message : " + paramString);
-		sendException = false;
 		try {
 			out = new PrintWriter(sck.getOutputStream());
 			if ((paramString != null) && (sck != null)) {
 				out.write(paramString);
 				out.flush();
 				Log.e("Message", "SENT!");
-				responseToGetBack = reply;
 			}
 			return false;
 		} catch (IOException localIOException) {
 			localIOException.printStackTrace();
-			sendException = true;
 			return false;
 		}
 	}

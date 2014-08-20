@@ -55,24 +55,24 @@ public class ChooseDeviceActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				new AsyncTask<Void, Void, Void>() {
-					
 
 					@Override
 					protected Void doInBackground(Void... params) {
+						String wifiToConnectTo = sWifi.getSelectedItem().toString();
+						String wifiToConnectToPassword = etWifiPassword.getText().toString().trim();
 
-						
-						/*String data = new UDPClass("255.255.255.255", "1025", Consts.UDP_BROADCAST_TODEVICE).run();
-						Pattern pattern4 = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
-								+ "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]" + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}" + "|[1-9][0-9]|[0-9]))");
-						Matcher matcher = pattern4.matcher(data);*/
-						String ip = "";
-						//if (matcher.find()) {
-						//	ip = matcher.group(1);
-							ip = "192.168.4.1";
-							Log.e("IP", ip);
-							TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, ip, "9012");
+						if (wifiToConnectToPassword.length() > 0) {
+							TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, Consts.DEVICE_SOFT_ACCESS_IP, Consts.DEVICE_SOFT_ACCESS_PORT, new TCPClass.OnMessageReceived() {
+
+								@Override
+								public void messageReceived(String message) {
+									Log.e("messageReceived", message);
+									TCPClass.CloseConnection();
+								}
+							});
 							TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
-						//}
+						}
+
 						return null;
 					}
 				}.execute();

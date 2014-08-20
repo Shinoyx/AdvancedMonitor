@@ -3,6 +3,8 @@ package com.netlynxtech.advancedmonitor.classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +20,17 @@ public class Utils {
 
 	public Utils(Context con) {
 		this.context = con;
+	}
+
+	public String pregmatchIP(String text) {
+		// String data = new UDPClass("255.255.255.255", "1025", Consts.UDP_BROADCAST_TODEVICE).run(); Pattern pattern4 =
+		Pattern p = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]" + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+				+ "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}" + "|[1-9][0-9]|[0-9]))");
+		Matcher matcher = p.matcher(text);
+		if (matcher.find()) {
+			return matcher.group(1).trim();
+		}
+		return "";
 	}
 
 	public void turnOnWifi() {
