@@ -1,37 +1,36 @@
 package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 
 import com.netlynxtech.advancedmonitor.classes.Consts;
 import com.netlynxtech.advancedmonitor.classes.TCPClass;
-import com.netlynxtech.advancedmonitor.classes.UDPClass;
 
 public class ChooseDeviceActivity extends Activity {
 	Spinner sDeviceList, sWifi;
 	WifiManager wifiManager;
-	ArrayList<HashMap<String, String>> data;
-	SimpleAdapter deviceAdapter;
+	ArrayList<String> data;
+	ArrayAdapter<String> adapter;
 	EditText etWifiPassword;
 	Button bConnect;
 
@@ -39,7 +38,7 @@ public class ChooseDeviceActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		data = new ArrayList<HashMap<String, String>>();
+		data = new ArrayList<String>();
 		wifiManager = (WifiManager) ChooseDeviceActivity.this.getSystemService(Context.WIFI_SERVICE);
 		registerReceiver(wifiBroadcastReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		wifiManager.startScan();
@@ -47,9 +46,19 @@ public class ChooseDeviceActivity extends Activity {
 		sWifi = (Spinner) findViewById(R.id.sWifi);
 		etWifiPassword = (EditText) findViewById(R.id.etWifiPassword);
 		bConnect = (Button) findViewById(R.id.bConnect);
-		deviceAdapter = new SimpleAdapter(ChooseDeviceActivity.this, data, R.layout.spinner_device_list_item, new String[] { "name" }, new int[] { R.id.tvName });
-		sDeviceList.setAdapter(deviceAdapter);
-		sWifi.setAdapter(deviceAdapter);
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+		sDeviceList.setEnabled(false);
+		sDeviceList.setClickable(false);
+		sDeviceList.setAdapter(adapter);
+		sWifi.setAdapter(adapter);
+		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (mWifi.isConnected()) {
+			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+			Log.d("SSID", wifiInfo.getSSID());
+			sDeviceList.setSelection(adapter.getPosition(wifiInfo.getSSID()));
+		}
 		bConnect.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -67,10 +76,13 @@ public class ChooseDeviceActivity extends Activity {
 								@Override
 								public void messageReceived(String message) {
 									Log.e("messageReceived", message);
-									TCPClass.CloseConnection();
+									//TCPClass.CloseConnection();
 								}
 							});
+							TCPClass.sendDataWithString("^B~");
 							TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
+							TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", "24AC3A4A5C", "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
+							
 						}
 
 						return null;
@@ -86,13 +98,8 @@ public class ChooseDeviceActivity extends Activity {
 			Log.e("RECEIVED", "RECEIVED");
 			final List<ScanResult> results = wifiManager.getScanResults();
 			for (ScanResult n : results) {
-				HashMap<String, String> item = new HashMap<String, String>();
-				item.put("name", n.SSID);
-				item.put("mac", n.BSSID);
-				item.put("capabilities", n.capabilities);
-				Log.e(n.SSID, n.capabilities);
-				data.add(item);
-				deviceAdapter.notifyDataSetChanged();
+				data.add(n.SSID);
+				adapter.notifyDataSetChanged();
 			}
 			unregisterReceiver(this);
 		}
