@@ -28,7 +28,7 @@ public class WebRequestAPI {
 	}
 
 	public String RegisterDevice(String udid, String deviceId) {
-		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REGISTERDEVICE_METHOD_NAME); //create new soap object
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REGISTERDEVICE_METHOD_NAME); // create new soap object
 		rpc.addProperty("UDID", udid); // set parameter
 		rpc.addProperty("deviceID", deviceId); // set parameter
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -73,9 +73,9 @@ public class WebRequestAPI {
 		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
 		ht.debug = true;
 		try {
-			//Log.e("WebRequest", "TRY!");
+			// Log.e("WebRequest", "TRY!");
 			ht.call(Consts.NOISELYNX_API_CHECKPIN_SOAP_ACTION, envelope);
-			//System.err.println(ht.responseDump);
+			// System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse();
 			// Log.e("COUNT", result.getPropertyCount() + "");
 			// Log.e("COUNT", result.getProperty(0).toString());
@@ -99,7 +99,7 @@ public class WebRequestAPI {
 		}
 	}
 
-	public ArrayList<HashMap<String, String>> getDevices(String udid) {
+	public ArrayList<HashMap<String, String>> GetDevices(String udid) {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICES_METHOD_NAME);
 		rpc.addProperty("UDID", udid);
@@ -109,33 +109,52 @@ public class WebRequestAPI {
 		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
 		ht.debug = true;
 		try {
-			//Log.e("WebRequest", "TRY!");
 			ht.call(Consts.NOISELYNX_API_GETDEVICES_SOAP_ACTION, envelope);
-			//System.err.println(ht.responseDump);
+			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse();
 			HashMap<String, String> map;
 			for (int i = 0; i < result.getPropertyCount(); i++) {
 				SoapObject object = (SoapObject) result.getProperty(i);
 				map = new HashMap<String, String>();
-				// Log.e("Location", object.getProperty(Consts.MONITORING_LOCATION) + "");
-				locationList.add(object.getProperty(Consts.MONITORING_LOCATION).toString());
-				map.put(Consts.MONITORING_DEVICE_ID, object.getProperty(Consts.MONITORING_DEVICE_ID).toString());
-				map.put(Consts.MONITORING_DATE_TIME, object.getProperty(Consts.MONITORING_DATE_TIME).toString());
-				map.put(Consts.MONITORING_LOCATION, object.getProperty(Consts.MONITORING_LOCATION).toString());
-				map.put(Consts.MONITORING_LEQ_FIVE_MINUTES, object.getProperty(Consts.MONITORING_LEQ_FIVE_MINUTES).toString());
-				map.put(Consts.MONITORING_LEQ_ONE_HOUR, object.getProperty(Consts.MONITORING_LEQ_ONE_HOUR).toString());
-				map.put(Consts.MONITORING_LEQ_TWELVE_HOUR, object.getProperty(Consts.MONITORING_LEQ_TWELVE_HOUR).toString());
-				map.put(Consts.MONITORING_LOCATION_LAT, object.getProperty(Consts.MONITORING_LOCATION_LAT).toString());
-				map.put(Consts.MONITORING_LOCATION_LONG, object.getProperty(Consts.MONITORING_LOCATION_LONG).toString());
-				map.put(Consts.MONITORING_ALERT, object.getProperty(Consts.MONITORING_ALERT).toString());
-				Log.e("ALERT", object.getProperty(Consts.MONITORING_ALERT).toString());
+				map.put(Consts.GETDEVICES_VERSION, object.getProperty(Consts.GETDEVICES_VERSION).toString());
+				map.put(Consts.GETDEVICES_DEVICEID, object.getProperty(Consts.GETDEVICES_DEVICEID).toString());
+				map.put(Consts.GETDEVICES_TEMPERATURE, object.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
+				map.put(Consts.GETDEVICES_HUMIDITY, object.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
+				map.put(Consts.GETDEVICES_VOLTAGE, object.getProperty(Consts.GETDEVICES_VOLTAGE).toString());
+				map.put(Consts.GETDEVICES_INPUT1, object.getProperty(Consts.GETDEVICES_INPUT1).toString());
+				map.put(Consts.GETDEVICES_INPUT2, object.getProperty(Consts.GETDEVICES_INPUT2).toString());
+				map.put(Consts.GETDEVICES_OUTPUT1, object.getProperty(Consts.GETDEVICES_OUTPUT1).toString());
+				map.put(Consts.GETDEVICES_OUTPUT2, object.getProperty(Consts.GETDEVICES_OUTPUT2).toString());
+				map.put(Consts.GETDEVICES_ENABLETEMPERATURE, object.getProperty(Consts.GETDEVICES_ENABLETEMPERATURE).toString());
+				map.put(Consts.GETDEVICES_ENABLEHUMIDITY, object.getProperty(Consts.GETDEVICES_ENABLEHUMIDITY).toString());
+				map.put(Consts.GETDEVICES_ENABLEINPUT1, object.getProperty(Consts.GETDEVICES_ENABLEINPUT1).toString());
+				map.put(Consts.GETDEVICES_ENABLEINPUT2, object.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
+				map.put(Consts.GETDEVICES_ENABLEOUTPUT1, object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
+				map.put(Consts.GETDEVICES_ENABLEOUTPUT2, object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
+				map.put(Consts.GETDEVICES_DESCRIPTION, object.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
+				map.put(Consts.GETDEVICES_DESCRIPTIONINPUT1, object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
+				map.put(Consts.GETDEVICES_DESCRIPTIONINPUT2, object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
+				map.put(Consts.GETDEVICES_DESCRIPTIONOUTPUT1, object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT1).toString());
+				map.put(Consts.GETDEVICES_DESCRIPTIONOUTPUT2, object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT2).toString());
+				map.put(Consts.GETDEVICES_TEMPERATUREHI, object.getProperty(Consts.GETDEVICES_TEMPERATUREHI).toString());
+				map.put(Consts.GETDEVICES_TEMPERATURELO, object.getProperty(Consts.GETDEVICES_TEMPERATURELO).toString());
+				map.put(Consts.GETDEVICES_HUMIDITYHI, object.getProperty(Consts.GETDEVICES_HUMIDITYHI).toString());
+				map.put(Consts.GETDEVICES_HUMIDITYLO, object.getProperty(Consts.GETDEVICES_HUMIDITYLO).toString());
+				map.put(Consts.GETDEVICES_REVERSELOGICINPUT1, object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT1).toString());
+				map.put(Consts.GETDEVICES_REVERSELOGICINPUT2, object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT2).toString());
+				map.put(Consts.GETDEVICES_REVERSELOGICOUTPUT1, object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT1).toString());
+				map.put(Consts.GETDEVICES_REVERSELOGICOUTPUT2, object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT2).toString());
+				map.put(Consts.GETDEVICES_HUMIDITYSTATE, object.getProperty(Consts.GETDEVICES_HUMIDITYSTATE).toString());
+				map.put(Consts.GETDEVICES_TEMPERATURESTATE, object.getProperty(Consts.GETDEVICES_TEMPERATURESTATE).toString());
+				map.put(Consts.GETDEVICES_LATITUDE, object.getProperty(Consts.GETDEVICES_LATITUDE).toString());
+				map.put(Consts.GETDEVICES_LONGITUDE, object.getProperty(Consts.GETDEVICES_LONGITUDE).toString());
 				list.add(map);
 			}
 
 		} catch (SocketTimeoutException e) {
 			e.printStackTrace();
 			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
-			
+
 		} catch (HttpResponseException e) {
 			e.printStackTrace();
 			// return e.getMessage();

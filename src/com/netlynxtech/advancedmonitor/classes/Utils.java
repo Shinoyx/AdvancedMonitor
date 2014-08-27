@@ -7,6 +7,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.securepreferences.SecurePreferences;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +27,16 @@ public class Utils {
 	}
 
 	public String getDeviceUniqueId() {
+		SecurePreferences sp = new SecurePreferences(context);
+		String id = sp.getString(Consts.PREFERENCES_UDID, "");
+		if (id.equals("")) {
+			id = getUnique();
+			sp.edit().putString(Consts.PREFERENCES_UDID, id).commit();
+		}
+		return id;
+	}
+	
+	private String getUnique() {
 		final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
 		final String tmDevice, tmSerial, androidId;

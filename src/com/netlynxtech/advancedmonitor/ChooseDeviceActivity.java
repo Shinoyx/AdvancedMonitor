@@ -2,8 +2,11 @@ package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +18,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +29,8 @@ import android.widget.Spinner;
 
 import com.netlynxtech.advancedmonitor.classes.Consts;
 import com.netlynxtech.advancedmonitor.classes.TCPClass;
+import com.netlynxtech.advancedmonitor.classes.Utils;
+import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class ChooseDeviceActivity extends Activity {
 	Spinner sDeviceList, sWifi;
@@ -71,18 +77,7 @@ public class ChooseDeviceActivity extends Activity {
 						String wifiToConnectToPassword = etWifiPassword.getText().toString().trim();
 
 						if (wifiToConnectToPassword.length() > 0) {
-							TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, Consts.DEVICE_SOFT_ACCESS_IP, Consts.DEVICE_SOFT_ACCESS_PORT, new TCPClass.OnMessageReceived() {
-
-								@Override
-								public void messageReceived(String message) {
-									Log.e("messageReceived", message);
-									//TCPClass.CloseConnection();
-								}
-							});
-							TCPClass.sendDataWithString("^B~");
-							TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
-							TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", "24AC3A4A5C", "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
-							
+							new startConnecting().execute();
 						}
 
 						return null;
@@ -123,4 +118,78 @@ public class ChooseDeviceActivity extends Activity {
 		super.onDestroy();
 	}
 
+	private class startConnecting extends AsyncTask<Void, Void, Void> {
+
+		private ProgressDialog dialog;
+		boolean canEndTask = false;
+
+		@Override
+		protected void onPreExecute() {
+			ChooseDeviceActivity.this.runOnUiThread(new Runnable() {
+				public void run() {
+					dialog = new ProgressDialog(ChooseDeviceActivity.this);
+					dialog.setMessage("Starting connection.. Please wait..");
+					dialog.show();
+				}
+			});
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, Consts.DEVICE_SOFT_ACCESS_IP, Consts.DEVICE_SOFT_ACCESS_PORT, new TCPClass.OnMessageReceived() {
+				String deviceId = "";
+				@Override
+				public void messageReceived(String message) {
+					Log.e("messageReceived", message);
+					if (message.startsWith("^B|")) {
+						// ^B|[Version]|[Device ID]|[User ID]|[CheckSum]~
+						String[] split = message.split("\\|");
+						deviceId = split[2].toString().trim();
+					} else if (message.startsWith("^x|1")) {
+
+					} else if (message.startsWith("^x|2")) {
+						if (!message.equals(Consts.X_CONFIGURE_USERID_NULL)) {
+							Pattern p = Pattern.compile("\\^x\\|2\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)~");
+							Matcher m = p.matcher(message);
+							if (m.find()){
+								canEndTask = true;
+								TCPClass.CloseConnection();
+								Log.e("TASK", "Ending task");
+							   // String res = m.toMatchResult().group(0);
+							}
+							
+						} else {
+
+						}
+
+					}
+				}
+			});
+			//new WebRequestAPI(ChooseDeviceActivity.this).RegisterDevice(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId(), "51235000031111");
+			//new WebRequestAPI(ChooseDeviceActivity.this).GetDevices(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId());
+			
+			while (!canEndTask) {
+				TCPClass.sendDataWithString("^B~");
+				SystemClock.sleep(3000);
+				TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
+				SystemClock.sleep(3000);
+				TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", "24AC3A4A5C", "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
+				SystemClock.sleep(1000);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			ChooseDeviceActivity.this.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					dialog.cancel();
+				}
+			});
+		}
+
+	}
 }

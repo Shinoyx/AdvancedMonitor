@@ -20,7 +20,7 @@ public class Consts {
 	
 	public static final String X_CONFIGURE_ONE_PHONE_TODEVICE = "^X|1|%1$s|%2$s~";
 	public static final String X_CONFIGURE_TWO_WIFISERVER_TODEVICE = "^X|2|%1$s|%2$s|%3$s|%4$s|%5$s|%6$s|%7$s~";
-	public static final String X_CONFIGURE_USERID_NULL = "^X|2~";
+	public static final String X_CONFIGURE_USERID_NULL = "^x|2|NR~";
 	
 	
 	
@@ -32,10 +32,48 @@ public class Consts {
 	final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsIOT/TH.asmx";
 	final static public String NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION = "http://NetLynxTech.com/RegisterDevice";
 	final static public String NOISELYNX_API_REGISTERDEVICE_METHOD_NAME = "RegisterDevice";
+	
+	
+	final static public String NOISELYNX_API_GETDEVICES_SOAP_ACTION = "http://NetLynxTech.com/GetDevices";
+	final static public String NOISELYNX_API_GETDEVICES_METHOD_NAME = "GetDevices";
+	final static public String GETDEVICES_VERSION = "Version";
+	final static public String GETDEVICES_DEVICEID = "DeviceID";
+	final static public String GETDEVICES_TEMPERATURE = "Temperature";
+	final static public String GETDEVICES_HUMIDITY = "Humidity";
+	final static public String GETDEVICES_VOLTAGE = "Voltage";
+	final static public String GETDEVICES_INPUT1 = "Input1";
+	final static public String GETDEVICES_INPUT2 = "Input2";
+	final static public String GETDEVICES_OUTPUT1 = "Output1";
+	final static public String GETDEVICES_OUTPUT2 = "Output2";
+	final static public String GETDEVICES_ENABLETEMPERATURE = "EnableTemperature";
+	final static public String GETDEVICES_ENABLEHUMIDITY = "EnableHumidity";
+	final static public String GETDEVICES_ENABLEINPUT1 = "EnableInput1";
+	final static public String GETDEVICES_ENABLEINPUT2 = "EnableInput2";
+	final static public String GETDEVICES_ENABLEOUTPUT1 = "EnableOutput1";
+	final static public String GETDEVICES_ENABLEOUTPUT2 = "EnableOutput2";
+	final static public String GETDEVICES_TIMESTAMP = "TimeStamp";
+	final static public String GETDEVICES_DESCRIPTION = "Description";
+	final static public String GETDEVICES_DESCRIPTIONINPUT1 = "DescriptionInput1";
+	final static public String GETDEVICES_DESCRIPTIONINPUT2 = "DescriptionInput2";
+	final static public String GETDEVICES_DESCRIPTIONOUTPUT1 = "DescriptionOutput1";
+	final static public String GETDEVICES_DESCRIPTIONOUTPUT2 = "DescriptionOutput2";
+	final static public String GETDEVICES_TEMPERATUREHI = "TemperatureHi";
+	final static public String GETDEVICES_TEMPERATURELO = "TemperatureLo";
+	final static public String GETDEVICES_HUMIDITYHI = "HumidityHi";
+	final static public String GETDEVICES_HUMIDITYLO = "HumidityLo";
+	final static public String GETDEVICES_REVERSELOGICINPUT1 = "ReverseLogicInput1";
+	final static public String GETDEVICES_REVERSELOGICINPUT2 = "ReverseLogicInput2";
+	final static public String GETDEVICES_REVERSELOGICOUTPUT1 = "ReverseLogicOutput1";
+	final static public String GETDEVICES_REVERSELOGICOUTPUT2 = "ReverseLogicOutput2";
+	final static public String GETDEVICES_HUMIDITYSTATE = "HumidityState";
+	final static public String GETDEVICES_TEMPERATURESTATE = "TemperatureState";
+	final static public String GETDEVICES_LATITUDE = "Latitude";
+	final static public String GETDEVICES_LONGITUDE = "Longitude";
+	
+	
 	final static public String NOISELYNX_API_CHECKPIN_SOAP_ACTION = "http://NetlynxTech.com/CheckPIN";
 	final static public String NOISELYNX_API_CHECKPIN_METHOD_NAME = "CheckPIN";
-	final static public String NOISELYNX_API_GETDEVICES_SOAP_ACTION = "http://NetlynxTech.com/GetDevices";
-	final static public String NOISELYNX_API_GETDEVICES_METHOD_NAME = "GetDevices";
+
 	final static public String NOISELYNX_API_GETHISTORY_SOAP_ACTION = "http://NetlynxTech.com/GetHistory";
 	final static public String NOISELYNX_API_GETHISTORY_METHOD_NAME = "GetHistory";
 	final static public String NOISELYNX_API_GETMESSAGES_SOAP_ACTION = "http://NetlynxTech.com/GetNewMessages";
