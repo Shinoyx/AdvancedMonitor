@@ -99,8 +99,8 @@ public class WebRequestAPI {
 		}
 	}
 
-	public ArrayList<HashMap<String, String>> GetDevices(String udid) {
-		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+	public ArrayList<Device> GetDevices(String udid) {
+		ArrayList<Device> list = new ArrayList<Device>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICES_METHOD_NAME);
 		rpc.addProperty("UDID", udid);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -112,42 +112,42 @@ public class WebRequestAPI {
 			ht.call(Consts.NOISELYNX_API_GETDEVICES_SOAP_ACTION, envelope);
 			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse();
-			HashMap<String, String> map;
+			Device map;
 			for (int i = 0; i < result.getPropertyCount(); i++) {
 				SoapObject object = (SoapObject) result.getProperty(i);
-				map = new HashMap<String, String>();
-				map.put(Consts.GETDEVICES_VERSION, object.getProperty(Consts.GETDEVICES_VERSION).toString());
-				map.put(Consts.GETDEVICES_DEVICEID, object.getProperty(Consts.GETDEVICES_DEVICEID).toString());
-				map.put(Consts.GETDEVICES_TEMPERATURE, object.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
-				map.put(Consts.GETDEVICES_HUMIDITY, object.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
-				map.put(Consts.GETDEVICES_VOLTAGE, object.getProperty(Consts.GETDEVICES_VOLTAGE).toString());
-				map.put(Consts.GETDEVICES_INPUT1, object.getProperty(Consts.GETDEVICES_INPUT1).toString());
-				map.put(Consts.GETDEVICES_INPUT2, object.getProperty(Consts.GETDEVICES_INPUT2).toString());
-				map.put(Consts.GETDEVICES_OUTPUT1, object.getProperty(Consts.GETDEVICES_OUTPUT1).toString());
-				map.put(Consts.GETDEVICES_OUTPUT2, object.getProperty(Consts.GETDEVICES_OUTPUT2).toString());
-				map.put(Consts.GETDEVICES_ENABLETEMPERATURE, object.getProperty(Consts.GETDEVICES_ENABLETEMPERATURE).toString());
-				map.put(Consts.GETDEVICES_ENABLEHUMIDITY, object.getProperty(Consts.GETDEVICES_ENABLEHUMIDITY).toString());
-				map.put(Consts.GETDEVICES_ENABLEINPUT1, object.getProperty(Consts.GETDEVICES_ENABLEINPUT1).toString());
-				map.put(Consts.GETDEVICES_ENABLEINPUT2, object.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
-				map.put(Consts.GETDEVICES_ENABLEOUTPUT1, object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
-				map.put(Consts.GETDEVICES_ENABLEOUTPUT2, object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
-				map.put(Consts.GETDEVICES_DESCRIPTION, object.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
-				map.put(Consts.GETDEVICES_DESCRIPTIONINPUT1, object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
-				map.put(Consts.GETDEVICES_DESCRIPTIONINPUT2, object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
-				map.put(Consts.GETDEVICES_DESCRIPTIONOUTPUT1, object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT1).toString());
-				map.put(Consts.GETDEVICES_DESCRIPTIONOUTPUT2, object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT2).toString());
-				map.put(Consts.GETDEVICES_TEMPERATUREHI, object.getProperty(Consts.GETDEVICES_TEMPERATUREHI).toString());
-				map.put(Consts.GETDEVICES_TEMPERATURELO, object.getProperty(Consts.GETDEVICES_TEMPERATURELO).toString());
-				map.put(Consts.GETDEVICES_HUMIDITYHI, object.getProperty(Consts.GETDEVICES_HUMIDITYHI).toString());
-				map.put(Consts.GETDEVICES_HUMIDITYLO, object.getProperty(Consts.GETDEVICES_HUMIDITYLO).toString());
-				map.put(Consts.GETDEVICES_REVERSELOGICINPUT1, object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT1).toString());
-				map.put(Consts.GETDEVICES_REVERSELOGICINPUT2, object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT2).toString());
-				map.put(Consts.GETDEVICES_REVERSELOGICOUTPUT1, object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT1).toString());
-				map.put(Consts.GETDEVICES_REVERSELOGICOUTPUT2, object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT2).toString());
-				map.put(Consts.GETDEVICES_HUMIDITYSTATE, object.getProperty(Consts.GETDEVICES_HUMIDITYSTATE).toString());
-				map.put(Consts.GETDEVICES_TEMPERATURESTATE, object.getProperty(Consts.GETDEVICES_TEMPERATURESTATE).toString());
-				map.put(Consts.GETDEVICES_LATITUDE, object.getProperty(Consts.GETDEVICES_LATITUDE).toString());
-				map.put(Consts.GETDEVICES_LONGITUDE, object.getProperty(Consts.GETDEVICES_LONGITUDE).toString());
+				map = new Device();
+				map.setVersion(object.getProperty(Consts.GETDEVICES_VERSION).toString());
+				map.setDeviceID(object.getProperty(Consts.GETDEVICES_DEVICEID).toString());
+				map.setTemperature(object.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
+				map.setHumidity(object.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
+				map.setVoltage(object.getProperty(Consts.GETDEVICES_VOLTAGE).toString());
+				map.setInput1(object.getProperty(Consts.GETDEVICES_INPUT1).toString());
+				map.setInput2(object.getProperty(Consts.GETDEVICES_INPUT2).toString());
+				map.setOutput1(object.getProperty(Consts.GETDEVICES_OUTPUT1).toString());
+				map.setOutput2(object.getProperty(Consts.GETDEVICES_OUTPUT2).toString());
+				map.setEnableTemperature(object.getProperty(Consts.GETDEVICES_ENABLETEMPERATURE).toString());
+				map.setEnableHumidity(object.getProperty(Consts.GETDEVICES_ENABLEHUMIDITY).toString());
+				map.setEnableInput1(object.getProperty(Consts.GETDEVICES_ENABLEINPUT1).toString());
+				map.setEnableInput2(object.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
+				map.setEnableOutput1(object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
+				map.setEnableOutput2(object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
+				map.setDescription(object.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
+				map.setDescriptionInput1(object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
+				map.setDescriptionInput2(object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
+				map.setDescriptionOutput1(object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT1).toString());
+				map.setDescriptionOutput2(object.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT2).toString());
+				map.setTemperatureHi(object.getProperty(Consts.GETDEVICES_TEMPERATUREHI).toString());
+				map.setTemperatureLo(object.getProperty(Consts.GETDEVICES_TEMPERATURELO).toString());
+				map.setHumidityHi(object.getProperty(Consts.GETDEVICES_HUMIDITYHI).toString());
+				map.setHumidityLo(object.getProperty(Consts.GETDEVICES_HUMIDITYLO).toString());
+				map.setReverseLogicInput1(object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT1).toString());
+				map.setReverseLogicInput2(object.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT2).toString());
+				map.setReverseLogicOutput1(object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT1).toString());
+				map.setReverseLogicOutput2(object.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT2).toString());
+				map.setHumidityState(object.getProperty(Consts.GETDEVICES_HUMIDITYSTATE).toString());
+				map.setTemperatureState(object.getProperty(Consts.GETDEVICES_TEMPERATURESTATE).toString());
+				map.setLatitude(object.getProperty(Consts.GETDEVICES_LATITUDE).toString());
+				map.setLongitude(object.getProperty(Consts.GETDEVICES_LONGITUDE).toString());
 				list.add(map);
 			}
 
