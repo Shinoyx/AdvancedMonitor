@@ -3,7 +3,6 @@ package com.netlynxtech.advancedmonitor.classes;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -168,4 +167,102 @@ public class WebRequestAPI {
 		return list;
 	}
 
+	public Device GetDevice(String deviceId) {
+		Device map = new Device();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICE_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			ht.call(Consts.NOISELYNX_API_GETDEVICE_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			map.setVersion(result.getProperty(Consts.GETDEVICES_VERSION).toString());
+			map.setDeviceID(result.getProperty(Consts.GETDEVICES_DEVICEID).toString());
+			map.setTemperature(result.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
+			map.setHumidity(result.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
+			map.setVoltage(result.getProperty(Consts.GETDEVICES_VOLTAGE).toString());
+			map.setInput1(result.getProperty(Consts.GETDEVICES_INPUT1).toString());
+			map.setInput2(result.getProperty(Consts.GETDEVICES_INPUT2).toString());
+			map.setOutput1(result.getProperty(Consts.GETDEVICES_OUTPUT1).toString());
+			map.setOutput2(result.getProperty(Consts.GETDEVICES_OUTPUT2).toString());
+			map.setEnableTemperature(result.getProperty(Consts.GETDEVICES_ENABLETEMPERATURE).toString());
+			map.setEnableHumidity(result.getProperty(Consts.GETDEVICES_ENABLEHUMIDITY).toString());
+			map.setEnableInput1(result.getProperty(Consts.GETDEVICES_ENABLEINPUT1).toString());
+			map.setEnableInput2(result.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
+			map.setEnableOutput1(result.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
+			map.setEnableOutput2(result.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
+			map.setDescription(result.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
+			map.setDescriptionInput1(result.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
+			map.setDescriptionInput2(result.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
+			map.setDescriptionOutput1(result.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT1).toString());
+			map.setDescriptionOutput2(result.getProperty(Consts.GETDEVICES_DESCRIPTIONOUTPUT2).toString());
+			map.setTemperatureHi(result.getProperty(Consts.GETDEVICES_TEMPERATUREHI).toString());
+			map.setTemperatureLo(result.getProperty(Consts.GETDEVICES_TEMPERATURELO).toString());
+			map.setHumidityHi(result.getProperty(Consts.GETDEVICES_HUMIDITYHI).toString());
+			map.setHumidityLo(result.getProperty(Consts.GETDEVICES_HUMIDITYLO).toString());
+			map.setReverseLogicInput1(result.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT1).toString());
+			map.setReverseLogicInput2(result.getProperty(Consts.GETDEVICES_REVERSELOGICINPUT2).toString());
+			map.setReverseLogicOutput1(result.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT1).toString());
+			map.setReverseLogicOutput2(result.getProperty(Consts.GETDEVICES_REVERSELOGICOUTPUT2).toString());
+			map.setHumidityState(result.getProperty(Consts.GETDEVICES_HUMIDITYSTATE).toString());
+			map.setTemperatureState(result.getProperty(Consts.GETDEVICES_TEMPERATURESTATE).toString());
+			map.setLatitude(result.getProperty(Consts.GETDEVICES_LATITUDE).toString());
+			map.setLongitude(result.getProperty(Consts.GETDEVICES_LONGITUDE).toString());
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return map;
+	}
+
+	public ArrayList<String> GetLocation(String deviceId) {
+		ArrayList<String> map = new ArrayList<String>();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETLOCATION_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			ht.call(Consts.NOISELYNX_API_GETLOCATION_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			map.add(result.getProperty(Consts.RESULTCODE).toString());
+			map.add(result.getProperty(Consts.RESULTDESCRIPTION).toString());
+			map.add(result.getProperty(Consts.ERRORCODE).toString());
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return map;
+	}
 }

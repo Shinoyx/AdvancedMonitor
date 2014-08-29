@@ -36,6 +36,17 @@ public class Consts {
 	
 	final static public String NOISELYNX_API_GETDEVICES_SOAP_ACTION = "http://NetLynxTech.com/GetDevices";
 	final static public String NOISELYNX_API_GETDEVICES_METHOD_NAME = "GetDevices";
+	
+	final static public String NOISELYNX_API_GETDEVICE_SOAP_ACTION = "http://NetLynxTech.com/GetDevice";
+	final static public String NOISELYNX_API_GETDEVICE_METHOD_NAME = "GetDevice";
+	
+	final static public String NOISELYNX_API_GETLOCATION_SOAP_ACTION = "http://NetLynxTech.com/GetLocation";
+	final static public String NOISELYNX_API_GETLOCATION_METHOD_NAME = "GetLocation";
+	
+	final static public String RESULTCODE = "ResultCode";
+	final static public String RESULTDESCRIPTION = "ResultDescription";
+	final static public String ERRORCODE = "ErrorCode";
+	
 	final static public String GETDEVICES_VERSION = "Version";
 	final static public String GETDEVICES_DEVICEID = "DeviceID";
 	final static public String GETDEVICES_TEMPERATURE = "Temperature";

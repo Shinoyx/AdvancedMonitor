@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.netlynxtech.advancedmonitor.MainActivity" >
+
+    <item
+        android:id="@+id/menu_individual_map"
+        android:orderInCategory="100"
+        android:title="@string/menu_map"/>
+    <item
+        android:id="@+id/menu_individual_chart"
+        android:orderInCategory="100"
+        android:title="@string/menu_chart"/>
+    <item
+        android:id="@+id/menu_individual_users"
+        android:orderInCategory="100"
+        android:title="@string/menu_users"/>
+
+</menu>

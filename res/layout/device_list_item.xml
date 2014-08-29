@@ -24,4 +24,64 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android:id="@+id/tvHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvTemperature"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvVoltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvHumidity"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/ivInput1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvDescription"
+        android:layout_below="@+id/tvVoltage"
+        android:src="@drawable/ic_greendot" />
+
+    <ImageView
+        android:id="@+id/ivInput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivInput1"
+        android:layout_toRightOf="@+id/ivInput1"
+        android:src="@drawable/ic_greendot" />
+
+    <ImageView
+        android:id="@+id/ivOutput1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivInput2"
+        android:layout_toRightOf="@+id/ivInput2"
+        android:src="@drawable/ic_greendot" />
+
+    <ImageView
+        android:id="@+id/ivOutput2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivOutput1"
+        android:layout_toRightOf="@+id/ivOutput1"
+        android:src="@drawable/ic_greendot" />
+
+    <TextView
+        android:id="@+id/tvDeviceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Small Text"
+        android:visibility="gone"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </RelativeLayout>

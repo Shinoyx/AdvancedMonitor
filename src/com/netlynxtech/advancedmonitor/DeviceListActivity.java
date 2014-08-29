@@ -2,10 +2,15 @@ package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.netlynxtech.advancedmonitor.adapters.DevicesAdapter;
 import com.netlynxtech.advancedmonitor.classes.Device;
@@ -22,6 +27,14 @@ public class DeviceListActivity extends ActionBarActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.device_list);
 		lvDevices = (ListView) findViewById(R.id.lvDevices);
+		lvDevices.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
+				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
+			}
+		});
 		new getDevice().execute();
 	}
 
