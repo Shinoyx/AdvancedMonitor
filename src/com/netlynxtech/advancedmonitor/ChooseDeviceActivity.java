@@ -19,6 +19,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +33,7 @@ import com.netlynxtech.advancedmonitor.classes.TCPClass;
 import com.netlynxtech.advancedmonitor.classes.Utils;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
-public class ChooseDeviceActivity extends Activity {
+public class ChooseDeviceActivity extends ActionBarActivity {
 	Spinner sDeviceList, sWifi;
 	WifiManager wifiManager;
 	ArrayList<String> data;

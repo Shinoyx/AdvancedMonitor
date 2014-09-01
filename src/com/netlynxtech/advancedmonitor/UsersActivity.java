@@ -13,6 +13,7 @@ public class UsersActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setTitle(getString(R.string.activity_users));
 	}
 
 	@Override

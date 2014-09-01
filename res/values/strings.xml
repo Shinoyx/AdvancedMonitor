@@ -3,6 +3,8 @@
 
     <string name="app_name">AdvancedMonitor</string>
     <string name="activity_tutorial">Device Registration</string>
+    <string name="activity_users">Users</string>
+    <string name="activity_users_access">Users Access</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="connected_device">Connected Device</string>
@@ -13,6 +15,8 @@
     <string name="menu_users">Users</string>
     <string name="menu_map">Map</string>
     <string name="menu_chart">Chart</string>
+    <string name="menu_refresh">Refresh</string>
     <string name="menu_add_users">Add Users</string>
+    <string name="menu_add_device">Add Devices</string>
 
 </resources>
