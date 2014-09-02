@@ -67,6 +67,7 @@ public class DeviceListActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_add_device:
+			startActivity(new Intent(DeviceListActivity.this, TutorialActivity.class));
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

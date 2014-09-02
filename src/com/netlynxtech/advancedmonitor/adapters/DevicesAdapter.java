@@ -3,6 +3,7 @@ package com.netlynxtech.advancedmonitor.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,7 @@ public class DevicesAdapter extends BaseAdapter {
 			holder.tvTemperature = (TextView) convertView.findViewById(R.id.tvTemperature);
 			holder.tvHumidity = (TextView) convertView.findViewById(R.id.tvHumidity);
 			holder.tvVoltage = (TextView) convertView.findViewById(R.id.tvVoltage);
-			
+
 			holder.ivInput1 = (ImageView) convertView.findViewById(R.id.ivInput1);
 			holder.ivInput2 = (ImageView) convertView.findViewById(R.id.ivInput2);
 			holder.ivOutput1 = (ImageView) convertView.findViewById(R.id.ivOutput1);
@@ -78,28 +79,46 @@ public class DevicesAdapter extends BaseAdapter {
 		holder.tvTemperature.setText(item.getTemperature() + (char) 0x00B0 + "c");
 		holder.tvHumidity.setText(item.getHumidity() + "%");
 		holder.tvVoltage.setText(item.getVoltage() + "V");
-		if (item.getEnableInput1().equals("0")) {
-			holder.ivInput1.setBackgroundResource(R.drawable.ic_reddot);
+		if (item.getEnableInput1().equals("1")) {
+			if (item.getInput1().equals("1")) {
+				holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+			} else {
+				holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+			}
 		} else {
-			holder.ivInput1.setBackgroundResource(R.drawable.ic_greendot);
+			holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
-		
-		if (item.getEnableInput2().equals("0")) {
-			holder.ivInput2.setBackgroundResource(R.drawable.ic_reddot);
+
+		if (item.getEnableInput2().equals("1")) {
+			if (item.getInput2().equals("1")) {
+				holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+			} else {
+				holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+			}
 		} else {
-			holder.ivInput2.setBackgroundResource(R.drawable.ic_greendot);
+			holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
-		
-		if (item.getEnableOutput1().equals("0")) {
-			holder.ivOutput1.setBackgroundResource(R.drawable.ic_reddot);
+
+		if (item.getEnableOutput1().equals("1")) {
+			Log.e("OUTPUT1", "INSIDE 1");
+			if (item.getOutput1().equals("1")) {
+				holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+			} else {
+				holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+			}
 		} else {
-			holder.ivOutput1.setBackgroundResource(R.drawable.ic_greendot);
+			Log.e("OUTPUT1", "NAH INSIDE 0");
+			holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
-		
-		if (item.getEnableOutput2().equals("0")) {
-			holder.ivOutput2.setBackgroundResource(R.drawable.ic_reddot);
+
+		if (item.getEnableOutput2().equals("1")) {
+			if (item.getOutput2().equals("1")) {
+				holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+			} else {
+				holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+			}
 		} else {
-			holder.ivOutput2.setBackgroundResource(R.drawable.ic_greendot);
+			holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
 		return convertView;
 	}

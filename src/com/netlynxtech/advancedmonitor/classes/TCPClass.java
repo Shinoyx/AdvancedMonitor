@@ -33,7 +33,7 @@ public class TCPClass {
 		OpenConnection();
 	}
 
-	public static void CloseConnection() {
+	public void CloseConnection() {
 		Log.e("Connection", "Close");
 		context.stopService(new Intent(context, TCPService.class));
 		new Thread(new Runnable() {
@@ -93,7 +93,7 @@ public class TCPClass {
 		}
 	}
 
-	public static void recievingMessage() {
+	public void recievingMessage() {
 		new Thread(new Runnable() {
 			public void run() {
 				while (true) {
@@ -135,7 +135,7 @@ public class TCPClass {
 		}).start();
 	}
 
-	public static boolean sendDataWithString(String paramString) {
+	public boolean sendDataWithString(String paramString) {
 		Log.e("Message", "Sending message : " + paramString);
 		try {
 			out = new PrintWriter(sck.getOutputStream());

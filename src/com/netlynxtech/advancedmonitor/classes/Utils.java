@@ -1,8 +1,11 @@
 package com.netlynxtech.advancedmonitor.classes;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +16,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -35,7 +40,7 @@ public class Utils {
 		}
 		return id;
 	}
-	
+
 	private String getUnique() {
 		final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
@@ -85,5 +90,24 @@ public class Utils {
 			}
 		}, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		return data;
+	}
+
+	public String parseDatetime(String datetime) {
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+		// Log.e("DATE DATE", sp.getString("pref_timing", "1"));
+		final String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+		final SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+		try {
+			SimpleDateFormat outFormatter;
+			if (sp.getString("pref_timing", "1").equals("1")) {
+				outFormatter = new SimpleDateFormat("d MMMM yyyy HH:mm", Locale.getDefault()); // 24 hour
+			} else {
+				outFormatter = new SimpleDateFormat("d MMMM yyyy KK:mma", Locale.getDefault()); // 12 hour
+			}
+			Date d = sdf.parse(datetime);
+			return outFormatter.format(d).toString();
+		} catch (Exception e) {
+			return datetime;
+		}
 	}
 }

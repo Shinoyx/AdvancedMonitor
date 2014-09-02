@@ -43,6 +43,10 @@ public class Consts {
 	final static public String NOISELYNX_API_GETLOCATION_SOAP_ACTION = "http://NetLynxTech.com/GetLocation";
 	final static public String NOISELYNX_API_GETLOCATION_METHOD_NAME = "GetLocation";
 	
+	final static public String NOISELYNX_API_SETOUTPUT_SOAP_ACTION = "http://NetLynxTech.com/SetOutput";
+	final static public String NOISELYNX_API_SETOUTPUT_METHOD_NAME = "SetOutput";
+
+	
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";
 	final static public String ERRORCODE = "ErrorCode";

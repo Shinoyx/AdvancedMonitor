@@ -130,6 +130,9 @@ public class WebRequestAPI {
 				map.setEnableInput2(object.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
 				map.setEnableOutput1(object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
 				map.setEnableOutput2(object.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
+				Log.e("TIME", object.getProperty(Consts.GETDEVICES_TIMESTAMP).toString());
+				map.setTimestamp(object.getProperty(Consts.GETDEVICES_TIMESTAMP).toString());
+
 				map.setDescription(object.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
 				map.setDescriptionInput1(object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
 				map.setDescriptionInput2(object.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
@@ -196,6 +199,8 @@ public class WebRequestAPI {
 			map.setEnableInput2(result.getProperty(Consts.GETDEVICES_ENABLEINPUT2).toString());
 			map.setEnableOutput1(result.getProperty(Consts.GETDEVICES_ENABLEOUTPUT1).toString());
 			map.setEnableOutput2(result.getProperty(Consts.GETDEVICES_ENABLEOUTPUT2).toString());
+			Log.e("TIME", result.getProperty(Consts.GETDEVICES_TIMESTAMP).toString());
+			map.setTimestamp(result.getProperty(Consts.GETDEVICES_TIMESTAMP).toString());
 			map.setDescription(result.getProperty(Consts.GETDEVICES_DESCRIPTION).toString());
 			map.setDescriptionInput1(result.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT1).toString());
 			map.setDescriptionInput2(result.getProperty(Consts.GETDEVICES_DESCRIPTIONINPUT2).toString());
@@ -264,5 +269,44 @@ public class WebRequestAPI {
 			// return e.getMessage();
 		}
 		return map;
+	}
+	
+	public String SetOutput(String deviceId, String outputNum, String onOff) {
+		Log.e("DATA", deviceId + "|" + outputNum + "|" + onOff);
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_SETOUTPUT_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId);
+		rpc.addProperty("outputNum", outputNum);
+		rpc.addProperty("OnOff", onOff);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_SETOUTPUT_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			// Log.e("COUNT", result.getPropertyCount() + "");
+			// Log.e("COUNT", result.getProperty(0).toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success|" + result.getProperty(1).toString();
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
 	}
 }

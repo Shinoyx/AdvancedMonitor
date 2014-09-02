@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,11 +26,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.netlynxtech.advancedmonitor.classes.Consts;
 import com.netlynxtech.advancedmonitor.classes.TCPClass;
-import com.netlynxtech.advancedmonitor.classes.Utils;
-import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class ChooseDeviceActivity extends ActionBarActivity {
 	Spinner sDeviceList, sWifi;
@@ -53,9 +51,7 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 		sWifi = (Spinner) findViewById(R.id.sWifi);
 		etWifiPassword = (EditText) findViewById(R.id.etWifiPassword);
 		bConnect = (Button) findViewById(R.id.bConnect);
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
-		sDeviceList.setEnabled(false);
-		sDeviceList.setClickable(false);
+		adapter = new ArrayAdapter<String>(ChooseDeviceActivity.this, android.R.layout.simple_spinner_item, data);
 		sDeviceList.setAdapter(adapter);
 		sWifi.setAdapter(adapter);
 		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -70,20 +66,15 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				new AsyncTask<Void, Void, Void>() {
+				bConnect.setEnabled(false);
+				String wifiToConnectTo = sWifi.getSelectedItem().toString();
+				String wifiToConnectToPassword = etWifiPassword.getText().toString().trim();
 
-					@Override
-					protected Void doInBackground(Void... params) {
-						String wifiToConnectTo = sWifi.getSelectedItem().toString();
-						String wifiToConnectToPassword = etWifiPassword.getText().toString().trim();
-
-						if (wifiToConnectToPassword.length() > 0) {
-							new startConnecting().execute();
-						}
-
-						return null;
-					}
-				}.execute();
+				if (wifiToConnectToPassword.length() > 0) {
+					new startConnecting().execute(wifiToConnectTo, wifiToConnectToPassword);
+				} else {
+					Toast.makeText(ChooseDeviceActivity.this, "Password field is blank", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 	}
@@ -119,10 +110,10 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 		super.onDestroy();
 	}
 
-	private class startConnecting extends AsyncTask<Void, Void, Void> {
-
+	private class startConnecting extends AsyncTask<String, String, Void> {
 		private ProgressDialog dialog;
-		boolean canEndTask = false;
+		boolean success = false;
+		String deviceId = "";
 
 		@Override
 		protected void onPreExecute() {
@@ -136,9 +127,14 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 		}
 
 		@Override
-		protected Void doInBackground(Void... params) {
-			TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, Consts.DEVICE_SOFT_ACCESS_IP, Consts.DEVICE_SOFT_ACCESS_PORT, new TCPClass.OnMessageReceived() {
-				String deviceId = "";
+		protected void onProgressUpdate(String... values) {
+			super.onProgressUpdate(values);
+			dialog.setMessage(values[0]);
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			final TCPClass tcp = new TCPClass(ChooseDeviceActivity.this, Consts.DEVICE_SOFT_ACCESS_IP, Consts.DEVICE_SOFT_ACCESS_PORT, new TCPClass.OnMessageReceived() {
 				@Override
 				public void messageReceived(String message) {
 					Log.e("messageReceived", message);
@@ -146,37 +142,42 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 						// ^B|[Version]|[Device ID]|[User ID]|[CheckSum]~
 						String[] split = message.split("\\|");
 						deviceId = split[2].toString().trim();
+						onProgressUpdate("1/3 Device ID found..");
 					} else if (message.startsWith("^x|1")) {
 
 					} else if (message.startsWith("^x|2")) {
 						if (!message.equals(Consts.X_CONFIGURE_USERID_NULL)) {
 							Pattern p = Pattern.compile("\\^x\\|2\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)~");
 							Matcher m = p.matcher(message);
-							if (m.find()){
-								canEndTask = true;
-								TCPClass.CloseConnection();
+							if (m.find()) {
+								success = true;
 								Log.e("TASK", "Ending task");
-							   // String res = m.toMatchResult().group(0);
+								onProgressUpdate("3/3 Configuration done..");
 							}
-							
+
 						} else {
 
 						}
-
 					}
 				}
 			});
-			//new WebRequestAPI(ChooseDeviceActivity.this).RegisterDevice(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId(), "51235000031111");
-			//new WebRequestAPI(ChooseDeviceActivity.this).GetDevices(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId());
-			
-			while (!canEndTask) {
-				TCPClass.sendDataWithString("^B~");
-				SystemClock.sleep(3000);
-				TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
-				SystemClock.sleep(3000);
-				TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", "24AC3A4A5C", "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
-				SystemClock.sleep(1000);
+			// new WebRequestAPI(ChooseDeviceActivity.this).RegisterDevice(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId(), "51235000031111");
+			// new WebRequestAPI(ChooseDeviceActivity.this).GetDevices(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId());
+
+			tcp.sendDataWithString("^B~");
+			SystemClock.sleep(3000);
+			tcp.sendDataWithString("^X|1|81396537|ZZ~");
+			SystemClock.sleep(3000);
+			// TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, params[0], params[1], "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
+			tcp.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", params[1], "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
+			SystemClock.sleep(3000);
+			if (success) {
+				tcp.CloseConnection();
+				onProgressUpdate("Done.. Cleaning up..");
+			} else {
+				onProgressUpdate("Failed.. Cleaning up..");
 			}
+			SystemClock.sleep(3000);
 			return null;
 		}
 
@@ -188,6 +189,13 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 				@Override
 				public void run() {
 					dialog.cancel();
+					if (success) {
+						startActivity(new Intent(ChooseDeviceActivity.this, SetupSuccessfulActivity.class).putExtra("deviceId", deviceId));
+						finish();
+					} else {
+						bConnect.setEnabled(true);
+						Toast.makeText(ChooseDeviceActivity.this, "Failed. Please retry..", Toast.LENGTH_SHORT).show();
+					}
 				}
 			});
 		}
