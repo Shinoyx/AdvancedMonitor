@@ -46,6 +46,8 @@ public class Consts {
 	final static public String NOISELYNX_API_SETOUTPUT_SOAP_ACTION = "http://NetLynxTech.com/SetOutput";
 	final static public String NOISELYNX_API_SETOUTPUT_METHOD_NAME = "SetOutput";
 
+	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_SOAP_ACTION = "http://NetLynxTech.com/UpdateDescriptions";
+	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_METHOD_NAME = "UpdateDescriptions";
 	
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";

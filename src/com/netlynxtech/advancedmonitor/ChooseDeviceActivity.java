@@ -113,7 +113,7 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 	private class startConnecting extends AsyncTask<String, String, Void> {
 		private ProgressDialog dialog;
 		boolean success = false;
-		String deviceId = "";
+		String deviceId = "", progressMessage = "";
 
 		@Override
 		protected void onPreExecute() {
@@ -142,9 +142,9 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 						// ^B|[Version]|[Device ID]|[User ID]|[CheckSum]~
 						String[] split = message.split("\\|");
 						deviceId = split[2].toString().trim();
-						onProgressUpdate("1/3 Device ID found..");
+						progressMessage += "1/3 Device ID found..\n";
 					} else if (message.startsWith("^x|1")) {
-
+						progressMessage += "2/3 Configuration found..\n";
 					} else if (message.startsWith("^x|2")) {
 						if (!message.equals(Consts.X_CONFIGURE_USERID_NULL)) {
 							Pattern p = Pattern.compile("\\^x\\|2\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)\\|(.*?)~");
@@ -152,30 +152,28 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 							if (m.find()) {
 								success = true;
 								Log.e("TASK", "Ending task");
-								onProgressUpdate("3/3 Configuration done..");
+								progressMessage += "3/3 Configuration done.. [" + m.group(1) + "]";
 							}
-
 						} else {
-
+							progressMessage += "3/3 [FAILED] UserID not found.. Device not returning registered infomation.";
 						}
 					}
+					publishProgress(progressMessage);
 				}
 			});
-			// new WebRequestAPI(ChooseDeviceActivity.this).RegisterDevice(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId(), "51235000031111");
-			// new WebRequestAPI(ChooseDeviceActivity.this).GetDevices(new Utils(ChooseDeviceActivity.this).getDeviceUniqueId());
-
-			tcp.sendDataWithString("^B~");
+			
+			TCPClass.sendDataWithString("^B~");
 			SystemClock.sleep(3000);
-			tcp.sendDataWithString("^X|1|81396537|ZZ~");
+			TCPClass.sendDataWithString("^X|1|81396537|ZZ~");
 			SystemClock.sleep(3000);
 			// TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, params[0], params[1], "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
-			tcp.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", params[1], "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
+			TCPClass.sendDataWithString(String.format(Consts.X_CONFIGURE_TWO_WIFISERVER_TODEVICE, "YEN", params[1], "192.168.10.8", "5090", "192.168.10.8", "5090", "ZZ"));
 			SystemClock.sleep(3000);
 			if (success) {
 				tcp.CloseConnection();
-				onProgressUpdate("Done.. Cleaning up..");
+				publishProgress("Done.. Cleaning up..");
 			} else {
-				onProgressUpdate("Failed.. Cleaning up..");
+				publishProgress("Failed.. Cleaning up..");
 			}
 			SystemClock.sleep(3000);
 			return null;

@@ -270,7 +270,7 @@ public class WebRequestAPI {
 		}
 		return map;
 	}
-	
+
 	public String SetOutput(String deviceId, String outputNum, String onOff) {
 		Log.e("DATA", deviceId + "|" + outputNum + "|" + onOff);
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_SETOUTPUT_METHOD_NAME);
@@ -286,6 +286,48 @@ public class WebRequestAPI {
 		try {
 			// Log.e("WebRequest", "TRY!");
 			ht.call(Consts.NOISELYNX_API_SETOUTPUT_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			// Log.e("COUNT", result.getPropertyCount() + "");
+			// Log.e("COUNT", result.getProperty(0).toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success|" + result.getProperty(1).toString();
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+
+	public String UpdateDescriptions(String deviceId, String description, String input1, String input2, String output1, String output2) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_UPDATEDESCRIPTIONS_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId);
+		rpc.addProperty("description", description);
+		rpc.addProperty("descriptionInput1", input1);
+		rpc.addProperty("descriptionInput2", input2);
+		rpc.addProperty("descriptionOutput1", output1);
+		rpc.addProperty("descriptionOutput2", output2);
+
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_UPDATEDESCRIPTIONS_SOAP_ACTION, envelope);
 			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse();
 			// Log.e("COUNT", result.getPropertyCount() + "");

@@ -49,6 +49,10 @@
         </activity>
         <activity android:name="com.netlynxtech.advancedmonitor.UsersActivity" >
         </activity>
+        <activity android:name="com.netlynxtech.advancedmonitor.IndividualDeviceEditDetailsActivity" >
+        </activity>
+        <activity android:name="com.netlynxtech.advancedmonitor.SetupSuccessfulActivity" >
+        </activity>
 
         <service android:name="com.netlynxtech.advancedmonitor.classes.TCPService" >
         </service>

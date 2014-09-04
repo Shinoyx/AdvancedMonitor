@@ -28,6 +28,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			tvOutput1Description, tvOutput2Description;
 	ImageView ivInput1, ivInput2, ivOutput1, ivOutput2;
 	RefreshActionItem mRefreshActionItem;
+	Device device = new Device();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 	}
 
 	private class loadData extends AsyncTask<Void, Void, Void> {
-		Device device = new Device();
+
 		ArrayList<String> deviceLocation;
 
 		@Override
@@ -240,6 +241,24 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			break;
 		case android.R.id.home:
 			finish();
+			break;
+		case R.id.menu_edit_device:
+			Intent i = new Intent(IndividualDeviceActivity.this, IndividualDeviceEditDetailsActivity.class);
+			i.putExtra("deviceId", deviceId);
+			i.putExtra("description", device.getDescription());
+			if (device.getEnableInput1().equals("1")) {
+				i.putExtra("input1", device.getDescriptionInput1());
+			}
+			if (device.getEnableInput2().equals("1")) {
+				i.putExtra("input2", device.getDescriptionInput2());
+			}
+			if (device.getEnableOutput1().equals("1")) {
+				i.putExtra("output1", device.getDescriptionOutput1());
+			}
+			if (device.getEnableOutput2().equals("1")) {
+				i.putExtra("output2", device.getDescriptionOutput2());
+			}
+			startActivity(i);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

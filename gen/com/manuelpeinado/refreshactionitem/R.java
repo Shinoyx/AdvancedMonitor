@@ -30,17 +30,17 @@ public final class R {
 		public static final int bottomLeft = 0x7f050005;
 		public static final int bottomRight = 0x7f050006;
 		public static final int center = 0x7f050007;
-		public static final int determinate_progress_indicator = 0x7f050077;
+		public static final int determinate_progress_indicator = 0x7f050080;
 		public static final int indeterminate = 0x7f050002;
-		public static final int indeterminate_progress_indicator = 0x7f050076;
+		public static final int indeterminate_progress_indicator = 0x7f05007f;
 		public static final int pie = 0x7f050001;
-		public static final int refresh_button = 0x7f050075;
+		public static final int refresh_button = 0x7f05007e;
 		public static final int topLeft = 0x7f050003;
 		public static final int topRight = 0x7f050004;
 		public static final int wheel = 0x7f050000;
 	}
 	public static final class layout {
-		public static final int rai__action_item = 0x7f03001d;
+		public static final int rai__action_item = 0x7f03001f;
 	}
 	public static final class style {
 		public static final int Widget = 0x7f070000;

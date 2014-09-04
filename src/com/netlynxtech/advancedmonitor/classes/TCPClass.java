@@ -93,7 +93,7 @@ public class TCPClass {
 		}
 	}
 
-	public void recievingMessage() {
+	public static void recievingMessage() {
 		new Thread(new Runnable() {
 			public void run() {
 				while (true) {
@@ -135,7 +135,7 @@ public class TCPClass {
 		}).start();
 	}
 
-	public boolean sendDataWithString(String paramString) {
+	public static boolean sendDataWithString(String paramString) {
 		Log.e("Message", "Sending message : " + paramString);
 		try {
 			out = new PrintWriter(sck.getOutputStream());
