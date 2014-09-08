@@ -1,5 +1,6 @@
 package com.netlynxtech.advancedmonitor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.netlynxtech.advancedmonitor.fragments.TutorialOneFragment;
 import com.netlynxtech.advancedmonitor.fragments.TutorialTwoFragment;
+import com.securepreferences.SecurePreferences;
 
 public class TutorialActivity extends ActionBarActivity {
 	private static final int NUM_PAGES = 2;
@@ -19,6 +21,10 @@ public class TutorialActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SecurePreferences sp = new SecurePreferences(TutorialActivity.this);
+		if (sp.getString("initial", "0").equals("1")) {
+			startActivity(new Intent(TutorialActivity.this, DeviceListActivity.class));
+		}
 		setContentView(R.layout.tutorial_activity);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());

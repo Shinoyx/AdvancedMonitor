@@ -21,8 +21,8 @@ import com.manuelpeinado.refreshactionitem.RefreshActionItem;
 import com.manuelpeinado.refreshactionitem.RefreshActionItem.RefreshActionListener;
 import com.netlynxtech.advancedmonitor.adapters.DevicesAdapter;
 import com.netlynxtech.advancedmonitor.classes.Device;
-import com.netlynxtech.advancedmonitor.classes.Utils;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
+import com.securepreferences.SecurePreferences;
 
 public class DeviceListActivity extends ActionBarActivity {
 
@@ -40,9 +40,18 @@ public class DeviceListActivity extends ActionBarActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
-				Log.e("DEVICEID", tvDeviceId.getText().toString());
-				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
+				new AsyncTask<Void, Void, Void>(){
+
+					@Override
+					protected Void doInBackground(Void... params) {
+						new WebRequestAPI(DeviceListActivity.this).getDevices("1234567890");
+						return null;
+					} 
+					
+				}.execute();
+			//	TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
+			//	Log.e("DEVICEID", tvDeviceId.getText().toString());
+			//	startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
 			}
 		});
 	}
@@ -69,6 +78,8 @@ public class DeviceListActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_add_device:
+			SecurePreferences sp = new SecurePreferences(DeviceListActivity.this);
+			sp.edit().putString("initial", "0").commit();
 			startActivity(new Intent(DeviceListActivity.this, TutorialActivity.class));
 			break;
 		default:
@@ -87,7 +98,7 @@ public class DeviceListActivity extends ActionBarActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			devices = new WebRequestAPI(DeviceListActivity.this).GetDevices(new Utils(DeviceListActivity.this).getDeviceUniqueId());
+			devices = new WebRequestAPI(DeviceListActivity.this).GetDevices();
 			adapter = new DevicesAdapter(DeviceListActivity.this, devices);
 			return null;
 		}

@@ -3,6 +3,7 @@ package com.netlynxtech.advancedmonitor.classes;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -26,17 +27,61 @@ public class WebRequestAPI {
 		return locationList;
 	}
 
-	public String RegisterDevice(String udid, String deviceId) {
+	public String requestPin() {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REGISTERDEVICE_METHOD_NAME); // create new soap object
-		rpc.addProperty("UDID", udid); // set parameter
-		rpc.addProperty("deviceID", deviceId); // set parameter
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId()); // set parameter
+		Log.e("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", "51235000031111"); // set parameter
+		Log.e("DEVICEID", "51235000031111");
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			// //Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION, envelope); // call web request
+			 System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			// Log.e("RESULT", result.toString());
+			// Log.e("COUNT", result.getPropertyCount() + "");
+			// Log.e("COUNT", result.getProperty(0).toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+
+	public String RegisterDevice(String deviceId) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REGISTERDEVICE_METHOD_NAME); // create new soap object
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId()); // set parameter
+		Log.e("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId); // set parameter
+		Log.e("DEVICEID", deviceId);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		
+		envelope.setOutputSoapObject(rpc);
 		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		Log.e("Calling to", Consts.NOISELYNX_API_URL);
 		ht.debug = true;
 		try {
 			ht.call(Consts.NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION, envelope);
+			Log.e("SoapAction", Consts.NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION);
 			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse();
 			if (result.getProperty(0).toString().equals("1")) {
@@ -98,10 +143,10 @@ public class WebRequestAPI {
 		}
 	}
 
-	public ArrayList<Device> GetDevices(String udid) {
+	public ArrayList<Device> GetDevices() {
 		ArrayList<Device> list = new ArrayList<Device>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICES_METHOD_NAME);
-		rpc.addProperty("UDID", udid);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
@@ -175,6 +220,7 @@ public class WebRequestAPI {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICE_METHOD_NAME);
 		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
 		rpc.addProperty("deviceID", deviceId);
+		Log.e("GetDevice", deviceId);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
@@ -350,5 +396,55 @@ public class WebRequestAPI {
 			e.printStackTrace();
 			return e.getMessage();
 		}
+	}
+	
+	public ArrayList<HashMap<String, String>> getDevices(String udid) {
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICES_METHOD_NAME);
+		rpc.addProperty("UDID", udid);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE("http://210.193.23.250/wsNoiseLynx/noiselynx.asmx");
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call("http://NetlynxTech.com/GetDevices", envelope);
+			// System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			HashMap<String, String> map;
+			for (int i = 0; i < result.getPropertyCount(); i++) {
+				SoapObject object = (SoapObject) result.getProperty(i);
+				map = new HashMap<String, String>();
+				// Log.e("Location", object.getProperty(Consts.MONITORING_LOCATION) + "");
+				locationList.add(object.getProperty(Consts.MONITORING_LOCATION).toString());
+				map.put(Consts.MONITORING_DEVICE_ID, object.getProperty(Consts.MONITORING_DEVICE_ID).toString());
+				map.put(Consts.MONITORING_DATE_TIME, object.getProperty(Consts.MONITORING_DATE_TIME).toString());
+				map.put(Consts.MONITORING_LOCATION, object.getProperty(Consts.MONITORING_LOCATION).toString());
+				map.put(Consts.MONITORING_LEQ_FIVE_MINUTES, object.getProperty(Consts.MONITORING_LEQ_FIVE_MINUTES).toString());
+				map.put(Consts.MONITORING_LEQ_ONE_HOUR, object.getProperty(Consts.MONITORING_LEQ_ONE_HOUR).toString());
+				map.put(Consts.MONITORING_LEQ_TWELVE_HOUR, object.getProperty(Consts.MONITORING_LEQ_TWELVE_HOUR).toString());
+				map.put(Consts.MONITORING_LOCATION_LAT, object.getProperty(Consts.MONITORING_LOCATION_LAT).toString());
+				map.put(Consts.MONITORING_LOCATION_LONG, object.getProperty(Consts.MONITORING_LOCATION_LONG).toString());
+				map.put(Consts.MONITORING_ALERT, object.getProperty(Consts.MONITORING_ALERT).toString());
+				Log.e("ALERT", object.getProperty(Consts.MONITORING_ALERT).toString());
+				list.add(map);
+			}
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return list;
 	}
 }
