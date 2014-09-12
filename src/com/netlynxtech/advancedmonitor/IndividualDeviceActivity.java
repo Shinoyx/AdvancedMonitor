@@ -40,6 +40,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			finish();
 		}
 		Log.e("Individual", deviceId);
+		getSupportActionBar().setTitle(deviceId);
 		setContentView(R.layout.activity_individual_device);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -197,13 +198,17 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 							if (outputNum.equals("1")) {
 								if (finalStatus.equals("1")) {
 									ivOutput1.setImageResource(R.drawable.ic_greendot);
+									device.setOutput1("1");
 								} else if (finalStatus.equals("0")) {
 									ivOutput1.setImageResource(R.drawable.ic_reddot);
+									device.setOutput1("0");
 								}
 							} else if (outputNum.equals("2")) {
 								if (finalStatus.equals("1")) {
+									device.setOutput2("1");
 									ivOutput2.setImageResource(R.drawable.ic_greendot);
 								} else if (finalStatus.equals("0")) {
+									device.setOutput2("0");
 									ivOutput2.setImageResource(R.drawable.ic_reddot);
 								}
 							}

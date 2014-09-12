@@ -24,6 +24,7 @@ public class TutorialActivity extends ActionBarActivity {
 		SecurePreferences sp = new SecurePreferences(TutorialActivity.this);
 		if (sp.getString("initial", "0").equals("1")) {
 			startActivity(new Intent(TutorialActivity.this, DeviceListActivity.class));
+			finish();
 		}
 		setContentView(R.layout.tutorial_activity);
 		mPager = (ViewPager) findViewById(R.id.pager);

@@ -70,7 +70,9 @@ public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions("", params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
+			//data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions("", params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
+			//		params[4].toString());
+			data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions(deviceId, params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
 					params[4].toString());
 			return null;
 		}

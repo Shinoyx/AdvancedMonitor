@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Large Text"
+        android:text="@string/edit_device_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etDescriptions"
-        android:text="Large Text"
+        android:text="@string/edit_device_input1_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etInput1"
-        android:text="Large Text"
+        android:text="@string/edit_device_input2_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etInput2"
-        android:text="Large Text"
+        android:text="@string/edit_device_output1_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/etOutput1"
-        android:text="Large Text"
+        android:text="@string/edit_device_output2_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText

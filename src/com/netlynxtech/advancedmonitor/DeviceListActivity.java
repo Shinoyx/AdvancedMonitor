@@ -40,18 +40,16 @@ public class DeviceListActivity extends ActionBarActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				new AsyncTask<Void, Void, Void>(){
-
-					@Override
-					protected Void doInBackground(Void... params) {
-						new WebRequestAPI(DeviceListActivity.this).getDevices("1234567890");
-						return null;
-					} 
-					
-				}.execute();
-			//	TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
-			//	Log.e("DEVICEID", tvDeviceId.getText().toString());
-			//	startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
+				/*
+				 * new AsyncTask<Void, Void, Void>(){
+				 * 
+				 * @Override protected Void doInBackground(Void... params) { new WebRequestAPI(DeviceListActivity.this).getDevices("1234567890"); return null; }
+				 * 
+				 * }.execute();
+				 */
+				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
+				Log.e("DEVICEID", tvDeviceId.getText().toString());
+				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
 			}
 		});
 	}

@@ -2031,6 +2031,11 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f08001e;
         public static final int connected_device=0x7f080033;
+        public static final int edit_device_description=0x7f080040;
+        public static final int edit_device_input1_description=0x7f080041;
+        public static final int edit_device_input2_description=0x7f080042;
+        public static final int edit_device_output1_description=0x7f080043;
+        public static final int edit_device_output2_description=0x7f080044;
         public static final int hello_world=0x7f080031;
         public static final int menu_add_device=0x7f08003f;
         public static final int menu_add_users=0x7f08003e;

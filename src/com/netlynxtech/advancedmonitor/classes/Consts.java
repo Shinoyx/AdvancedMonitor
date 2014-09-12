@@ -4,7 +4,7 @@ public class Consts {
 
 	public static final String DEVICE_SOFT_ACCESS_IP = "192.168.4.1";
 	public static final String DEVICE_SOFT_ACCESS_PORT = "9012";
-	
+
 	public static final String TCP_RELAY_ON_TODEVICE = "^R|00|ZZ~";
 	public static final String TCP_RELAY_ON_TOMOBILE = "^r|00|ZZ~";
 
@@ -15,44 +15,38 @@ public class Consts {
 
 	public static final String UDP_BROADCAST_TODEVICE = "HELLO NT";
 
-	
 	public static final String B_CONFIGURATION_TOPHONE = "^B~";
-	
+
 	public static final String X_CONFIGURE_ONE_PHONE_TODEVICE = "^X|1|%1$s|%2$s~";
 	public static final String X_CONFIGURE_TWO_WIFISERVER_TODEVICE = "^X|2|%1$s|%2$s|%3$s|%4$s|%5$s|%6$s|%7$s~";
 	public static final String X_CONFIGURE_USERID_NULL = "^x|2|NR~";
-	
-	
-	
-	
-	
+
 	final static public int WEBREQUEST_TIMEOUT = 20000;
 	final static public String PROJECT_NUMBER = "534726101262";
 
-	final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsIOT/TH.asmx";
-	final static public String NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION = "http://NetLynxTech.com/RegisterDevice";
+	final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsNoiseLynx/noiselynx.asmx";
+	final static public String NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION = "http://NetlynxTech.com/RegisterDevice";
 	final static public String NOISELYNX_API_REGISTERDEVICE_METHOD_NAME = "RegisterDevice";
-	
-	
-	final static public String NOISELYNX_API_GETDEVICES_SOAP_ACTION = "http://NetLynxTech.com/GetDevices";
-	final static public String NOISELYNX_API_GETDEVICES_METHOD_NAME = "GetDevices";
-	
-	final static public String NOISELYNX_API_GETDEVICE_SOAP_ACTION = "http://NetLynxTech.com/GetDevice";
+
+	final static public String NOISELYNX_API_GETDEVICES_SOAP_ACTION = "http://NetlynxTech.com/GetIOTDevices";
+	final static public String NOISELYNX_API_GETDEVICES_METHOD_NAME = "GetIOTDevices";
+
+	final static public String NOISELYNX_API_GETDEVICE_SOAP_ACTION = "http://NetlynxTech.com/GetDevice";
 	final static public String NOISELYNX_API_GETDEVICE_METHOD_NAME = "GetDevice";
-	
-	final static public String NOISELYNX_API_GETLOCATION_SOAP_ACTION = "http://NetLynxTech.com/GetLocation";
+
+	final static public String NOISELYNX_API_GETLOCATION_SOAP_ACTION = "http://NetlynxTech.com/GetLocation";
 	final static public String NOISELYNX_API_GETLOCATION_METHOD_NAME = "GetLocation";
-	
-	final static public String NOISELYNX_API_SETOUTPUT_SOAP_ACTION = "http://NetLynxTech.com/SetOutput";
+
+	final static public String NOISELYNX_API_SETOUTPUT_SOAP_ACTION = "http://NetlynxTech.com/SetOutput";
 	final static public String NOISELYNX_API_SETOUTPUT_METHOD_NAME = "SetOutput";
 
-	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_SOAP_ACTION = "http://NetLynxTech.com/UpdateDescriptions";
+	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_SOAP_ACTION = "http://NetlynxTech.com/UpdateDescriptions";
 	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_METHOD_NAME = "UpdateDescriptions";
-	
+
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";
 	final static public String ERRORCODE = "ErrorCode";
-	
+
 	final static public String GETDEVICES_VERSION = "Version";
 	final static public String GETDEVICES_DEVICEID = "DeviceID";
 	final static public String GETDEVICES_TEMPERATURE = "Temperature";
@@ -86,8 +80,7 @@ public class Consts {
 	final static public String GETDEVICES_TEMPERATURESTATE = "TemperatureState";
 	final static public String GETDEVICES_LATITUDE = "Latitude";
 	final static public String GETDEVICES_LONGITUDE = "Longitude";
-	
-	
+
 	final static public String NOISELYNX_API_CHECKPIN_SOAP_ACTION = "http://NetlynxTech.com/CheckPIN";
 	final static public String NOISELYNX_API_CHECKPIN_METHOD_NAME = "CheckPIN";
 
@@ -128,5 +121,5 @@ public class Consts {
 	final static public String THRESHOLD_TIMESPAN = "TimeSpan";
 	final static public String THRESHOLD_THRESHOLD = "Threhold"; // GRAMMAR ERROR CAREFUL
 	final static public String DATABASE_COLUMN_UNIX = "unixTimestamp";
-	
+
 }

@@ -20,5 +20,10 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_add_users">Add Users</string>
     <string name="menu_add_device">Add Devices</string>
+    <string name="edit_device_description">Device Description</string>
+    <string name="edit_device_input1_description">Input1\'s Description</string>
+    <string name="edit_device_input2_description">Input2\'s Description</string>
+    <string name="edit_device_output1_description">Output1\'s Description</string>
+    <string name="edit_device_output2_description">Output2\'s Description</string>
 
 </resources>

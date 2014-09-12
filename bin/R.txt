@@ -617,6 +617,11 @@ int string common_google_play_services_update_title 0x7f080012
 int string common_signin_button_text 0x7f08001d
 int string common_signin_button_text_long 0x7f08001e
 int string connected_device 0x7f080033
+int string edit_device_description 0x7f080040
+int string edit_device_input1_description 0x7f080041
+int string edit_device_input2_description 0x7f080042
+int string edit_device_output1_description 0x7f080043
+int string edit_device_output2_description 0x7f080044
 int string hello_world 0x7f080031
 int string menu_add_device 0x7f08003f
 int string menu_add_users 0x7f08003e
