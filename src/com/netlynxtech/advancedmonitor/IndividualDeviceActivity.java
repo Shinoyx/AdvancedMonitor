@@ -2,6 +2,7 @@ package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
 
+import mehdi.sakout.dynamicbox.DynamicBox;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,24 +26,29 @@ import com.netlynxtech.advancedmonitor.classes.Utils;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class IndividualDeviceActivity extends ActionBarActivity {
-	String deviceId = "";
+	String deviceId = "", deviceDescription = "";
 	TextView tvTemperature, tvTemperatureHi, tvTemperatureLo, tvHumidity, tvHumidityHi, tvHumidityLo, tvVoltage, tvLocation, tvTimestamp, tvInput1Description, tvInput2Description,
 			tvOutput1Description, tvOutput2Description;
 	ImageView ivInput1, ivInput2, ivOutput1, ivOutput2;
 	RefreshActionItem mRefreshActionItem;
 	Device device = new Device();
+	AsyncTask<Void, Void, Void> task = new loadData();
+	DynamicBox box;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent i = getIntent();
 		deviceId = i.getStringExtra("deviceId");
+		deviceDescription = i.getStringExtra("deviceDescription");
 		if (deviceId.length() < 1) {
 			finish();
 		}
 		Log.e("Individual", deviceId);
-		getSupportActionBar().setTitle(deviceId);
+		getSupportActionBar().setTitle(deviceDescription);
 		setContentView(R.layout.activity_individual_device);
+		RelativeLayout rlIndividualDevice = (RelativeLayout) findViewById(R.id.rlIndividualDevice);
+		box = new DynamicBox(IndividualDeviceActivity.this, rlIndividualDevice);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		tvTemperature = (TextView) findViewById(R.id.tvTemperature);
@@ -73,6 +80,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mRefreshActionItem.showProgress(true);
+			box.showLoadingLayout();
 		}
 
 		@Override
@@ -90,78 +98,84 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
-					tvTemperature.setText(device.getTemperature() + (char) 0x00B0 + "c");
-					tvTemperatureHi.setText(device.getTemperatureHi() + (char) 0x00B0 + "c");
-					tvTemperatureLo.setText(device.getTemperatureLo() + (char) 0x00B0 + "c");
-					tvHumidity.setText(device.getHumidity() + "%");
-					tvHumidityHi.setText(device.getHumidityHi() + "%");
-					tvHumidityLo.setText(device.getHumidityLo() + "%");
-					tvVoltage.setText(device.getVoltage());
-					tvLocation.setText(deviceLocation.get(1));
-					tvInput1Description.setText(device.getDescriptionInput1());
-					tvInput2Description.setText(device.getDescriptionInput2());
-					tvOutput1Description.setText(device.getDescriptionOutput1());
-					tvOutput2Description.setText(device.getDescriptionOutput2());
-					tvTimestamp.setText(new Utils(IndividualDeviceActivity.this).parseDatetime(device.getTimestamp()));
-					if (device.getEnableInput1().equals("1")) {
-						if (device.getInput1().equals("1")) {
-							ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+					try {
+						box.hideAll();
+						getSupportActionBar().setTitle(device.getDescription());
+						deviceDescription = device.getDescription();
+						tvTemperature.setText(device.getTemperature() + (char) 0x00B0 + "c");
+						tvTemperatureHi.setText(device.getTemperatureHi() + (char) 0x00B0 + "c");
+						tvTemperatureLo.setText(device.getTemperatureLo() + (char) 0x00B0 + "c");
+						tvHumidity.setText(device.getHumidity() + "%");
+						tvHumidityHi.setText(device.getHumidityHi() + "%");
+						tvHumidityLo.setText(device.getHumidityLo() + "%");
+						tvVoltage.setText(device.getVoltage());
+						tvLocation.setText(deviceLocation.get(1));
+						tvInput1Description.setText(device.getDescriptionInput1());
+						tvInput2Description.setText(device.getDescriptionInput2());
+						tvOutput1Description.setText(device.getDescriptionOutput1());
+						tvOutput2Description.setText(device.getDescriptionOutput2());
+						tvTimestamp.setText(new Utils(IndividualDeviceActivity.this).parseDatetime(device.getTimestamp()));
+						if (device.getEnableInput1().equals("1")) {
+							if (device.getInput1().equals("1")) {
+								ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+							} else {
+								ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							}
 						} else {
-							ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
 						}
-					} else {
-						ivInput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
-					}
 
-					if (device.getEnableInput2().equals("1")) {
-						if (device.getInput2().equals("1")) {
-							ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+						if (device.getEnableInput2().equals("1")) {
+							if (device.getInput2().equals("1")) {
+								ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+							} else {
+								ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							}
 						} else {
-							ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
 						}
-					} else {
-						ivInput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
-					}
 
-					if (device.getEnableOutput1().equals("1")) {
-						if (device.getOutput1().equals("1")) {
-							ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+						if (device.getEnableOutput1().equals("1")) {
+							if (device.getOutput1().equals("1")) {
+								ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+							} else {
+								ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							}
 						} else {
-							ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
 						}
-					} else {
-						ivOutput1.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
-					}
 
-					if (device.getEnableOutput2().equals("1")) {
-						if (device.getOutput2().equals("1")) {
-							ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+						if (device.getEnableOutput2().equals("1")) {
+							if (device.getOutput2().equals("1")) {
+								ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_greendot));
+							} else {
+								ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							}
 						} else {
-							ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_reddot));
+							ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
 						}
-					} else {
-						ivOutput2.setImageDrawable(getResources().getDrawable(R.drawable.ic_emptydot));
+
+						ivOutput1.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								changeOutput("1", device.getOutput1());
+							}
+						});
+						ivOutput2.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								changeOutput("2", device.getOutput1());
+							}
+						});
+					} catch (Exception e) {
+						box.showExceptionLayout();
 					}
-
-					ivOutput1.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							changeOutput("1", device.getOutput1());
-						}
-					});
-					ivOutput2.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							changeOutput("2", device.getOutput1());
-						}
-					});
 					mRefreshActionItem.showProgress(false);
 				}
 			});
 		}
-
 	}
 
 	private void changeOutput(final String outputNum, String currentStatus) {
@@ -194,6 +208,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 					@Override
 					public void run() {
 						mRefreshActionItem.showProgress(false);
+						box.hideAll();
 						if (data.startsWith("success|")) {
 							if (outputNum.equals("1")) {
 								if (finalStatus.equals("1")) {
@@ -233,7 +248,11 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 			@Override
 			public void onRefreshButtonClick(RefreshActionItem sender) {
-				new loadData().execute();
+				if (task != null) {
+					task = null;
+					task = new loadData();
+					task.execute();
+				}
 			}
 		});
 		new loadData().execute();
@@ -252,7 +271,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 		case R.id.menu_edit_device:
 			Intent i = new Intent(IndividualDeviceActivity.this, IndividualDeviceEditDetailsActivity.class);
 			i.putExtra("deviceId", deviceId);
-			i.putExtra("description", device.getDescription());
+			i.putExtra("deviceDescription", device.getDescription());
 			if (device.getEnableInput1().equals("1")) {
 				i.putExtra("input1", device.getDescriptionInput1());
 			}
@@ -273,4 +292,28 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e("RESUME", "RESUME");
+		try {
+			if (task != null) {
+				task.execute();
+			} else {
+				task = new loadData();
+				task.execute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (task != null) {
+			task.cancel(true);
+			task = null;
+		}
+	}
 }

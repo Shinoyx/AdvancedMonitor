@@ -19,35 +19,35 @@ public final class R {
 		public static final int refreshActionItemStyle = 0x7f010000;
 	}
 	public static final class dimen {
-		public static final int rai__action_bar_default_height = 0x7f060000;
-		public static final int rai__action_bar_icon_vertical_padding = 0x7f060001;
+		public static final int rai__action_bar_default_height = 0x7f060002;
+		public static final int rai__action_bar_icon_vertical_padding = 0x7f060003;
 	}
 	public static final class drawable {
-		public static final int ic_navigation_refresh_dark = 0x7f020074;
-		public static final int ic_navigation_refresh_light = 0x7f020075;
+		public static final int ic_navigation_refresh_dark = 0x7f020075;
+		public static final int ic_navigation_refresh_light = 0x7f020076;
 	}
 	public static final class id {
-		public static final int bottomLeft = 0x7f050005;
-		public static final int bottomRight = 0x7f050006;
-		public static final int center = 0x7f050007;
-		public static final int determinate_progress_indicator = 0x7f050080;
-		public static final int indeterminate = 0x7f050002;
-		public static final int indeterminate_progress_indicator = 0x7f05007f;
-		public static final int pie = 0x7f050001;
-		public static final int refresh_button = 0x7f05007e;
-		public static final int topLeft = 0x7f050003;
-		public static final int topRight = 0x7f050004;
-		public static final int wheel = 0x7f050000;
+		public static final int bottomLeft = 0x7f090005;
+		public static final int bottomRight = 0x7f090006;
+		public static final int center = 0x7f090007;
+		public static final int determinate_progress_indicator = 0x7f090089;
+		public static final int indeterminate = 0x7f090002;
+		public static final int indeterminate_progress_indicator = 0x7f090088;
+		public static final int pie = 0x7f090001;
+		public static final int refresh_button = 0x7f090087;
+		public static final int topLeft = 0x7f090003;
+		public static final int topRight = 0x7f090004;
+		public static final int wheel = 0x7f090000;
 	}
 	public static final class layout {
-		public static final int rai__action_item = 0x7f03001f;
+		public static final int rai__action_item = 0x7f030022;
 	}
 	public static final class style {
-		public static final int Widget = 0x7f070000;
-		public static final int Widget_RefreshActionItem = 0x7f070001;
-		public static final int Widget_RefreshActionItem_Dark = 0x7f070004;
-		public static final int Widget_RefreshActionItem_Light = 0x7f070003;
-		public static final int Widget_RefreshActionItem_TextAppearance = 0x7f070002;
+		public static final int Widget = 0x7f080004;
+		public static final int Widget_RefreshActionItem = 0x7f080005;
+		public static final int Widget_RefreshActionItem_Dark = 0x7f080008;
+		public static final int Widget_RefreshActionItem_Light = 0x7f080007;
+		public static final int Widget_RefreshActionItem_TextAppearance = 0x7f080006;
 	}
 	public static final class styleable {
 		public static final int[] RefreshActionItem = { 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008 };

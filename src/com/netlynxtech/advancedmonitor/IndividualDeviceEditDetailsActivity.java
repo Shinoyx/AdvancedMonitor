@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,7 +16,7 @@ import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 	EditText etInput1, etInput2, etOutput1, etOutput2, etDescriptions;
 	Button bUpdate;
-	String deviceId = "";
+	String deviceId = "", deviceDescription = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +26,13 @@ public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 		Intent i = getIntent();
 		if (i.hasExtra("deviceId")) {
 			deviceId = i.getStringExtra("deviceId");
+			deviceDescription = i.getStringExtra("deviceDescription");
 		} else {
 			finish();
 		}
+		getSupportActionBar().setTitle(deviceDescription);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		etInput1 = (EditText) findViewById(R.id.etInput1);
 		if (i.hasExtra("input1")) {
 			etInput1.setText(i.getStringExtra("input1"));
@@ -53,7 +58,7 @@ public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 			etOutput2.setEnabled(false);
 		}
 		etDescriptions = (EditText) findViewById(R.id.etDescriptions);
-		etDescriptions.setText(i.getStringExtra("description"));
+		etDescriptions.setText(deviceDescription);
 		bUpdate = (Button) findViewById(R.id.bUpdate);
 		bUpdate.setOnClickListener(new OnClickListener() {
 
@@ -70,8 +75,8 @@ public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			//data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions("", params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
-			//		params[4].toString());
+			// data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions("", params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
+			// params[4].toString());
 			data = new WebRequestAPI(IndividualDeviceEditDetailsActivity.this).UpdateDescriptions(deviceId, params[0].toString(), params[1].toString(), params[2].toString(), params[3].toString(),
 					params[4].toString());
 			return null;
@@ -96,4 +101,15 @@ public class IndividualDeviceEditDetailsActivity extends ActionBarActivity {
 
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

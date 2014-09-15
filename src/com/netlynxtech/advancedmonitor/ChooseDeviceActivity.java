@@ -121,6 +121,8 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 				public void run() {
 					dialog = new ProgressDialog(ChooseDeviceActivity.this);
 					dialog.setMessage("Starting connection.. Please wait..");
+					dialog.setCancelable(false);
+					dialog.setCanceledOnTouchOutside(false);
 					dialog.show();
 				}
 			});

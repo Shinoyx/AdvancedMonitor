@@ -2,6 +2,7 @@ package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
 
+import mehdi.sakout.dynamicbox.DynamicBox;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,31 +26,28 @@ import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 import com.securepreferences.SecurePreferences;
 
 public class DeviceListActivity extends ActionBarActivity {
-
+	DynamicBox box;
 	ArrayList<Device> devices;
 	DevicesAdapter adapter;
 	ListView lvDevices;
 	RefreshActionItem mRefreshActionItem;
+	AsyncTask<Void, Void, Void> task = new getDevice();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.device_list);
 		lvDevices = (ListView) findViewById(R.id.lvDevices);
+		box = new DynamicBox(DeviceListActivity.this, lvDevices);
 		lvDevices.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				/*
-				 * new AsyncTask<Void, Void, Void>(){
-				 * 
-				 * @Override protected Void doInBackground(Void... params) { new WebRequestAPI(DeviceListActivity.this).getDevices("1234567890"); return null; }
-				 * 
-				 * }.execute();
-				 */
 				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
+				TextView tvDescription = (TextView) view.findViewById(R.id.tvDescription);
 				Log.e("DEVICEID", tvDeviceId.getText().toString());
-				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()));
+				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()).putExtra("deviceDescription",
+						tvDescription.getText().toString().trim()));
 			}
 		});
 	}
@@ -65,7 +63,11 @@ public class DeviceListActivity extends ActionBarActivity {
 
 			@Override
 			public void onRefreshButtonClick(RefreshActionItem sender) {
-				new getDevice().execute();
+				if (task != null) {
+					task = null;
+					task = new getDevice();
+					task.execute();
+				}
 			}
 		});
 		new getDevice().execute();
@@ -92,6 +94,7 @@ public class DeviceListActivity extends ActionBarActivity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			mRefreshActionItem.showProgress(true);
+			box.showLoadingLayout();
 		}
 
 		@Override
@@ -108,11 +111,42 @@ public class DeviceListActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
-					mRefreshActionItem.showProgress(false);
-					lvDevices.setAdapter(adapter);
+					if (!isCancelled()) {
+						Log.e("Cancelled", "Not cancelled");
+						mRefreshActionItem.showProgress(false);
+						lvDevices.setAdapter(adapter);
+						//box.hideAll();
+					} else {
+						Log.e("Cancelled", "Cancelled");
+					}
 				}
 			});
 		}
-
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.e("RESUME", "RESUME");
+		try {
+			if (task != null) {
+				task.execute();
+			} else {
+				task = new getDevice();
+				task.execute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (task != null) {
+			task.cancel(true);
+			task = null;
+		}
+	}
+
 }
