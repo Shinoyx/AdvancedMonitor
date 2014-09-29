@@ -44,7 +44,7 @@ public class DeviceListActivity extends ActionBarActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
-				TextView tvDescription = (TextView) view.findViewById(R.id.tvDescription);
+				TextView tvDescription = (TextView) view.findViewById(R.id.tvDeviceDescription);
 				Log.e("DEVICEID", tvDeviceId.getText().toString());
 				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()).putExtra("deviceDescription",
 						tvDescription.getText().toString().trim()));

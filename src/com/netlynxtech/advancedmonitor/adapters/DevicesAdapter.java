@@ -3,16 +3,21 @@ package com.netlynxtech.advancedmonitor.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.netlynxtech.advancedmonitor.R;
 import com.netlynxtech.advancedmonitor.classes.Device;
+import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class DevicesAdapter extends BaseAdapter {
 	Context context;
@@ -42,14 +47,17 @@ public class DevicesAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		TextView tvDeviceId;
-		TextView tvDescription;
-		TextView tvTemperature;
-		TextView tvHumidity;
-		TextView tvVoltage;
-		ImageView ivInput1;
-		ImageView ivInput2;
-		ImageView ivOutput1;
-		ImageView ivOutput2;
+		TextView tvDeviceDescription;
+		TextView tvDeviceTemperature;
+		TextView tvDeviceHumidity;
+		TextView tvDeviceVoltage;
+		TextView tvDeviceTimestamp;
+		TextView tvInputOneDescription;
+		TextView tvInputTwoDescription;
+		ImageView ivInputOne;
+		ImageView ivInputTwo;
+		ToggleButton tOutputOne;
+		ToggleButton tOutputTwo;
 	}
 
 	@Override
@@ -59,66 +67,118 @@ public class DevicesAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.device_list_item, parent, false);
 			holder = new ViewHolder();
 			holder.tvDeviceId = (TextView) convertView.findViewById(R.id.tvDeviceId);
-			holder.tvDescription = (TextView) convertView.findViewById(R.id.tvDescription);
-			holder.tvTemperature = (TextView) convertView.findViewById(R.id.tvTemperature);
-			holder.tvHumidity = (TextView) convertView.findViewById(R.id.tvHumidity);
-			holder.tvVoltage = (TextView) convertView.findViewById(R.id.tvVoltage);
+			holder.tvDeviceDescription = (TextView) convertView.findViewById(R.id.tvDeviceDescription);
+			holder.tvDeviceTemperature = (TextView) convertView.findViewById(R.id.tvDeviceTemperature);
+			holder.tvDeviceHumidity = (TextView) convertView.findViewById(R.id.tvDeviceHumidity);
+			holder.tvDeviceVoltage = (TextView) convertView.findViewById(R.id.tvDeviceVoltage);
+			holder.tvInputOneDescription = (TextView) convertView.findViewById(R.id.tvInputOneDescription);
+			holder.tvInputTwoDescription = (TextView) convertView.findViewById(R.id.tvInputTwoDescription);
+			holder.tvDeviceTimestamp = (TextView) convertView.findViewById(R.id.tvDeviceTimestamp);
 
-			holder.ivInput1 = (ImageView) convertView.findViewById(R.id.ivInput1);
-			holder.ivInput2 = (ImageView) convertView.findViewById(R.id.ivInput2);
-			holder.ivOutput1 = (ImageView) convertView.findViewById(R.id.ivOutput1);
-			holder.ivOutput2 = (ImageView) convertView.findViewById(R.id.ivOutput2);
+			holder.ivInputOne = (ImageView) convertView.findViewById(R.id.ivInputOne);
+			holder.ivInputTwo = (ImageView) convertView.findViewById(R.id.ivInputTwo);
+			holder.tOutputOne = (ToggleButton) convertView.findViewById(R.id.tOutputOne);
+			holder.tOutputTwo = (ToggleButton) convertView.findViewById(R.id.tOutputTwo);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Device item = new Device();
-		item = data.get(position);
+		final Device item = data.get(position);
+		holder.tvDeviceTimestamp.setText(item.getTimestamp());
 		holder.tvDeviceId.setText(item.getDeviceID());
-		holder.tvDescription.setText(item.getDescription());
-		holder.tvTemperature.setText(item.getTemperature() + (char) 0x00B0 + "c");
-		holder.tvHumidity.setText(item.getHumidity() + "%");
-		holder.tvVoltage.setText(item.getVoltage() + "V");
+		holder.tvDeviceDescription.setText(item.getDescription());
+		holder.tvInputOneDescription.setText(item.getDescriptionInput1());
+		holder.tvInputTwoDescription.setText(item.getDescriptionInput2());
+		holder.tvDeviceTemperature.setText(item.getTemperature() + (char) 0x00B0 + "c");
+		holder.tvDeviceHumidity.setText(item.getHumidity() + "%");
+		holder.tvDeviceVoltage.setText(item.getVoltage() + "V");
 		if (item.getEnableInput1().equals("1")) {
 			if (item.getInput1().equals("1")) {
-				holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+				holder.ivInputOne.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
 			} else {
-				holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+				holder.ivInputOne.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			holder.ivInput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.ivInputOne.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
 
 		if (item.getEnableInput2().equals("1")) {
 			if (item.getInput2().equals("1")) {
-				holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+				holder.ivInputTwo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
 			} else {
-				holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+				holder.ivInputTwo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			holder.ivInput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.ivInputTwo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
 		}
 
 		if (item.getEnableOutput1().equals("1")) {
+			holder.tOutputOne.setEnabled(true);
+			holder.tOutputOne.setText(item.getDescriptionOutput1());
 			Log.e("OUTPUT1", "INSIDE 1");
 			if (item.getOutput1().equals("1")) {
-				holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+				holder.tOutputOne.setChecked(true);
 			} else {
-				holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+				holder.tOutputOne.setChecked(false);
 			}
 		} else {
-			Log.e("OUTPUT1", "NAH INSIDE 0");
-			holder.ivOutput1.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.tOutputOne.setText("");
+			holder.tOutputOne.setEnabled(false);
 		}
+		holder.tOutputOne.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				new AsyncTask<String, Void, Void>() {
+					String finalStatus, data;
+
+					@Override
+					protected void onPreExecute() {
+						super.onPreExecute();
+						if (item.getOutput1().equals("1")) {
+							finalStatus = "0";
+						} else {
+							finalStatus = "1";
+						}
+					}
+
+					@Override
+					protected Void doInBackground(String... params) {
+						data = new WebRequestAPI(context).SetOutput(item.getDeviceID(), "1", finalStatus);
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result) {
+						super.onPostExecute(result);
+						if (data.startsWith("success|")) {
+							if (finalStatus.equals("1")) {
+								holder.tOutputOne.setChecked(true);
+								item.setOutput1("1");
+							} else if (finalStatus.equals("0")) {
+								holder.tOutputOne.setChecked(false);
+								item.setOutput1("0");
+							}
+						} else {
+							Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+						}
+					}
+				}.execute();
+			}
+		});
 
 		if (item.getEnableOutput2().equals("1")) {
+			holder.tOutputTwo.setEnabled(true);
+			holder.tOutputTwo.setText(item.getDescriptionOutput2());
+			Log.e("OUTPUT2", "INSIDE 2");
 			if (item.getOutput2().equals("1")) {
-				holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_greendot));
+				holder.tOutputTwo.setChecked(true);
 			} else {
-				holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
+				holder.tOutputTwo.setChecked(false);
 			}
 		} else {
-			holder.ivOutput2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.tOutputTwo.setText("");
+			holder.tOutputTwo.setEnabled(false);
 		}
 		return convertView;
 	}

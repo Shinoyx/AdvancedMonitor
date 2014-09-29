@@ -25,13 +25,13 @@ public final class R {
 		public static final int include_exception_button_icon = 0x7f02007e;
 	}
 	public static final class id {
-		public static final int RelativeLayout1 = 0x7f090080;
-		public static final int RelativeLayout2 = 0x7f090081;
-		public static final int exception_Wrapper = 0x7f090082;
-		public static final int exception_button = 0x7f090085;
-		public static final int exception_message = 0x7f090084;
-		public static final int exception_progressbar = 0x7f090086;
-		public static final int exception_title = 0x7f090083;
+		public static final int RelativeLayout1 = 0x7f09008b;
+		public static final int RelativeLayout2 = 0x7f09008c;
+		public static final int exception_Wrapper = 0x7f09008d;
+		public static final int exception_button = 0x7f090090;
+		public static final int exception_message = 0x7f09008f;
+		public static final int exception_progressbar = 0x7f090091;
+		public static final int exception_title = 0x7f09008e;
 	}
 	public static final class layout {
 		public static final int exception_failure = 0x7f03001f;
