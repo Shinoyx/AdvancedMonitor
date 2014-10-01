@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@drawable/card"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/card" >
 
     <TextView
         android:id="@+id/tvDeviceDescription"
@@ -44,87 +45,14 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout1"
-        android:weightSum="3" >
-
-        <TextView
-            android:id="@+id/tvDeviceTemperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="5.7^"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvDeviceHumidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="56%"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvDeviceVoltage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="5V"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/ivInputTwo"
-        android:weightSum="3" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Temperature"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Humidity"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Voltage"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tvDeviceId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvDeviceTimestamp"
@@ -145,21 +73,61 @@
         android:layout_below="@+id/tvDeviceTimestamp"
         android:src="@drawable/ic_greendot" />
 
-    <ToggleButton
-        android:id="@+id/tOutputTwo"
+    <de.ankri.views.Switch
+        android:id="@+id/sOutputTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/tvInputOneDescription"
-        android:text="ToggleButton" />
+        android:layout_below="@+id/sOutputOne"
+        android:text="Switch"
+        app:textOff="Off"
+        app:textOn="On" />
 
-    <ToggleButton
-        android:id="@+id/tOutputOne"
+    <de.ankri.views.Switch
+        android:id="@+id/sOutputOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tOutputTwo"
-        android:layout_alignBottom="@+id/tOutputTwo"
-        android:layout_toLeftOf="@+id/tOutputTwo"
-        android:text="ToggleButton" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvInputTwoDescription"
+        android:text="Switch"
+        app:textOff="Off"
+        app:textOn="On" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivInputTwo"
+        android:layout_alignRight="@+id/sOutputTwo"
+        android:layout_below="@+id/sOutputTwo"
+        android:weightSum="3" >
+
+        <TextView
+            android:id="@+id/tvDeviceTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Temperature"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvDeviceHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Humidity"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/tvDeviceVoltage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Voltage"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
 </RelativeLayout>

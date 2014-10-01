@@ -163,7 +163,7 @@ public class ChooseDeviceActivity extends ActionBarActivity {
 					publishProgress(progressMessage);
 				}
 			});
-			
+
 			TCPClass.sendDataWithString("^B~");
 			SystemClock.sleep(3000);
 			TCPClass.sendDataWithString("^X|1|81396537|ZZ~");

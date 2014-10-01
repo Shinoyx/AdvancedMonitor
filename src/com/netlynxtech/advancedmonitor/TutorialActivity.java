@@ -13,6 +13,7 @@ import com.netlynxtech.advancedmonitor.fragments.TutorialOneFragment;
 import com.netlynxtech.advancedmonitor.fragments.TutorialTwoFragment;
 import com.securepreferences.SecurePreferences;
 
+
 public class TutorialActivity extends ActionBarActivity {
 	private static final int NUM_PAGES = 2;
 	private ViewPager mPager;

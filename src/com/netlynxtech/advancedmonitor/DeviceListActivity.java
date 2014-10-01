@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,9 +39,8 @@ public class DeviceListActivity extends ActionBarActivity {
 		lvDevices = (ListView) findViewById(R.id.lvDevices);
 		box = new DynamicBox(DeviceListActivity.this, lvDevices);
 		lvDevices.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(android.widget.AdapterView<?> parent, View view, int position, long id) {
 				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
 				TextView tvDescription = (TextView) view.findViewById(R.id.tvDeviceDescription);
 				Log.e("DEVICEID", tvDeviceId.getText().toString());
@@ -115,7 +113,7 @@ public class DeviceListActivity extends ActionBarActivity {
 						Log.e("Cancelled", "Not cancelled");
 						mRefreshActionItem.showProgress(false);
 						lvDevices.setAdapter(adapter);
-						//box.hideAll();
+						// box.hideAll();
 					} else {
 						Log.e("Cancelled", "Cancelled");
 					}

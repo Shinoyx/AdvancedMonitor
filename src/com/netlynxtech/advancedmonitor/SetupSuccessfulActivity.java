@@ -41,17 +41,19 @@ public class SetupSuccessfulActivity extends ActionBarActivity {
 
 	private class finalSetup extends AsyncTask<Void, Void, Void> {
 		String data = "";
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			data = new WebRequestAPI(SetupSuccessfulActivity.this).RegisterDevice(deviceId);
 			return null;
 		}
+
 		@Override
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			SetupSuccessfulActivity.this.runOnUiThread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					if (data.equals("success")) {
@@ -65,7 +67,6 @@ public class SetupSuccessfulActivity extends ActionBarActivity {
 				}
 			});
 		}
-		
 
 	}
 }

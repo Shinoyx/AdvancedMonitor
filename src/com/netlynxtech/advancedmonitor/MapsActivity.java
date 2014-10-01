@@ -33,10 +33,10 @@ public class MapsActivity extends ActionBarActivity {
 			googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 			double latitude = 17.385044;
 			double longitude = 78.486671;
-			 
+
 			// create marker
 			MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Hello Maps ");
-			 
+
 			// adding marker
 			googleMap.addMarker(marker);
 			if (googleMap == null) {
