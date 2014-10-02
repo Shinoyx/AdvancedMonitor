@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
         android:id="@+id/rlIndividualDevice"
@@ -10,195 +10,162 @@
         android:layout_height="wrap_content" >
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
+            android:id="@+id/rl_device_details"
             android:layout_height="wrap_content"
             android:background="@drawable/card" >
 
             <TextView
-                android:id="@+id/tvTemperature"
+                android:id="@+id/tvDeviceDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/tvTemperatureHi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/tvTemperatureLo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tvTemperature"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/relativeLayout2"
-            android:background="@drawable/card" >
-
-            <TextView
-                android:id="@+id/tvHumidity"
+            <ImageView
+                android:id="@+id/ivInputTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="Large Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_below="@+id/ivInputOne"
+                android:src="@drawable/ic_greendot" />
 
             <TextView
-                android:id="@+id/tvHumidityHi"
+                android:id="@+id/tvInputOneDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@+id/ivInputOne"
+                android:layout_alignTop="@+id/ivInputOne"
+                android:layout_toRightOf="@+id/ivInputOne"
+                android:gravity="center_vertical"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/tvHumidityLo"
+                android:id="@+id/tvInputTwoDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tvHumidityHi"
+                android:layout_alignBottom="@+id/ivInputTwo"
+                android:layout_alignLeft="@+id/tvInputOneDescription"
+                android:layout_alignTop="@+id/ivInputTwo"
+                android:gravity="center_vertical"
                 android:text="Medium Text"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/relativeLayout3"
-            android:background="@drawable/card" >
 
             <TextView
-                android:id="@+id/tvVoltage"
+                android:id="@+id/tvDeviceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="Large Text"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvDeviceTimestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvDeviceDescription"
+                android:gravity="right"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <ImageView
+                android:id="@+id/ivInputOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvDeviceTimestamp"
+                android:layout_below="@+id/tvDeviceTimestamp"
+                android:src="@drawable/ic_greendot" />
+
+            <de.ankri.views.Switch
+                android:id="@+id/sOutputTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/sOutputOne"
+                android:text="Switch"
+                app:textOff="Off"
+                app:textOn="On" />
+
+            <de.ankri.views.Switch
+                android:id="@+id/sOutputOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvInputTwoDescription"
+                android:text="Switch"
+                app:textOff="Off"
+                app:textOn="On" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/ivInputTwo"
+                android:layout_alignRight="@+id/sOutputTwo"
+                android:layout_below="@+id/sOutputTwo"
+                android:weightSum="3" >
+
+                <TextView
+                    android:id="@+id/tvDeviceTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Temperature"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/tvDeviceHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Humidity"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/tvDeviceVoltage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Voltage"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvTimestamp"
-            android:layout_width="wrap_content"
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/graph_device"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/relativeLayout1"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tvTimestamp"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <ImageView
-            android:id="@+id/ivInput1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tvLocation"
-            android:src="@drawable/ic_greendot" />
-
-        <ImageView
-            android:id="@+id/ivInput2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ivInput1"
-            android:src="@drawable/ic_greendot" />
-
-        <TextView
-            android:id="@+id/tvInput1Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/ivInput2"
-            android:layout_alignLeft="@+id/tvOutput2Description"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/tvInput2Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ivInput2"
-            android:layout_alignLeft="@+id/tvInput1Description"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <ImageView
-            android:id="@+id/ivOutput1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ivInput2"
-            android:src="@drawable/ic_greendot" />
-
-        <TextView
-            android:id="@+id/tvOutput1Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ivOutput1"
-            android:layout_alignLeft="@+id/tvInput2Description"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <ImageView
-            android:id="@+id/ivOutput2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ivOutput1"
-            android:src="@drawable/ic_greendot" />
-
-        <TextView
-            android:id="@+id/tvOutput2Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/ivOutput2"
-            android:layout_toRightOf="@+id/ivOutput2"
-            android:padding="8dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvOutput2Description"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/relativeLayout4"
-            android:layout_marginLeft="25dp" >
-        </RelativeLayout>
+            android:layout_below="@+id/rl_device_details"
+            androidPlot.domainLabel="Domain"
+            androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
+            androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/domain_tick_label_font_size"
+            androidPlot.graphWidget.domainOriginLabelPaint.textSize="@dimen/domain_tick_label_font_size"
+            androidPlot.graphWidget.gridLinePaint.color="#000000"
+            androidPlot.graphWidget.marginBottom="25dp"
+            androidPlot.graphWidget.marginLeft="15dp"
+            androidPlot.graphWidget.marginRight="10dp"
+            androidPlot.graphWidget.marginTop="20dp"
+            androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
+            androidPlot.graphWidget.rangeOriginLabelPaint.textSize="@dimen/range_tick_label_font_size"
+            androidPlot.legendWidget.heightMetric.value="25dp"
+            androidPlot.legendWidget.iconSizeMetrics.heightMetric.value="15dp"
+            androidPlot.legendWidget.iconSizeMetrics.widthMetric.value="15dp"
+            androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
+            androidPlot.legendWidget.textPaint.textSize="@dimen/legend_text_font_size"
+            androidPlot.rangeLabel="Range"
+            androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
+            androidPlot.title="A Simple XY Plot"
+            androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.netlynxtech.advancedmonitor.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
@@ -86,13 +87,25 @@ public class DevicesAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final Device item = data.get(position);
+		
 		holder.tvDeviceTimestamp.setText(item.getTimestamp());
 		holder.tvDeviceId.setText(item.getDeviceID());
 		holder.tvDeviceDescription.setText(item.getDescription());
 		holder.tvInputOneDescription.setText(item.getDescriptionInput1());
 		holder.tvInputTwoDescription.setText(item.getDescriptionInput2());
+
 		holder.tvDeviceTemperature.setText(Html.fromHtml("Temperature<br>" + item.getTemperature() + (char) 0x00B0 + "c"));
+		float temperatureCurrent = Float.parseFloat(item.getTemperature());
+		float temperatureHi = Float.parseFloat(item.getTemperatureHi());
+		if (temperatureCurrent > temperatureHi) {
+			holder.tvDeviceTemperature.setTextColor(Color.RED);
+		}
 		holder.tvDeviceHumidity.setText(Html.fromHtml("Humidity<br>" + item.getHumidity() + "%"));
+		float humidityCurrent = Float.parseFloat(item.getHumidity());
+		float humidityHi = Float.parseFloat(item.getHumidityHi());
+		if (humidityCurrent > humidityHi) {
+			holder.tvDeviceHumidity.setTextColor(Color.RED);
+		}
 		holder.tvDeviceVoltage.setText(Html.fromHtml("Voltage<br>" + item.getVoltage() + "V"));
 		if (item.getEnableInput1().equals("1")) {
 			if (item.getInput1().equals("1")) {

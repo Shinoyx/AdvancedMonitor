@@ -1,8 +1,12 @@
 package com.netlynxtech.advancedmonitor.classes;
 
-public class Device {
+import java.io.Serializable;
 
-	String version, deviceID, description, temperature, humidity, voltage, input1, descriptionInput1, input2, descriptionInput2, output1, descriptionOutput1, output2, descriptionOutput2, timestamp, enableTemperature, enableHumidity, enableInput1, enableInput2, enableOutput1, enableOutput2, temperatureHi, temperatureLo, humidityHi, humidityLo, reverseLogicInput1, reverseLogicInput2, reverseLogicOutput1, reverseLogicOutput2, temperatureState, humidityState, latitude, longitude;
+public class Device implements Serializable {
+
+	String version, deviceID, description, temperature, humidity, voltage, input1, descriptionInput1, input2, descriptionInput2, output1, descriptionOutput1, output2, descriptionOutput2, timestamp,
+			enableTemperature, enableHumidity, enableInput1, enableInput2, enableOutput1, enableOutput2, temperatureHi, temperatureLo, humidityHi, humidityLo, reverseLogicInput1, reverseLogicInput2,
+			reverseLogicOutput1, reverseLogicOutput2, temperatureState, humidityState, latitude, longitude;
 
 	public String getVersion() {
 		return version;

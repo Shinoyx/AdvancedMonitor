@@ -44,8 +44,9 @@ public class DeviceListActivity extends ActionBarActivity {
 				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
 				TextView tvDescription = (TextView) view.findViewById(R.id.tvDeviceDescription);
 				Log.e("DEVICEID", tvDeviceId.getText().toString());
+				Device d = devices.get(position);
 				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim()).putExtra("deviceDescription",
-						tvDescription.getText().toString().trim()));
+						tvDescription.getText().toString().trim()).putExtra("device", d));
 			}
 		});
 	}
