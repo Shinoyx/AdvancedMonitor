@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.netlynxtech.advancedmonitor.R;
 import com.netlynxtech.advancedmonitor.classes.Device;
+import com.netlynxtech.advancedmonitor.classes.Utils;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 import de.ankri.views.Switch;
@@ -57,6 +58,8 @@ public class DevicesAdapter extends BaseAdapter {
 		TextView tvDeviceTimestamp;
 		TextView tvInputOneDescription;
 		TextView tvInputTwoDescription;
+		TextView tvOutputOneDescription;
+		TextView tvOutputTwoDescription;
 		ImageView ivInputOne;
 		ImageView ivInputTwo;
 		Switch sOutputOne;
@@ -76,6 +79,8 @@ public class DevicesAdapter extends BaseAdapter {
 			holder.tvDeviceVoltage = (TextView) convertView.findViewById(R.id.tvDeviceVoltage);
 			holder.tvInputOneDescription = (TextView) convertView.findViewById(R.id.tvInputOneDescription);
 			holder.tvInputTwoDescription = (TextView) convertView.findViewById(R.id.tvInputTwoDescription);
+			holder.tvOutputOneDescription = (TextView) convertView.findViewById(R.id.tvOutputOneDescription);
+			holder.tvOutputTwoDescription = (TextView) convertView.findViewById(R.id.tvOutputTwoDescription);
 			holder.tvDeviceTimestamp = (TextView) convertView.findViewById(R.id.tvDeviceTimestamp);
 
 			holder.ivInputOne = (ImageView) convertView.findViewById(R.id.ivInputOne);
@@ -87,8 +92,8 @@ public class DevicesAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final Device item = data.get(position);
-		
-		holder.tvDeviceTimestamp.setText(item.getTimestamp());
+
+		holder.tvDeviceTimestamp.setText(Utils.parseTime(item.getTimestamp()));
 		holder.tvDeviceId.setText(item.getDeviceID());
 		holder.tvDeviceDescription.setText(item.getDescription());
 		holder.tvInputOneDescription.setText(item.getDescriptionInput1());
@@ -129,7 +134,7 @@ public class DevicesAdapter extends BaseAdapter {
 
 		if (item.getEnableOutput1().equals("1")) {
 			holder.sOutputOne.setEnabled(true);
-			holder.sOutputOne.setText(item.getDescriptionOutput1().trim());
+			holder.tvOutputOneDescription.setText(item.getDescriptionOutput1().trim());
 			Log.e("OUTPUT1", "INSIDE 1");
 			if (item.getOutput1().equals("1")) {
 				holder.sOutputOne.setChecked(true);
@@ -137,13 +142,15 @@ public class DevicesAdapter extends BaseAdapter {
 				holder.sOutputOne.setChecked(false);
 			}
 		} else {
-			holder.sOutputOne.setText("");
-			holder.sOutputOne.setEnabled(false);
+
+			holder.sOutputOne.setVisibility(View.GONE);
+			holder.tvOutputOneDescription.setVisibility(View.GONE);
 		}
 		holder.sOutputOne.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				holder.sOutputOne.setEnabled(false);
 				new AsyncTask<String, Void, Void>() {
 					String finalStatus, data;
 
@@ -166,6 +173,7 @@ public class DevicesAdapter extends BaseAdapter {
 					@Override
 					protected void onPostExecute(Void result) {
 						super.onPostExecute(result);
+						holder.sOutputOne.setEnabled(true);
 						if (data.startsWith("success|")) {
 							if (finalStatus.equals("1")) {
 								holder.sOutputOne.setChecked(true);
@@ -175,6 +183,11 @@ public class DevicesAdapter extends BaseAdapter {
 								item.setOutput1("0");
 							}
 						} else {
+							if (finalStatus.equals("1")) {
+								holder.sOutputOne.setChecked(false);
+							} else if (finalStatus.equals("0")) {
+								holder.sOutputOne.setChecked(true);
+							}
 							Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
 						}
 					}
@@ -184,7 +197,7 @@ public class DevicesAdapter extends BaseAdapter {
 
 		if (item.getEnableOutput2().equals("1")) {
 			holder.sOutputTwo.setEnabled(true);
-			holder.sOutputTwo.setText(item.getDescriptionOutput2().trim());
+			holder.tvOutputTwoDescription.setText(item.getDescriptionOutput2().trim());
 			Log.e("OUTPUT2", "INSIDE 2");
 			if (item.getOutput2().equals("1")) {
 				holder.sOutputTwo.setChecked(true);
@@ -192,13 +205,14 @@ public class DevicesAdapter extends BaseAdapter {
 				holder.sOutputTwo.setChecked(false);
 			}
 		} else {
-			holder.sOutputTwo.setText("");
-			holder.sOutputTwo.setEnabled(false);
+			holder.sOutputTwo.setVisibility(View.GONE);
+			holder.tvOutputTwoDescription.setVisibility(View.GONE);
 		}
 		holder.sOutputTwo.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				holder.sOutputTwo.setEnabled(false);
 				new AsyncTask<String, Void, Void>() {
 					String finalStatus, data;
 
@@ -221,6 +235,7 @@ public class DevicesAdapter extends BaseAdapter {
 					@Override
 					protected void onPostExecute(Void result) {
 						super.onPostExecute(result);
+						holder.sOutputTwo.setEnabled(false);
 						if (data.startsWith("success|")) {
 							if (finalStatus.equals("1")) {
 								holder.sOutputTwo.setChecked(true);
@@ -230,6 +245,11 @@ public class DevicesAdapter extends BaseAdapter {
 								item.setOutput2("0");
 							}
 						} else {
+							if (finalStatus.equals("1")) {
+								holder.sOutputTwo.setChecked(false);
+							} else if (finalStatus.equals("0")) {
+								holder.sOutputTwo.setChecked(true);
+							}
 							Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
 						}
 					}

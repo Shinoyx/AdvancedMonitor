@@ -58,7 +58,7 @@ public class DeviceListActivity extends ActionBarActivity {
 				public void run() {
 					if (!Thread.interrupted())
 						try {
-							Thread.sleep(20000);
+							Thread.sleep(15000);
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
@@ -90,6 +90,13 @@ public class DeviceListActivity extends ActionBarActivity {
 			SecurePreferences sp = new SecurePreferences(DeviceListActivity.this);
 			sp.edit().putString("initial", "0").commit();
 			startActivity(new Intent(DeviceListActivity.this, TutorialActivity.class));
+			break;
+		case R.id.menu_add_members:
+			Bundle information = new Bundle();
+			Intent i = new Intent(DeviceListActivity.this, MemberAddNewActivity.class);
+			information.putSerializable("devices", devices);
+			i.putExtras(information);
+			startActivity(i);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

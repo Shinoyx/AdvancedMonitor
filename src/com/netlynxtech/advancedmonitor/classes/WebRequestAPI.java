@@ -27,6 +27,51 @@ public class WebRequestAPI {
 		return locationList;
 	}
 
+	public ArrayList<HashMap<String, String>> GetChartData(String deviceId, String dateFrom, String dateTo, int slot) {
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETCHARTDATA_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId);
+		rpc.addProperty("dateFrom", dateFrom);
+		rpc.addProperty("dateTo", dateTo);
+		rpc.addProperty("numSlots", slot);
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_GETCHARTDATA_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+			HashMap<String, String> map;
+			for (int i = 0; i < result.getPropertyCount(); i++) {
+				SoapObject object = (SoapObject) result.getProperty(i);
+				map = new HashMap<String, String>();
+				map.put(Consts.GETDEVICES_TEMPERATURE, object.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
+				map.put(Consts.GETDEVICES_HUMIDITY, object.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
+				map.put(Consts.GETDEVICES_DATATIMESTAMP, object.getProperty(Consts.GETDEVICES_DATATIMESTAMP).toString());
+				list.add(map);
+			}
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return list;
+	}
+
 	public String requestPin() {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REGISTERDEVICE_METHOD_NAME); // create new soap object
 		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId()); // set parameter
@@ -41,7 +86,7 @@ public class WebRequestAPI {
 		try {
 			// //Log.e("WebRequest", "TRY!");
 			ht.call(Consts.NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION, envelope); // call web request
-			 System.err.println(ht.responseDump);
+			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse(); // get response
 			// Log.e("RESULT", result.toString());
 			// Log.e("COUNT", result.getPropertyCount() + "");
@@ -74,7 +119,7 @@ public class WebRequestAPI {
 		Log.e("DEVICEID", deviceId);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
-		
+
 		envelope.setOutputSoapObject(rpc);
 		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
 		Log.e("Calling to", Consts.NOISELYNX_API_URL);
@@ -397,7 +442,7 @@ public class WebRequestAPI {
 			return e.getMessage();
 		}
 	}
-	
+
 	public ArrayList<HashMap<String, String>> getDevices(String udid) {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETDEVICES_METHOD_NAME);

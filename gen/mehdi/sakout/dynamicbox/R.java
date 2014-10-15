@@ -8,14 +8,14 @@ package mehdi.sakout.dynamicbox;
 
 public final class R {
 	public static final class color {
-		public static final int exception_button_color = 0x7f090003;
-		public static final int exception_button_color_second = 0x7f090004;
-		public static final int exception_message_color = 0x7f090006;
-		public static final int exception_title_color = 0x7f090005;
+		public static final int exception_button_color = 0x7f06000c;
+		public static final int exception_button_color_second = 0x7f06000d;
+		public static final int exception_message_color = 0x7f06000f;
+		public static final int exception_title_color = 0x7f06000e;
 	}
 	public static final class dimen {
-		public static final int activity_horizontal_margin = 0x7f0a0015;
-		public static final int activity_vertical_margin = 0x7f0a0016;
+		public static final int activity_horizontal_margin = 0x7f070017;
+		public static final int activity_vertical_margin = 0x7f070018;
 	}
 	public static final class drawable {
 		public static final int exception_button_with_focus = 0x7f020070;
@@ -25,28 +25,28 @@ public final class R {
 		public static final int include_exception_button_icon = 0x7f02007e;
 	}
 	public static final class id {
-		public static final int RelativeLayout1 = 0x7f070078;
-		public static final int RelativeLayout2 = 0x7f070079;
-		public static final int exception_Wrapper = 0x7f07007a;
-		public static final int exception_button = 0x7f07007d;
-		public static final int exception_message = 0x7f07007c;
-		public static final int exception_progressbar = 0x7f07007e;
-		public static final int exception_title = 0x7f07007b;
+		public static final int RelativeLayout1 = 0x7f0a0084;
+		public static final int RelativeLayout2 = 0x7f0a0085;
+		public static final int exception_Wrapper = 0x7f0a0086;
+		public static final int exception_button = 0x7f0a0089;
+		public static final int exception_message = 0x7f0a0088;
+		public static final int exception_progressbar = 0x7f0a008a;
+		public static final int exception_title = 0x7f0a0087;
 	}
 	public static final class layout {
-		public static final int exception_failure = 0x7f03001f;
-		public static final int exception_loading_content = 0x7f030020;
-		public static final int exception_no_internet = 0x7f030021;
+		public static final int exception_failure = 0x7f030022;
+		public static final int exception_loading_content = 0x7f030023;
+		public static final int exception_no_internet = 0x7f030024;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f05000f;
-		public static final int empty_string = 0x7f050010;
-		public static final int retry = 0x7f050011;
+		public static final int app_name = 0x7f08000f;
+		public static final int empty_string = 0x7f080010;
+		public static final int retry = 0x7f080011;
 	}
 	public static final class style {
-		public static final int exception = 0x7f060090;
-		public static final int exception_button = 0x7f060093;
-		public static final int exception_message = 0x7f060092;
-		public static final int exception_title = 0x7f060091;
+		public static final int exception = 0x7f090090;
+		public static final int exception_button = 0x7f090093;
+		public static final int exception_message = 0x7f090092;
+		public static final int exception_title = 0x7f090091;
 	}
 }

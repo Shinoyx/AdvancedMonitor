@@ -43,6 +43,9 @@ public class Consts {
 	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_SOAP_ACTION = "http://NetlynxTech.com/UpdateDescriptions";
 	final static public String NOISELYNX_API_UPDATEDESCRIPTIONS_METHOD_NAME = "UpdateDescriptions";
 
+	final static public String NOISELYNX_API_GETCHARTDATA_SOAP_ACTION = "http://NetlynxTech.com/GetChartData";
+	final static public String NOISELYNX_API_GETCHARTDATA_METHOD_NAME = "GetChartData";
+
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";
 	final static public String ERRORCODE = "ErrorCode";
@@ -80,6 +83,7 @@ public class Consts {
 	final static public String GETDEVICES_TEMPERATURESTATE = "TemperatureState";
 	final static public String GETDEVICES_LATITUDE = "Latitude";
 	final static public String GETDEVICES_LONGITUDE = "Longitude";
+	final static public String GETDEVICES_DATATIMESTAMP = "DataTimestamp";
 
 	final static public String NOISELYNX_API_CHECKPIN_SOAP_ACTION = "http://NetlynxTech.com/CheckPIN";
 	final static public String NOISELYNX_API_CHECKPIN_METHOD_NAME = "CheckPIN";

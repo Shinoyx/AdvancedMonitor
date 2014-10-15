@@ -1,16 +1,17 @@
 package com.netlynxtech.advancedmonitor.classes;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.securepreferences.SecurePreferences;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,12 +24,52 @@ import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.securepreferences.SecurePreferences;
+
 public class Utils {
 
 	Context context;
 
 	public Utils(Context con) {
 		this.context = con;
+	}
+
+	public static Calendar currentTime() {
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		c.setTimeInMillis(System.currentTimeMillis());
+
+		// http://stackoverflow.com/a/11677405
+		// http://www.objectdefinitions.com/odblog/2007/converting-java-dates-to-xml-schema-datetime-with-timezone/
+		return c;
+	}
+
+	public static String getCurrentDateTime() {
+		long unixTime = System.currentTimeMillis() / 1000L;
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ENGLISH);
+		df.setTimeZone(tz);
+		String nowAsISO = df.format(new Date());
+		Log.e("From", String.valueOf(unixTime));
+		return String.valueOf(unixTime);
+	}
+
+	public static String getCustomDateTime() {
+		String nowAsISO = null;
+		return String.valueOf((System.currentTimeMillis() - 3600000) / 1000L);
+
+	}
+
+	public static String parseTime(String datetime) {
+		final String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+		final SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+		try {
+			SimpleDateFormat outFormatter;
+			outFormatter = new SimpleDateFormat("d MMMM yyyy HH:mm", Locale.getDefault()); // 24 hour
+			Date d = sdf.parse(datetime);
+			return outFormatter.format(d).toString();
+		} catch (Exception e) {
+			return datetime;
+		}
 	}
 
 	public String getDeviceUniqueId() {
@@ -108,6 +149,30 @@ public class Utils {
 			return outFormatter.format(d).toString();
 		} catch (Exception e) {
 			return datetime;
+		}
+	}
+
+	public void setGCMID(String id) {
+		SecurePreferences sp = new SecurePreferences(context);
+		sp.edit().putString(Consts.PREFERENCES_GCMID, id).commit();
+	}
+
+	public String getDeviceId() {
+		SecurePreferences sp = new SecurePreferences(context);
+		if (sp.getString("deviceId", "").equals("")) {
+			final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+			final String tmDevice, tmSerial, androidId;
+			tmDevice = "" + tm.getDeviceId();
+			tmSerial = "" + tm.getSimSerialNumber();
+			androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+
+			UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+			String deviceId = deviceUuid.toString();
+			sp.edit().putString("deviceId", deviceId).commit();
+			return deviceId;
+		} else {
+			return sp.getString("deviceId", "");
 		}
 	}
 }

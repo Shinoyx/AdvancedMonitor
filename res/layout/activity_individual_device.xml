@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
+            android:id="@+id/llIndividualDevice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/rlIndividualDevice"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
             android:id="@+id/rl_device_details"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/card" >
 
@@ -24,36 +42,6 @@
                 android:layout_alignParentTop="true"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <ImageView
-                android:id="@+id/ivInputTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/ivInputOne"
-                android:src="@drawable/ic_greendot" />
-
-            <TextView
-                android:id="@+id/tvInputOneDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivInputOne"
-                android:layout_alignTop="@+id/ivInputOne"
-                android:layout_toRightOf="@+id/ivInputOne"
-                android:gravity="center_vertical"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/tvInputTwoDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/ivInputTwo"
-                android:layout_alignLeft="@+id/tvInputOneDescription"
-                android:layout_alignTop="@+id/ivInputTwo"
-                android:gravity="center_vertical"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/tvDeviceId"
@@ -75,31 +63,80 @@
                 android:text="Small Text"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
+            <TextView
+                android:id="@+id/tvInputOneDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvDeviceTimestamp"
+                android:gravity="center_vertical"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
             <ImageView
                 android:id="@+id/ivInputOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvDeviceTimestamp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvInputOneDescription"
+                android:src="@drawable/ic_greendot" />
+
+            <TextView
+                android:id="@+id/tvOutputOneDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/tvDeviceTimestamp"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvInputTwoDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/ivInputOne"
+                android:gravity="center_vertical"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvOutputTwoDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tvInputTwoDescription"
+                android:layout_alignBottom="@+id/tvInputTwoDescription"
+                android:layout_alignParentRight="true"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <de.ankri.views.Switch
+                android:id="@+id/sOutputOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ivInputOne"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvOutputOneDescription"
+                android:gravity="center_vertical"
+                app:textOff="Off"
+                app:textOn="On" />
+
+            <ImageView
+                android:id="@+id/ivInputTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvInputTwoDescription"
+                android:layout_below="@+id/tvInputTwoDescription"
                 android:src="@drawable/ic_greendot" />
 
             <de.ankri.views.Switch
                 android:id="@+id/sOutputTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/sOutputOne"
-                android:text="Switch"
-                app:textOff="Off"
-                app:textOn="On" />
-
-            <de.ankri.views.Switch
-                android:id="@+id/sOutputOne"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/tvInputTwoDescription"
-                android:text="Switch"
+                android:layout_alignBottom="@+id/ivInputTwo"
+                android:layout_alignRight="@+id/tvOutputTwoDescription"
+                android:layout_below="@+id/tvOutputTwoDescription"
+                android:gravity="center_vertical"
                 app:textOff="Off"
                 app:textOn="On" />
 
@@ -108,8 +145,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/ivInputTwo"
-                android:layout_alignRight="@+id/sOutputTwo"
-                android:layout_below="@+id/sOutputTwo"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/ivInputTwo"
                 android:weightSum="3" >
 
                 <TextView
@@ -140,32 +177,6 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </RelativeLayout>
-
-        <com.androidplot.xy.XYPlot
-            android:id="@+id/graph_device"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_device_details"
-            androidPlot.domainLabel="Domain"
-            androidPlot.domainLabelWidget.labelPaint.textSize="@dimen/domain_label_font_size"
-            androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/domain_tick_label_font_size"
-            androidPlot.graphWidget.domainOriginLabelPaint.textSize="@dimen/domain_tick_label_font_size"
-            androidPlot.graphWidget.gridLinePaint.color="#000000"
-            androidPlot.graphWidget.marginBottom="25dp"
-            androidPlot.graphWidget.marginLeft="15dp"
-            androidPlot.graphWidget.marginRight="10dp"
-            androidPlot.graphWidget.marginTop="20dp"
-            androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/range_tick_label_font_size"
-            androidPlot.graphWidget.rangeOriginLabelPaint.textSize="@dimen/range_tick_label_font_size"
-            androidPlot.legendWidget.heightMetric.value="25dp"
-            androidPlot.legendWidget.iconSizeMetrics.heightMetric.value="15dp"
-            androidPlot.legendWidget.iconSizeMetrics.widthMetric.value="15dp"
-            androidPlot.legendWidget.positionMetrics.anchor="right_bottom"
-            androidPlot.legendWidget.textPaint.textSize="@dimen/legend_text_font_size"
-            androidPlot.rangeLabel="Range"
-            androidPlot.rangeLabelWidget.labelPaint.textSize="@dimen/range_label_font_size"
-            androidPlot.title="A Simple XY Plot"
-            androidPlot.titleWidget.labelPaint.textSize="@dimen/title_font_size" />
     </RelativeLayout>
 
 </RelativeLayout>
