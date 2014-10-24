@@ -27,6 +27,49 @@ public class WebRequestAPI {
 		return locationList;
 	}
 
+	public ArrayList<DeviceRequest> ListMemberRequests() {
+		ArrayList<DeviceRequest> list = new ArrayList<DeviceRequest>();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_LISTMEMBERREQUESTS_METHOD_NAME);
+		rpc.addProperty("udid", new Utils(context).getDeviceUniqueId());
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_LISTMEMBERREQUESTS_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+
+			for (int i = 0; i < result.getPropertyCount(); i++) {
+				SoapObject object = (SoapObject) result.getProperty(i);
+				DeviceRequest d = new DeviceRequest();
+				d.setDeviceId(object.getProperty(Consts.GETDEVICES_DEVICEID).toString());
+				d.setDeviceName(object.getProperty(Consts.GETDEVICES_DEVICENAME).toString());
+				d.setRequestorName(object.getProperty(Consts.REQUESTORNAME).toString());
+				d.setRole(object.getProperty(Consts.ROLE).toString());
+				d.setTimestamp(object.getProperty(Consts.REQUESTORTIMESTAMP).toString());
+				list.add(d);
+			}
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return list;
+	}
+
 	public ArrayList<HashMap<String, String>> GetChartData(String deviceId, String dateFrom, String dateTo, int slot) {
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETCHARTDATA_METHOD_NAME);
@@ -70,6 +113,155 @@ public class WebRequestAPI {
 			// return e.getMessage();
 		}
 		return list;
+	}
+
+	public String RespondToMemberRequest (String deviceId, String responseType, String remarks) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_RESPONDTOMEMBERREQUEST_METHOD_NAME); // create new soap object
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId); // set parameter
+		rpc.addProperty("requestResponseType", responseType); // set parameter
+		rpc.addProperty("remarks", remarks); // set parameter
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			Log.e("WebRequest", "RegisterUser");
+			ht.call(Consts.NOISELYNX_API_RESPONDTOMEMBERREQUEST_SOAP_ACTION, envelope); // call web request
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			Log.e("RESULT", result.toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+	
+	public String RequestPin(String mobileNo) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REQUESTPIN_METHOD_NAME); // create new soap object
+		rpc.addProperty("handphone", mobileNo); // set parameter
+		rpc.addProperty("deviceType", 1); // set parameter
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			Log.e("WebRequest", "RegisterUser");
+			ht.call(Consts.NOISELYNX_API_REQUESTPIN_SOAP_ACTION, envelope); // call web request
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			Log.e("RESULT", result.toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+
+	public String AssignMemberToDevice(String mobileNo, String deviceId, String role) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_ASSIGNMEMBERTODEVICEN_METHOD_NAME); // create new soap object
+		rpc.addProperty("handphone", mobileNo); // set parameter
+		rpc.addProperty("deviceID", deviceId); // set parameter
+		rpc.addProperty("role", Integer.parseInt(role)); // set parameter
+		rpc.addProperty("requesterUDID", new Utils(context).getDeviceUniqueId()); // set parameter
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			Log.e("WebRequest", "AssignMemberToDevice");
+			ht.call(Consts.NOISELYNX_API_ASSIGNMEMBERTODEVICE_SOAP_ACTION, envelope); // call web request
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			Log.e("RESULT", result.toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+
+	public String VerifyPin(String pin) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_VERIFYPIN_METHOD_NAME); // create new soap object
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId()); // set parameter
+		rpc.addProperty("handphone", new Utils(context).getHandphoneNumber()); // set parameter
+		rpc.addProperty("PIN", pin.trim()); // set parameter
+		rpc.addProperty("GCMID", new Utils(context).getGCMID()); // set parameter
+		rpc.addProperty("name", "Test"); // set parameter
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_VERIFYPIN_SOAP_ACTION, envelope); // call web request
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			Log.e("RESULT", result.toString());
+			// Log.e("COUNT", result.getPropertyCount() + "");
+			// Log.e("COUNT", result.getProperty(0).toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
 	}
 
 	public String requestPin() {

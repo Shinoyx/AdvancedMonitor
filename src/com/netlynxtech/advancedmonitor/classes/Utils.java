@@ -1,5 +1,6 @@
 package com.netlynxtech.advancedmonitor.classes;
 
+import com.netlynxtech.advancedmonitor.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,14 +14,19 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -32,6 +38,12 @@ public class Utils {
 
 	public Utils(Context con) {
 		this.context = con;
+	}
+
+	public static String getTimeFromDateTime(String datetime) {
+		String time = "";
+		String[] d = datetime.split("");
+		return d[1];
 	}
 
 	public static Calendar currentTime() {
@@ -79,6 +91,7 @@ public class Utils {
 			id = getUnique();
 			sp.edit().putString(Consts.PREFERENCES_UDID, id).commit();
 		}
+		Log.e("Unique ID", id);
 		return id;
 	}
 
@@ -157,22 +170,54 @@ public class Utils {
 		sp.edit().putString(Consts.PREFERENCES_GCMID, id).commit();
 	}
 
-	public String getDeviceId() {
+	public void setPhoneNumber(String id) {
 		SecurePreferences sp = new SecurePreferences(context);
-		if (sp.getString("deviceId", "").equals("")) {
-			final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		sp.edit().putString(Consts.PREFERENCES_PHONE_NO, id).commit();
+	}
 
-			final String tmDevice, tmSerial, androidId;
-			tmDevice = "" + tm.getDeviceId();
-			tmSerial = "" + tm.getSimSerialNumber();
-			androidId = "" + android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+	public String getHandphoneNumber() {
+		SecurePreferences sp = new SecurePreferences(context);
+		String id = sp.getString(Consts.PREFERENCES_PHONE_NO, "");
+		return id;
+	}
 
-			UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
-			String deviceId = deviceUuid.toString();
-			sp.edit().putString("deviceId", deviceId).commit();
-			return deviceId;
+	public String getGCMID() {
+		SecurePreferences sp = new SecurePreferences(context);
+		String id = sp.getString(Consts.PREFERENCES_GCMID, "");
+		return id;
+	}
+
+	public void showNotifications(String shortTitle, String title, String message) {
+		SecurePreferences sp = new SecurePreferences(context);
+		long[] vibration;
+		if (sp.getBoolean("pref_vibration", false)) {
+			vibration = new long[] { 100, 250, 100, 500 };
 		} else {
-			return sp.getString("deviceId", "");
+			vibration = new long[] { 0 };
+		}
+		SharedPreferences getAlarms = PreferenceManager.getDefaultSharedPreferences(context);
+		String alarms = getAlarms.getString("pref_notification", "default ringtone");
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		Intent myIntent = new Intent(context, ReceivedMemberPermissionActivity.class);
+		myIntent.putExtra("notification", "true");
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, myIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+		NotificationCompat.Builder myNotification = new NotificationCompat.Builder(context);
+		myNotification.setContentTitle(title).setContentText(message).setTicker(shortTitle).setWhen(System.currentTimeMillis()).setContentIntent(pendingIntent).setAutoCancel(true)
+				.setSmallIcon(R.drawable.ic_launcher).setSound(Uri.parse(alarms)).setVibrate(vibration);
+
+		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.notify(999, myNotification.build());
+
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+		if (settings.getBoolean("pref_force_sound", false)) {
+			AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+			switch (am.getRingerMode()) {
+			case AudioManager.RINGER_MODE_SILENT:
+			case AudioManager.RINGER_MODE_VIBRATE:
+				// playNotificationSound();
+				break;
+			}
 		}
 	}
 }

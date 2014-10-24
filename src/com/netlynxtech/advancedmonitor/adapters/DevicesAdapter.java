@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -119,7 +121,8 @@ public class DevicesAdapter extends BaseAdapter {
 				holder.ivInputOne.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			holder.ivInputOne.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.tvInputOneDescription.setVisibility(View.GONE);
+			holder.ivInputOne.setVisibility(View.GONE);
 		}
 
 		if (item.getEnableInput2().equals("1")) {
@@ -129,7 +132,8 @@ public class DevicesAdapter extends BaseAdapter {
 				holder.ivInputTwo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			holder.ivInputTwo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_emptydot));
+			holder.tvInputTwoDescription.setVisibility(View.GONE);
+			holder.ivInputTwo.setVisibility(View.GONE);
 		}
 
 		if (item.getEnableOutput1().equals("1")) {
@@ -142,14 +146,13 @@ public class DevicesAdapter extends BaseAdapter {
 				holder.sOutputOne.setChecked(false);
 			}
 		} else {
-
 			holder.sOutputOne.setVisibility(View.GONE);
 			holder.tvOutputOneDescription.setVisibility(View.GONE);
 		}
-		holder.sOutputOne.setOnClickListener(new OnClickListener() {
+		holder.sOutputOne.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				holder.sOutputOne.setEnabled(false);
 				new AsyncTask<String, Void, Void>() {
 					String finalStatus, data;
@@ -208,10 +211,10 @@ public class DevicesAdapter extends BaseAdapter {
 			holder.sOutputTwo.setVisibility(View.GONE);
 			holder.tvOutputTwoDescription.setVisibility(View.GONE);
 		}
-		holder.sOutputTwo.setOnClickListener(new OnClickListener() {
+		holder.sOutputTwo.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
-			public void onClick(View v) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				holder.sOutputTwo.setEnabled(false);
 				new AsyncTask<String, Void, Void>() {
 					String finalStatus, data;

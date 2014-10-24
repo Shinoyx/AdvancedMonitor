@@ -1,45 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="8dp"
     android:layout_height="match_parent" >
 
     <EditText
         android:id="@+id/etPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textView1"
         android:ems="10"
+        android:hint="Handphone Number"
         android:inputType="phone" >
 
         <requestFocus />
     </EditText>
 
-    <Button
-        android:id="@+id/bRequest"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/sRoles"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/etPhoneNumber"
-        android:text="Button" />
+        android:entries="@array/roles_array_text_string" />
 
     <Spinner
-        android:id="@+id/sRoles"
-        android:layout_width="wrap_content"
-        android:entries="@array/roles_array_text_string"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bRequest" />
-
-    <LinearLayout
-        android:id="@+id/ll_devices_checkboxes"
+        android:id="@+id/sDevices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/sRoles"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:layout_below="@+id/sRoles" />
+
+    <Button
+        android:id="@+id/bSendRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Send Request" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/etPhoneNumber"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="+65"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

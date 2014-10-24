@@ -13,7 +13,6 @@ import com.netlynxtech.advancedmonitor.fragments.TutorialOneFragment;
 import com.netlynxtech.advancedmonitor.fragments.TutorialTwoFragment;
 import com.securepreferences.SecurePreferences;
 
-
 public class TutorialActivity extends ActionBarActivity {
 	private static final int NUM_PAGES = 2;
 	private ViewPager mPager;
@@ -23,7 +22,8 @@ public class TutorialActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SecurePreferences sp = new SecurePreferences(TutorialActivity.this);
-		if (sp.getString("initial", "0").equals("1")) {
+
+		if (sp.getString("initial", "0").equals("1") && !getIntent().hasExtra("addNew")) {
 			startActivity(new Intent(TutorialActivity.this, DeviceListActivity.class));
 			finish();
 		}

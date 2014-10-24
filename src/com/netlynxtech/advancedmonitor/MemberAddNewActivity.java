@@ -1,65 +1,114 @@
 package com.netlynxtech.advancedmonitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.netlynxtech.advancedmonitor.classes.Device;
+import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class MemberAddNewActivity extends ActionBarActivity {
 	ArrayList<Device> devices;
-	LinearLayout ll_devices_checkboxes;
-	Spinner sRoles;
+	Spinner sRoles, sDevices;
+	Button bSendRequest;
+	EditText etPhoneNumber;
+	ArrayList<String> deviceIDs, deviceNames, rolesValueArray;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_member_add_new);
 		sRoles = (Spinner) findViewById(R.id.sRoles);
-		
-		Bundle information = getIntent().getExtras();
+		sDevices = (Spinner) findViewById(R.id.sDevices);
+		bSendRequest = (Button) findViewById(R.id.bSendRequest);
+		etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		devices = (ArrayList<Device>) getIntent().getSerializableExtra("devices");
-		ll_devices_checkboxes = (LinearLayout) findViewById(R.id.ll_devices_checkboxes);
+		deviceIDs = new ArrayList<String>();
+		deviceNames = new ArrayList<String>();
 		for (Device d : devices) {
-			CheckBox cb = new CheckBox(this);
-			cb.setText(d.getDescription());
-			ll_devices_checkboxes.addView(cb);
+			deviceIDs.add(d.getDeviceID());
+			deviceNames.add(d.getDescription());
 		}
-		Button b = new Button(this);
-		b.setText("Send Request");
-		ll_devices_checkboxes.addView(b);
-		
-		Resources res = getResources();
-		final TypedArray selectedValues = res
-		        .obtainTypedArray(R.array.roles_array_value);
 
-		sRoles.setOnItemSelectedListener(new OnItemSelectedListener() {
+		ArrayAdapter<String> deviceNamesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, deviceNames);
+		sDevices.setAdapter(deviceNamesAdapter);
 
-		    @Override
-		    public void onItemSelected(AdapterView<?> parent, View view,
-		            int position, long id) {
-		        //Get the selected value
-		        int selectedValue = selectedValues.getInt(position, -1);
-		        Log.d("demo", "selectedValues = " + selectedValue);
-		    }
+		String[] rolesText = getResources().getStringArray(R.array.roles_array_text_string);
+		ArrayList<String> rolesTextArray = new ArrayList<String>(Arrays.asList(rolesText));
+		ArrayAdapter<String> rolesTextAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, rolesTextArray);
+		sRoles.setAdapter(rolesTextAdapter);
 
-		    @Override
-		    public void onNothingSelected(AdapterView<?> arg0) {
-		        // TODO Auto-generated method stub
+		String[] rolesValue = getResources().getStringArray(R.array.roles_array_value);
+		rolesValueArray = new ArrayList<String>(Arrays.asList(rolesValue));
+		for (String s : rolesValue) {
+			Log.e("ROLES", s);
+		}
+		bSendRequest.setOnClickListener(new OnClickListener() {
 
-		    }
+			@Override
+			public void onClick(View v) {
+				if (etPhoneNumber.getText().toString().trim().length() > 0) {
+					String deviceIDToSend = deviceIDs.get(sDevices.getSelectedItemPosition());
+					String deviceRoleToSend = rolesValueArray.get(sRoles.getSelectedItemPosition());
+					Log.e("Assign", deviceIDToSend + "|" + deviceRoleToSend);
+					new assignMember().execute(deviceIDToSend, deviceRoleToSend);
+				}
+			}
 		});
 	}
 
+	private class assignMember extends AsyncTask<String, Void, Void> {
+		String res = "";
+
+		@Override
+		protected Void doInBackground(String... params) {
+			res = new WebRequestAPI(MemberAddNewActivity.this).AssignMemberToDevice(etPhoneNumber.getText().toString().trim(), params[0], params[1]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			MemberAddNewActivity.this.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (res.equals("success")) {
+
+						Toast.makeText(MemberAddNewActivity.this, "success", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(MemberAddNewActivity.this, res, Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
+		}
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

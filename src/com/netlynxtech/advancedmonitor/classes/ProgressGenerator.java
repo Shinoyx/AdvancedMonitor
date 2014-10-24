@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.dd.processbutton.ProcessButton;
-import com.securepreferences.SecurePreferences;
+import com.netlynxtech.advancedmonitor.RegisterPhoneActivity;
 
 public class ProgressGenerator {
 
@@ -56,7 +56,7 @@ public class ProgressGenerator {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			//res = new WebRequestAPI(context).requestPin(params[0]);
+			res = new WebRequestAPI(context).RequestPin(params[0].trim());
 			return null;
 		}
 
@@ -66,6 +66,7 @@ public class ProgressGenerator {
 			if (res.equals("success")) {
 				Log.e("onPostExecute", "success");
 				button.setProgress(100);
+				button.setText(res);
 			} else {
 				mProgress = 0;
 				button.setProgress(-1);
@@ -96,27 +97,23 @@ public class ProgressGenerator {
 		});
 	}
 
-	private class checkPin extends AsyncTask<String, Void, Void> {
+	private class verifyPin extends AsyncTask<String, Void, Void> {
 		String res = "";
 
 		@Override
 		protected Void doInBackground(String... params) {
-			SecurePreferences sp = new SecurePreferences(context);
-			String phoneNo = sp.getString(Consts.PREFERENCES_PHONE_NO, "0");
-			String unique_id = new Utils(context).getDeviceId();
-			sp.edit().putString(Consts.PREFERENCES_UDID, unique_id).commit();
-			//res = new WebRequestAPI(context).checkPin(phoneNo, params[0], params[1], new Utils(context).getUDID());
-			//res = new WebRequestAPI(context).checkPin(phoneNo, params[0], "123456", "123456");
+			res = new WebRequestAPI(context).VerifyPin(params[0]);
+			// res = new WebRequestAPI(context).checkPin(phoneNo, params[0], "123456", "123456");
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			if (res.contains("success|")) {
+			if (res.equals("success")) {
 				Log.e("onPostExecute", "success");
 				button.setProgress(100);
-				tvStatusDesc.setText(res.replace("success|", ""));
+				button.setText(res);
 			} else {
 				mProgress = 0;
 				button.setProgress(-1);
@@ -128,10 +125,9 @@ public class ProgressGenerator {
 
 	}
 
-	public void checkPin(final ProcessButton button, final String pinNo, final String gcm_id, final TextView tvStatusDesc, final Context context) {
+	public void verifyPin(final ProcessButton button, final String pinNo, final Context context) {
 		this.button = button;
 		this.context = context;
-		this.tvStatusDesc = tvStatusDesc;
 
 		final Handler handler = new Handler();
 		handler.post(new Runnable() {
@@ -142,7 +138,7 @@ public class ProgressGenerator {
 				if (mProgress < 74) {
 					handler.postDelayed(this, generateDelay());
 				} else {
-					new checkPin().execute(pinNo, gcm_id);
+					new verifyPin().execute(pinNo);
 				}
 			}
 		});
@@ -153,7 +149,7 @@ public class ProgressGenerator {
 
 		@Override
 		protected Void doInBackground(String... str) {
-		//	res = new WebRequestAPI(context).updateLocation(str[0].toString(), str[1].toString(), str[2].toString());
+			// res = new WebRequestAPI(context).updateLocation(str[0].toString(), str[1].toString(), str[2].toString());
 			return null;
 		}
 

@@ -6,6 +6,7 @@ import mehdi.sakout.dynamicbox.DynamicBox;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.manuelpeinado.refreshactionitem.ProgressIndicatorType;
+import com.manuelpeinado.refreshactionitem.RefreshActionItem;
 import com.netlynxtech.advancedmonitor.adapters.DevicesAdapter;
 import com.netlynxtech.advancedmonitor.classes.Device;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
@@ -28,6 +31,7 @@ public class DeviceListActivity extends ActionBarActivity {
 	AsyncTask<Void, Void, Void> task = new getDevice();
 	boolean isProcessing = false;
 	int index = 0, top = 0;
+	RefreshActionItem mRefreshActionItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,10 @@ public class DeviceListActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_device_list, menu);
+		MenuItem item = menu.findItem(R.id.menu_individual_refresh);
+		mRefreshActionItem = (RefreshActionItem) MenuItemCompat.getActionView(item);
+		mRefreshActionItem.setMenuItem(item);
+		mRefreshActionItem.setProgressIndicatorType(ProgressIndicatorType.INDETERMINATE);
 		return true;
 	}
 
@@ -87,13 +95,11 @@ public class DeviceListActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_add_device:
-			SecurePreferences sp = new SecurePreferences(DeviceListActivity.this);
-			sp.edit().putString("initial", "0").commit();
-			startActivity(new Intent(DeviceListActivity.this, TutorialActivity.class));
+			startActivity(new Intent(DeviceListActivity.this, TutorialActivity.class).putExtra("addNew", "1"));
 			break;
 		case R.id.menu_add_members:
 			Bundle information = new Bundle();
-			Intent i = new Intent(DeviceListActivity.this, MemberAddNewActivity.class);
+			Intent i = new Intent(DeviceListActivity.this, RegisterPhoneActivity.class);
 			information.putSerializable("devices", devices);
 			i.putExtras(information);
 			startActivity(i);
@@ -147,7 +153,10 @@ public class DeviceListActivity extends ActionBarActivity {
 						box.showExceptionLayout();
 					}
 					isProcessing = false;
-					processData();
+					SecurePreferences sp = new SecurePreferences(DeviceListActivity.this);
+					if (!sp.getString("initial", "").equals("")) {
+						processData();
+					}
 				}
 			});
 		}
