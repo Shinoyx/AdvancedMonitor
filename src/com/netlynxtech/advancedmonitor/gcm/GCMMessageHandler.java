@@ -3,6 +3,7 @@ package com.netlynxtech.advancedmonitor.gcm;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.netlynxtech.advancedmonitor.classes.Utils;
@@ -17,6 +18,7 @@ public class GCMMessageHandler extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		Log.e("GCMMessageHandler", "RECEIVED SOMETHING");
 		Bundle extras = intent.getExtras();
 
 		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);

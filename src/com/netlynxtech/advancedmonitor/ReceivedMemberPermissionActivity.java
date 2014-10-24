@@ -8,22 +8,28 @@ import mehdi.sakout.dynamicbox.DynamicBox;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.netlynxtech.advancedmonitor.adapters.ListRequestAdapter;
+import com.netlynxtech.advancedmonitor.classes.Consts;
 import com.netlynxtech.advancedmonitor.classes.DeviceRequest;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
+import com.securepreferences.SecurePreferences;
 
 public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 	DynamicBox box;
 	ListView lvReceivedMemberPermission;
 	HashMap<String, String> roles = new HashMap<String, String>();
 	ArrayList<DeviceRequest> data = new ArrayList<DeviceRequest>();
-
+	SecurePreferences sp;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_received_member_permission);
+		sp = new SecurePreferences(ReceivedMemberPermissionActivity.this);
+		Log.e("GCM", sp.getString(Consts.PREFERENCES_GCMID, ""));
 		String[] rolesValue = getResources().getStringArray(R.array.roles_array_value);
 		ArrayList<String> rolesValueArray = new ArrayList<String>(Arrays.asList(rolesValue));
 

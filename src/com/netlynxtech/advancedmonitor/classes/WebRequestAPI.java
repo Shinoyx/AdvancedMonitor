@@ -116,7 +116,7 @@ public class WebRequestAPI {
 		return list;
 	}
 
-	public String RespondToMemberRequest (String deviceId, String responseType, String remarks) {
+	public String RespondToMemberRequest(String deviceId, String responseType, String remarks) {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_RESPONDTOMEMBERREQUEST_METHOD_NAME); // create new soap object
 		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
 		rpc.addProperty("deviceID", deviceId); // set parameter
@@ -152,7 +152,7 @@ public class WebRequestAPI {
 			return e.getMessage();
 		}
 	}
-	
+
 	public String RequestPin(String mobileNo) {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REQUESTPIN_METHOD_NAME); // create new soap object
 		rpc.addProperty("handphone", mobileNo); // set parameter
@@ -225,13 +225,13 @@ public class WebRequestAPI {
 		}
 	}
 
-	public String VerifyPin(String pin) {
+	public String VerifyPin(String pin, String name, String gcmid) {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_VERIFYPIN_METHOD_NAME); // create new soap object
 		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId()); // set parameter
 		rpc.addProperty("handphone", new Utils(context).getHandphoneNumber()); // set parameter
 		rpc.addProperty("PIN", pin.trim()); // set parameter
-		rpc.addProperty("GCMID", new Utils(context).getGCMID()); // set parameter
-		rpc.addProperty("name", "Test"); // set parameter
+		rpc.addProperty("GCMID", gcmid); // set parameter
+		rpc.addProperty("name", name); // set parameter
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);

@@ -26,7 +26,7 @@ import com.netlynxtech.advancedmonitor.classes.Utils;
 
 public class CheckPinActivity extends ActionBarActivity {
 	ArrayList<Device> devices;
-	EditText etPinNo;
+	EditText etPinNo, etName;
 	ActionProcessButton bCheckPin;
 	TextView tvError, tvStatusDesc, tvGCMID;
 	Bundle information;
@@ -42,6 +42,7 @@ public class CheckPinActivity extends ActionBarActivity {
 		tvError = (TextView) findViewById(R.id.tvError);
 		tvGCMID = (TextView) findViewById(R.id.tvGCMID);
 		etPinNo = (EditText) findViewById(R.id.etPinNo);
+		etName = (EditText) findViewById(R.id.etName);
 		devices = (ArrayList<Device>) getIntent().getSerializableExtra("devices");
 		tvStatusDesc = (TextView) findViewById(R.id.tvStatusDesc);
 		bCheckPin = (ActionProcessButton) findViewById(R.id.bCheckPin);
@@ -50,7 +51,7 @@ public class CheckPinActivity extends ActionBarActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.toString().length() > 0) {
+				if (s.toString().length() > 0 && etName.getText().toString().length() > 0) {
 					bCheckPin.setEnabled(true);
 				} else {
 					bCheckPin.setEnabled(false);
@@ -67,7 +68,27 @@ public class CheckPinActivity extends ActionBarActivity {
 
 			}
 		});
+		etName.addTextChangedListener(new TextWatcher() {
 
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (s.toString().length() > 0 && etPinNo.getText().toString().length() > 0) {
+					bCheckPin.setEnabled(true);
+				} else {
+					bCheckPin.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
 		final ProgressGenerator progressGenerator = new ProgressGenerator(new OnCompleteListener() {
 
 			@Override
@@ -75,6 +96,7 @@ public class CheckPinActivity extends ActionBarActivity {
 				if (!bCheckPin.getText().toString().equals("success")) {
 					tvError.setText(bCheckPin.getText().toString());
 					etPinNo.setEnabled(true);
+					etName.setEnabled(true);
 					bCheckPin.setEnabled(true);
 					bCheckPin.setProgress(0);
 					tvError.setVisibility(View.VISIBLE);
@@ -93,11 +115,12 @@ public class CheckPinActivity extends ActionBarActivity {
 		bCheckPin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (etPinNo.getText().toString().length() > 0) {
+				if (etPinNo.getText().toString().length() > 0 && etName.getText().toString().length() > 0) {
 					if (GCM_register_ID.length() > 0) {
 						etPinNo.setEnabled(false);
+						etPinNo.setEnabled(false);
 						bCheckPin.setEnabled(false);
-						progressGenerator.verifyPin(bCheckPin, etPinNo.getText().toString(), CheckPinActivity.this);
+						progressGenerator.verifyPin(bCheckPin, etPinNo.getText().toString().trim(), etName.getText().toString().trim(), GCM_register_ID, CheckPinActivity.this);
 					} else {
 						Toast.makeText(CheckPinActivity.this, "Unable to get Google Cloud Messging ID.. Please make sure you have a stable internet connection.", Toast.LENGTH_LONG).show();
 					}

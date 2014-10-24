@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AdvancedMonitor</string>
+    <string name="app_name">SensorLynx</string>
     <string name="activity_tutorial">Device Registration</string>
     <string name="activity_users">Users</string>
     <string name="activity_users_access">Users Access</string>

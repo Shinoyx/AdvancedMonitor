@@ -82,7 +82,7 @@
             android:value="AIzaSyBZMlkOv4sj-M5JO9p6wksdax4TEjDVLgo" />
 
         <receiver
-            android:name="com.netlynxtech.noiselynx.gcm.GCMBroadcastReceiver"
+            android:name="com.netlynxtech.advancedmonitor.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -91,7 +91,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".GcmMessageHandler" />
+        <service android:name="com.netlynxtech.advancedmonitor.gcm.GCMMessageHandler" />
 
         <meta-data
             android:name="com.google.android.gms.version"
