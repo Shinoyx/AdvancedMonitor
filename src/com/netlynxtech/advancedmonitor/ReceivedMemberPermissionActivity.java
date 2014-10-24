@@ -26,7 +26,7 @@ public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_received_member_permission);
 		String[] rolesValue = getResources().getStringArray(R.array.roles_array_value);
 		ArrayList<String> rolesValueArray = new ArrayList<String>(Arrays.asList(rolesValue));
-		
+
 		String[] rolesEntries = getResources().getStringArray(R.array.roles_array_text_string);
 		ArrayList<String> rolesEntriesArray = new ArrayList<String>(Arrays.asList(rolesEntries));
 		for (int i = 0; i < rolesEntriesArray.size(); i++) {
@@ -55,6 +55,7 @@ public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 					if (data != null && data.size() > 0) {
 						ListRequestAdapter adapter = new ListRequestAdapter(ReceivedMemberPermissionActivity.this, data, roles);
 						lvReceivedMemberPermission.setAdapter(adapter);
+						box.hideAll();
 					} else {
 						box.showExceptionLayout();
 					}

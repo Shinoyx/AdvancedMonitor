@@ -3,6 +3,7 @@ package com.netlynxtech.advancedmonitor;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -38,6 +39,10 @@ public class MemberAddNewActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		devices = (ArrayList<Device>) getIntent().getSerializableExtra("devices");
+		if (devices.size() < 1) {
+			startActivity(new Intent(MemberAddNewActivity.this, ReceivedMemberPermissionActivity.class));
+			finish();
+		}
 		deviceIDs = new ArrayList<String>();
 		deviceNames = new ArrayList<String>();
 		for (Device d : devices) {

@@ -47,6 +47,7 @@ public class WebRequestAPI {
 				DeviceRequest d = new DeviceRequest();
 				d.setDeviceId(object.getProperty(Consts.GETDEVICES_DEVICEID).toString());
 				d.setDeviceName(object.getProperty(Consts.GETDEVICES_DEVICENAME).toString());
+				Log.e("DEVICENAME", object.getProperty(Consts.GETDEVICES_DEVICENAME).toString());
 				d.setRequestorName(object.getProperty(Consts.REQUESTORNAME).toString());
 				d.setRole(object.getProperty(Consts.ROLE).toString());
 				d.setTimestamp(object.getProperty(Consts.REQUESTORTIMESTAMP).toString());
@@ -127,7 +128,7 @@ public class WebRequestAPI {
 		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
 		ht.debug = true;
 		try {
-			Log.e("WebRequest", "RegisterUser");
+			Log.e("WebRequest", "RespondToMemberRequest");
 			ht.call(Consts.NOISELYNX_API_RESPONDTOMEMBERREQUEST_SOAP_ACTION, envelope); // call web request
 			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse(); // get response

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.netlynxtech.advancedmonitor.R;
@@ -60,7 +59,7 @@ public class ListRequestAdapter extends BaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.device_list_item, parent, false);
+			convertView = inflater.inflate(R.layout.activity_received_member_permission_item, parent, false);
 			holder = new ViewHolder();
 			holder.tvDeviceId = (TextView) convertView.findViewById(R.id.tvDeviceId);
 			holder.tvDeviceName = (TextView) convertView.findViewById(R.id.tvDeviceName);

@@ -104,6 +104,10 @@ public class DeviceListActivity extends ActionBarActivity {
 			i.putExtras(information);
 			startActivity(i);
 			break;
+		case R.id.menu_show_requests:
+			startActivity(new Intent(DeviceListActivity.this, ReceivedMemberPermissionActivity.class));
+			
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
