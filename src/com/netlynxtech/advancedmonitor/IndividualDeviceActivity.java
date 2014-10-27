@@ -48,7 +48,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			tvOutputTwoDescription;
 	ImageView ivInputOne, ivInputTwo;
 	Switch sOutputOne, sOutputTwo;
-	boolean isProcessing = false;
+	boolean isProcessing = false, loadedBefore = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 	private void setData() {
 		isProcessing = true;
-		tvDeviceTimestamp.setText(device.getTimestamp());
+		tvDeviceTimestamp.setText(Utils.parseTime(device.getTimestamp()));
 		tvDeviceId.setText(device.getDeviceID());
 		tvDeviceDescription.setText(device.getDescription());
 		tvInputOneDescription.setText(device.getDescriptionInput1());
@@ -105,7 +105,8 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 				ivInputOne.setImageDrawable(IndividualDeviceActivity.this.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			ivInputOne.setImageDrawable(IndividualDeviceActivity.this.getResources().getDrawable(R.drawable.ic_emptydot));
+			tvInputOneDescription.setVisibility(View.GONE);
+			ivInputOne.setVisibility(View.GONE);
 		}
 
 		if (device.getEnableInput2().equals("1")) {
@@ -115,7 +116,8 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 				ivInputTwo.setImageDrawable(IndividualDeviceActivity.this.getResources().getDrawable(R.drawable.ic_reddot));
 			}
 		} else {
-			ivInputTwo.setImageDrawable(IndividualDeviceActivity.this.getResources().getDrawable(R.drawable.ic_emptydot));
+			tvInputTwoDescription.setVisibility(View.GONE);
+			ivInputTwo.setVisibility(View.GONE);
 		}
 
 		if (device.getEnableOutput1().equals("1")) {
@@ -238,6 +240,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			}
 		});
 		isProcessing = false;
+		loadedBefore = true;
 	}
 
 	private void processData() {
@@ -301,13 +304,11 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 					GraphViewData[] tempData = new GraphViewData[num];
 					GraphViewData[] humidData = new GraphViewData[num];
 					String[] timeData = new String[num];
-					for (String n : timeData) {
-						Log.e("date", String.valueOf(n));
-					}
 					for (int i = 0; i < num; i++) {
 						tempData[i] = new GraphViewData(i, temperature.get(i));
 						humidData[i] = new GraphViewData(i, humidity.get(i));
 						timeData[i] = timing.get(i);
+						Log.e("HERE?!", timing.get(i));
 					}
 
 					GraphViewSeries tempGraph = new GraphViewSeries("Temperature", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), tempData);
@@ -347,7 +348,9 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			super.onPreExecute();
 			isProcessing = true;
 			mRefreshActionItem.showProgress(true);
-			box.showLoadingLayout();
+			if (!loadedBefore) {
+				box.showLoadingLayout();
+			}
 		}
 
 		@Override
@@ -364,7 +367,10 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
-					box.hideAll();
+					if (!loadedBefore) {
+						box.hideAll();
+						loadedBefore = true;
+					}
 					mRefreshActionItem.showProgress(false);
 					isProcessing = false;
 					processData();

@@ -71,6 +71,19 @@ public class Utils {
 
 	}
 
+	public static String parseTimeToMinutesOnly(String datetime) {
+		final String pattern = "yyyy-MM-dd'T'HH:mm:ss";
+		final SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
+		try {
+			SimpleDateFormat outFormatter;
+			outFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+			Date d = sdf.parse(datetime);
+			return outFormatter.format(d).toString();
+		} catch (Exception e) {
+			return datetime;
+		}
+	}
+	
 	public static String parseTime(String datetime) {
 		final String pattern = "yyyy-MM-dd'T'HH:mm:ss";
 		final SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());

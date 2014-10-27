@@ -95,7 +95,8 @@ public class WebRequestAPI {
 				map = new HashMap<String, String>();
 				map.put(Consts.GETDEVICES_TEMPERATURE, object.getProperty(Consts.GETDEVICES_TEMPERATURE).toString());
 				map.put(Consts.GETDEVICES_HUMIDITY, object.getProperty(Consts.GETDEVICES_HUMIDITY).toString());
-				map.put(Consts.GETDEVICES_DATATIMESTAMP, object.getProperty(Consts.GETDEVICES_DATATIMESTAMP).toString());
+				map.put(Consts.GETDEVICES_DATATIMESTAMP, Utils.parseTimeToMinutesOnly(object.getProperty(Consts.GETDEVICES_DATATIMESTAMP).toString()));
+				Log.e("DATATIMESTAMP!!!", Utils.parseTimeToMinutesOnly(object.getProperty(Consts.GETDEVICES_DATATIMESTAMP).toString()));
 				list.add(map);
 			}
 
