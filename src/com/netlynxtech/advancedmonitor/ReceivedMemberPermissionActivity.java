@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.netlynxtech.advancedmonitor.adapters.ListRequestAdapter;
@@ -23,12 +24,14 @@ public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 	HashMap<String, String> roles = new HashMap<String, String>();
 	ArrayList<DeviceRequest> data = new ArrayList<DeviceRequest>();
 	SecurePreferences sp;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_received_member_permission);
 		sp = new SecurePreferences(ReceivedMemberPermissionActivity.this);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 		Log.e("GCM", sp.getString(Consts.PREFERENCES_GCMID, ""));
 		String[] rolesValue = getResources().getStringArray(R.array.roles_array_value);
 		ArrayList<String> rolesValueArray = new ArrayList<String>(Arrays.asList(rolesValue));
@@ -75,5 +78,17 @@ public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 			return null;
 		}
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
