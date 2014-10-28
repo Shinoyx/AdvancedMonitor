@@ -373,6 +373,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 					}
 					mRefreshActionItem.showProgress(false);
 					isProcessing = false;
+					setData();
 					processData();
 				}
 			});
