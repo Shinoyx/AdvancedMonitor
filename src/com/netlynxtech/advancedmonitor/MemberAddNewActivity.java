@@ -71,6 +71,7 @@ public class MemberAddNewActivity extends ActionBarActivity {
 					String deviceIDToSend = deviceIDs.get(sDevices.getSelectedItemPosition());
 					String deviceRoleToSend = rolesValueArray.get(sRoles.getSelectedItemPosition());
 					Log.e("Assign", deviceIDToSend + "|" + deviceRoleToSend);
+					bSendRequest.setEnabled(false);
 					new assignMember().execute(deviceIDToSend, deviceRoleToSend);
 				}
 			}
@@ -93,8 +94,8 @@ public class MemberAddNewActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
+					bSendRequest.setEnabled(true);
 					if (res.equals("success")) {
-
 						Toast.makeText(MemberAddNewActivity.this, "success", Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(MemberAddNewActivity.this, res, Toast.LENGTH_SHORT).show();

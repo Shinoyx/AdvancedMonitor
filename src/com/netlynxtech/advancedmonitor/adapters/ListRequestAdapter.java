@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.netlynxtech.advancedmonitor.R;
 import com.netlynxtech.advancedmonitor.classes.DeviceRequest;
+import com.netlynxtech.advancedmonitor.classes.Utils;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class ListRequestAdapter extends BaseAdapter {
@@ -21,7 +23,6 @@ public class ListRequestAdapter extends BaseAdapter {
 	ArrayList<DeviceRequest> data;
 	private static LayoutInflater inflater = null;
 	HashMap<String, String> rolesValueArray;
-
 
 	public ListRequestAdapter(Context context, ArrayList<DeviceRequest> data, HashMap<String, String> rolesValueArray) {
 		this.context = context;
@@ -51,8 +52,8 @@ public class ListRequestAdapter extends BaseAdapter {
 		TextView tvRequestorTimestamp;
 		TextView tvRole;
 		TextView tvRequestorName;
-		TextView tvRequestAccept;
-		TextView tvRequestDecline;
+		Button bRequestAccept;
+		Button bRequestDecline;
 	}
 
 	@Override
@@ -66,8 +67,8 @@ public class ListRequestAdapter extends BaseAdapter {
 			holder.tvRequestorTimestamp = (TextView) convertView.findViewById(R.id.tvRequestorTimestamp);
 			holder.tvRole = (TextView) convertView.findViewById(R.id.tvRole);
 			holder.tvRequestorName = (TextView) convertView.findViewById(R.id.tvRequestorName);
-			holder.tvRequestAccept = (TextView) convertView.findViewById(R.id.tvRequestAccept);
-			holder.tvRequestDecline = (TextView) convertView.findViewById(R.id.tvRequestDecline);
+			holder.bRequestAccept = (Button) convertView.findViewById(R.id.bRequestAccept);
+			holder.bRequestDecline = (Button) convertView.findViewById(R.id.bRequestDecline);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -77,9 +78,9 @@ public class ListRequestAdapter extends BaseAdapter {
 		holder.tvDeviceId.setText(d.getDeviceId());
 		holder.tvDeviceName.setText(d.getDeviceName());
 		holder.tvRequestorName.setText(d.getRequestorName());
-		holder.tvRequestorTimestamp.setText(d.getTimestamp());
+		holder.tvRequestorTimestamp.setText(new Utils(context).parseDatetime(d.getTimestamp()));
 		holder.tvRole.setText(rolesValueArray.get(d.getRole()));
-		holder.tvRequestAccept.setOnClickListener(new OnClickListener() {
+		holder.bRequestAccept.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -104,7 +105,7 @@ public class ListRequestAdapter extends BaseAdapter {
 				}.execute();
 			}
 		});
-		holder.tvRequestDecline.setOnClickListener(new OnClickListener() {
+		holder.bRequestDecline.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

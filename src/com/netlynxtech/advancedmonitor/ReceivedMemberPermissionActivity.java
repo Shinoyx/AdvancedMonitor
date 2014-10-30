@@ -66,6 +66,7 @@ public class ReceivedMemberPermissionActivity extends ActionBarActivity {
 						lvReceivedMemberPermission.setAdapter(adapter);
 						box.hideAll();
 					} else {
+						box.setOtherExceptionMessage("You have no invites yet.");
 						box.showExceptionLayout();
 					}
 				}

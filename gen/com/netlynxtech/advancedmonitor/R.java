@@ -1954,6 +1954,8 @@ containing a value of this type.
         public static final int bCheckPin=0x7f0a0088;
         public static final int bConnect=0x7f0a0074;
         public static final int bFinalSetup=0x7f0a0087;
+        public static final int bRequestAccept=0x7f0a0082;
+        public static final int bRequestDecline=0x7f0a0083;
         public static final int bRequestPin=0x7f0a0085;
         public static final int bSendRequest=0x7f0a007c;
         public static final int bSetup=0x7f0a009b;
@@ -2090,8 +2092,6 @@ containing a value of this type.
         public static final int tvName=0x7f0a0098;
         public static final int tvOutputOneDescription=0x7f0a005f;
         public static final int tvOutputTwoDescription=0x7f0a0061;
-        public static final int tvRequestAccept=0x7f0a0082;
-        public static final int tvRequestDecline=0x7f0a0083;
         public static final int tvRequestorName=0x7f0a0081;
         public static final int tvRequestorTimestamp=0x7f0a007f;
         public static final int tvRole=0x7f0a0080;
