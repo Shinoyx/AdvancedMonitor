@@ -25,7 +25,7 @@ public class Consts {
 
 	final static public int WEBREQUEST_TIMEOUT = 20000;
 
-	//final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsNoiseLynx/noiselynx.asmx";
+	// final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsNoiseLynx/noiselynx.asmx";
 	final static public String NOISELYNX_API_URL = "http://192.168.10.8/wsnoiselynx/sensor.asmx";
 	final static public String NOISELYNX_API_REGISTERDEVICE_SOAP_ACTION = "http://NetlynxTech.com/RegisterDevice";
 	final static public String NOISELYNX_API_REGISTERDEVICE_METHOD_NAME = "RegisterDevice";
@@ -41,10 +41,10 @@ public class Consts {
 
 	final static public String NOISELYNX_API_ASSIGNMEMBERTODEVICE_SOAP_ACTION = "http://NetlynxTech.com/AssignMemberToDevice";
 	final static public String NOISELYNX_API_ASSIGNMEMBERTODEVICEN_METHOD_NAME = "AssignMemberToDevice";
-	
+
 	final static public String NOISELYNX_API_VERIFYPIN_SOAP_ACTION = "http://NetlynxTech.com/VerifyPIN";
 	final static public String NOISELYNX_API_VERIFYPIN_METHOD_NAME = "VerifyPIN";
-	
+
 	final static public String NOISELYNX_API_GETLOCATION_SOAP_ACTION = "http://NetlynxTech.com/GetLocation";
 	final static public String NOISELYNX_API_GETLOCATION_METHOD_NAME = "GetLocation";
 
@@ -59,10 +59,13 @@ public class Consts {
 
 	final static public String NOISELYNX_API_LISTMEMBERREQUESTS_SOAP_ACTION = "http://NetlynxTech.com/ListMemberRequests";
 	final static public String NOISELYNX_API_LISTMEMBERREQUESTS_METHOD_NAME = "ListMemberRequests";
-	
+
+	final static public String NOISELYNX_API_GETMEMBERS_SOAP_ACTION = "http://NetlynxTech.com/GetMembers";
+	final static public String NOISELYNX_API_GETMEMBERS_METHOD_NAME = "GetMembers";
+
 	final static public String NOISELYNX_API_RESPONDTOMEMBERREQUEST_SOAP_ACTION = "http://NetlynxTech.com/RespondToMemberRequest";
 	final static public String NOISELYNX_API_RESPONDTOMEMBERREQUEST_METHOD_NAME = "RespondToMemberRequest";
-	
+
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";
 	final static public String ERRORCODE = "ErrorCode";
@@ -143,9 +146,13 @@ public class Consts {
 	final static public String THRESHOLD_TIMESPAN = "TimeSpan";
 	final static public String THRESHOLD_THRESHOLD = "Threhold"; // GRAMMAR ERROR CAREFUL
 	final static public String DATABASE_COLUMN_UNIX = "unixTimestamp";
-	
+
+	final static public String NAME = "Name";
 	final static public String ROLE = "Role";
+	final static public String REQUESTSTATUS = "RequestStatus";
+
 	final static public String REQUESTORNAME = "RequestorName";
 	final static public String REQUESTORTIMESTAMP = "RequestorTimestamp";
+	final static public String UPDATETIMESTAMP = "UpdateTimestamp";
 
 }

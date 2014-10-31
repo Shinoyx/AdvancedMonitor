@@ -449,7 +449,7 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_individual_users:
-			startActivity(new Intent(IndividualDeviceActivity.this, UsersActivity.class));
+			startActivity(new Intent(IndividualDeviceActivity.this, UsersActivity.class).putExtra("deviceId", device.getDeviceID()));
 			break;
 		case android.R.id.home:
 			finish();

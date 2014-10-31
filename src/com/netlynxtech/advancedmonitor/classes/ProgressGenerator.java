@@ -56,7 +56,7 @@ public class ProgressGenerator {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			res = new WebRequestAPI(context).RequestPin(params[0].trim());
+			res = new WebRequestAPI(context).RequestPin(params[0].trim(), params[1].trim());
 			return null;
 		}
 
@@ -78,7 +78,7 @@ public class ProgressGenerator {
 
 	}
 
-	public void requestPin(final ProcessButton button, final String phoneNo, final Context context) {
+	public void requestPin(final ProcessButton button, final String phoneNo, final String name, final Context context) {
 		this.button = button;
 		this.context = context;
 
@@ -91,7 +91,7 @@ public class ProgressGenerator {
 				if (mProgress < 74) {
 					handler.postDelayed(this, generateDelay());
 				} else {
-					new requestPin().execute(phoneNo);
+					new requestPin().execute(phoneNo, name);
 				}
 			}
 		});
@@ -102,7 +102,7 @@ public class ProgressGenerator {
 
 		@Override
 		protected Void doInBackground(String... params) {
-			res = new WebRequestAPI(context).VerifyPin(params[0], params[1], params[2]);
+			res = new WebRequestAPI(context).VerifyPin(params[0], params[1]);
 			// res = new WebRequestAPI(context).checkPin(phoneNo, params[0], "123456", "123456");
 			return null;
 		}
@@ -125,7 +125,7 @@ public class ProgressGenerator {
 
 	}
 
-	public void verifyPin(final ProcessButton button, final String pinNo, final String name, final String gcmid, final Context context) {
+	public void verifyPin(final ProcessButton button, final String pinNo, final String gcmid, final Context context) {
 		this.button = button;
 		this.context = context;
 
@@ -138,7 +138,7 @@ public class ProgressGenerator {
 				if (mProgress < 74) {
 					handler.postDelayed(this, generateDelay());
 				} else {
-					new verifyPin().execute(pinNo, name, gcmid);
+					new verifyPin().execute(pinNo, gcmid);
 				}
 			}
 		});

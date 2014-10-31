@@ -22,7 +22,7 @@ import com.securepreferences.SecurePreferences;
 
 public class RegisterPhoneActivity extends ActionBarActivity {
 	SecurePreferences sp;
-	EditText etPhoneNo;
+	EditText etPhoneNo, etName;
 	ActionProcessButton bRequestPin;
 	Bundle information;
 	ArrayList<Device> devices;
@@ -48,6 +48,7 @@ public class RegisterPhoneActivity extends ActionBarActivity {
 			tvError = (TextView) findViewById(R.id.tvError);
 
 			etPhoneNo = (EditText) findViewById(R.id.etPhoneNo);
+			etName = (EditText) findViewById(R.id.etName);
 			bRequestPin = (ActionProcessButton) findViewById(R.id.bRequestPin);
 			bRequestPin.setMode(ActionProcessButton.Mode.ENDLESS);
 			final ProgressGenerator progressGenerator = new ProgressGenerator(new OnCompleteListener() {
@@ -75,12 +76,13 @@ public class RegisterPhoneActivity extends ActionBarActivity {
 
 				@Override
 				public void onClick(View v) {
-					if (etPhoneNo.getText().toString().trim().length() > 0) {
+					if (etPhoneNo.getText().toString().trim().length() > 0 && etName.getText().toString().trim().length() > 0) {
 						etPhoneNo.setEnabled(false);
+						etName.setEnabled(false);
 						bRequestPin.setEnabled(false);
-						progressGenerator.requestPin(bRequestPin, etPhoneNo.getText().toString().trim(), RegisterPhoneActivity.this);
+						progressGenerator.requestPin(bRequestPin, etPhoneNo.getText().toString().trim(), etName.getText().toString().trim(), RegisterPhoneActivity.this);
 					} else {
-						Toast.makeText(RegisterPhoneActivity.this, "Please input a phone number", Toast.LENGTH_SHORT).show();
+						Toast.makeText(RegisterPhoneActivity.this, "Please input your phone number and name to register phone.", Toast.LENGTH_SHORT).show();
 					}
 				}
 			});
