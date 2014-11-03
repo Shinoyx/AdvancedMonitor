@@ -72,7 +72,8 @@ public class MembersAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		final DeviceMembers d = data.get(position);
+		DeviceMembers d = data.get(position);
+		//String udid = d.getUdid();
 		final String memberUdid = d.getUdid();
 		holder.tvName.setText(d.getName());
 		if (d.getRequestStatus().equals("0")) {

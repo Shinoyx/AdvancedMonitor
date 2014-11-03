@@ -201,9 +201,10 @@ public class WebRequestAPI {
 
 	public String RemoveMemberFromDevice(String deviceId, String requesterUDID) {
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REMOVEMEMBERFROMDEVICE_METHOD_NAME); // create new soap object
-		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("UDID", requesterUDID);
 		rpc.addProperty("deviceID", deviceId); // set parameter
-		rpc.addProperty("requesterUDID", requesterUDID); // set parameter
+		rpc.addProperty("requesterUDID", new Utils(context).getDeviceUniqueId()); // set parameter
+		Log.e("requesterUDID", requesterUDID);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
