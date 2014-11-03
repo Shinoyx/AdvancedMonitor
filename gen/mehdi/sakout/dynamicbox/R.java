@@ -19,10 +19,10 @@ public final class R {
 	}
 	public static final class drawable {
 		public static final int exception_button_with_focus = 0x7f020070;
-		public static final int ic_launcher = 0x7f020075;
-		public static final int include_exception_button = 0x7f02007e;
-		public static final int include_exception_button_focus = 0x7f02007f;
-		public static final int include_exception_button_icon = 0x7f020080;
+		public static final int ic_launcher = 0x7f020076;
+		public static final int include_exception_button = 0x7f020080;
+		public static final int include_exception_button_focus = 0x7f020081;
+		public static final int include_exception_button_icon = 0x7f020082;
 	}
 	public static final class id {
 		public static final int RelativeLayout1 = 0x7f0a0093;

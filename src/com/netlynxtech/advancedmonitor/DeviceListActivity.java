@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.manuelpeinado.refreshactionitem.ProgressIndicatorType;
 import com.manuelpeinado.refreshactionitem.RefreshActionItem;
@@ -45,9 +46,13 @@ public class DeviceListActivity extends ActionBarActivity {
 				TextView tvDeviceId = (TextView) view.findViewById(R.id.tvDeviceId);
 				TextView tvDescription = (TextView) view.findViewById(R.id.tvDeviceDescription);
 				Log.e("DEVICEID", tvDeviceId.getText().toString());
-				Device d = devices.get(position);
-				startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim())
-						.putExtra("deviceDescription", tvDescription.getText().toString().trim()).putExtra("device", d));
+				if (devices.size() > 0) {
+					Device d = devices.get(position);
+					startActivity(new Intent(DeviceListActivity.this, IndividualDeviceActivity.class).putExtra("deviceId", tvDeviceId.getText().toString().trim())
+							.putExtra("deviceDescription", tvDescription.getText().toString().trim()).putExtra("device", d));
+				} else {
+					Toast.makeText(DeviceListActivity.this, "Unable to get device. Make sure internet connection is turned on and refresh", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 	}
@@ -106,7 +111,7 @@ public class DeviceListActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_show_requests:
 			startActivity(new Intent(DeviceListActivity.this, ReceivedMemberPermissionActivity.class));
-			
+
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

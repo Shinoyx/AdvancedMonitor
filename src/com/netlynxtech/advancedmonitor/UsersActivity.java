@@ -66,7 +66,7 @@ public class UsersActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
-					MembersAdapter adapter = new MembersAdapter(UsersActivity.this, data);
+					MembersAdapter adapter = new MembersAdapter(UsersActivity.this, data, deviceId);
 					lvUsers.setAdapter(adapter);
 					box.hideAll();
 				}

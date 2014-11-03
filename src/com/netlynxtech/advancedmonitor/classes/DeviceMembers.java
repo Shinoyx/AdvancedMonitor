@@ -1,7 +1,15 @@
 package com.netlynxtech.advancedmonitor.classes;
 
 public class DeviceMembers {
-	String name, role, requestStatus, updateTimestamp;
+	String name, role, requestStatus, updateTimestamp, udid;
+
+	public String getUdid() {
+		return udid;
+	}
+
+	public void setUdid(String udid) {
+		this.udid = udid;
+	}
 
 	public String getName() {
 		return name;

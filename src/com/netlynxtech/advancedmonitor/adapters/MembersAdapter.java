@@ -3,6 +3,8 @@ package com.netlynxtech.advancedmonitor.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,19 +12,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netlynxtech.advancedmonitor.R;
 import com.netlynxtech.advancedmonitor.classes.DeviceMembers;
 import com.netlynxtech.advancedmonitor.classes.Utils;
+import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class MembersAdapter extends BaseAdapter {
 	Context context;
 	ArrayList<DeviceMembers> data;
 	private static LayoutInflater inflater = null;
+	String deviceId;
 
-	public MembersAdapter(Context context, ArrayList<DeviceMembers> data) {
+	public MembersAdapter(Context context, ArrayList<DeviceMembers> data, String deviceId) {
 		this.context = context;
 		this.data = data;
+		this.deviceId = deviceId;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 	}
@@ -67,6 +73,7 @@ public class MembersAdapter extends BaseAdapter {
 		}
 
 		final DeviceMembers d = data.get(position);
+		final String memberUdid = d.getUdid();
 		holder.tvName.setText(d.getName());
 		if (d.getRequestStatus().equals("0")) {
 			holder.tvRequestStatus.setText("Pending");
@@ -87,14 +94,39 @@ public class MembersAdapter extends BaseAdapter {
 			holder.tvRole.setText("No Access");
 		}
 		holder.ivDeleteUser.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				new removeMember().execute(memberUdid, String.valueOf(position));
 			}
 		});
 		return convertView;
+	}
+
+	private class removeMember extends AsyncTask<String, Void, Void> {
+		String res = "";
+		int position;
+
+		@Override
+		protected Void doInBackground(String... params) {
+			Log.e("RemoveMember", deviceId + "|" + params[0]);
+			position = Integer.valueOf(params[1]);
+			res = new WebRequestAPI(context).RemoveMemberFromDevice(deviceId, params[0]);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (!res.equals("success")) {
+				Toast.makeText(context, res, Toast.LENGTH_LONG).show();
+			} else {
+				data.remove(position);
+				notifyDataSetChanged();
+			}
+		}
+
 	}
 
 }

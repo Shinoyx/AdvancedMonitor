@@ -65,6 +65,9 @@ public class Consts {
 
 	final static public String NOISELYNX_API_RESPONDTOMEMBERREQUEST_SOAP_ACTION = "http://NetlynxTech.com/RespondToMemberRequest";
 	final static public String NOISELYNX_API_RESPONDTOMEMBERREQUEST_METHOD_NAME = "RespondToMemberRequest";
+	
+	final static public String NOISELYNX_API_REMOVEMEMBERFROMDEVICE_SOAP_ACTION = "http://NetlynxTech.com/RemoveMemberFromDevice";
+	final static public String NOISELYNX_API_REMOVEMEMBERFROMDEVICE_METHOD_NAME = "RemoveMemberFromDevice";
 
 	final static public String RESULTCODE = "ResultCode";
 	final static public String RESULTDESCRIPTION = "ResultDescription";
@@ -154,5 +157,6 @@ public class Consts {
 	final static public String REQUESTORNAME = "RequestorName";
 	final static public String REQUESTORTIMESTAMP = "RequestorTimestamp";
 	final static public String UPDATETIMESTAMP = "UpdateTimestamp";
+	final static public String UDID = "UDID";
 
 }

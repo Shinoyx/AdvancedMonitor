@@ -283,13 +283,14 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 		protected Void doInBackground(Void... params) {
 			// data = new WebRequestAPI(IndividualDeviceActivity.this).GetChartData(deviceId, Utils.getCustomDateTime(), Utils.getCurrentDateTime(), 12);
 			data = new WebRequestAPI(IndividualDeviceActivity.this).GetChartData(deviceId, Utils.getCurrentDateTime(), Utils.getCustomDateTime(), 12);
-			for (HashMap<String, String> d : data) {
-				temperature.add(Double.parseDouble(d.get(Consts.GETDEVICES_TEMPERATURE)));
-				// temperature.add(Double.parseDouble("1.1"));
-				humidity.add(Double.parseDouble(d.get(Consts.GETDEVICES_HUMIDITY)));
-				timing.add(d.get(Consts.GETDEVICES_DATATIMESTAMP));
+			if (data.size() > 0) {
+				for (HashMap<String, String> d : data) {
+					temperature.add(Double.parseDouble(d.get(Consts.GETDEVICES_TEMPERATURE)));
+					// temperature.add(Double.parseDouble("1.1"));
+					humidity.add(Double.parseDouble(d.get(Consts.GETDEVICES_HUMIDITY)));
+					timing.add(d.get(Consts.GETDEVICES_DATATIMESTAMP));
+				}
 			}
-
 			return null;
 		}
 
@@ -300,41 +301,45 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 				@Override
 				public void run() {
-					int num = 12;
-					GraphViewData[] tempData = new GraphViewData[num];
-					GraphViewData[] humidData = new GraphViewData[num];
-					String[] timeData = new String[num];
-					for (int i = 0; i < num; i++) {
-						tempData[i] = new GraphViewData(i, temperature.get(i));
-						humidData[i] = new GraphViewData(i, humidity.get(i));
-						timeData[i] = timing.get(i);
-						Log.e("HERE?!", timing.get(i));
+					if (data.size() > 0) {
+						int num = 12;
+						GraphViewData[] tempData = new GraphViewData[num];
+						GraphViewData[] humidData = new GraphViewData[num];
+						String[] timeData = new String[num];
+						for (int i = 0; i < num; i++) {
+							tempData[i] = new GraphViewData(i, temperature.get(i));
+							humidData[i] = new GraphViewData(i, humidity.get(i));
+							timeData[i] = timing.get(i);
+							Log.e("HERE?!", timing.get(i));
+						}
+
+						GraphViewSeries tempGraph = new GraphViewSeries("Temperature", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), tempData);
+						GraphViewSeries humidGraph = new GraphViewSeries("Humidity", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), humidData);
+
+						GraphView graphView = new LineGraphView(IndividualDeviceActivity.this, "History");
+
+						graphView.addSeries(tempGraph);
+						graphView.addSeries(humidGraph);
+						// optional - set view port, start=2, size=10
+						graphView.setViewPort(2, 10);
+						graphView.setScalable(true);
+						// optional - legend
+						graphView.setShowLegend(true);
+						graphView.setLegendAlign(LegendAlign.BOTTOM);
+						graphView.setLegendWidth(210);
+						graphView.setHorizontalLabels(timeData);
+						RelativeLayout llIndividualDevice = (RelativeLayout) findViewById(R.id.rlIndividualDevice);
+
+						RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+						p.addRule(RelativeLayout.BELOW, R.id.rl_device_details);
+
+						graphView.setLayoutParams(p);
+						llIndividualDevice.addView(graphView);
+						graphView.setLayoutParams(p);
+					} else {
+						Toast.makeText(IndividualDeviceActivity.this, "Unable to load graph", Toast.LENGTH_SHORT).show();
 					}
-
-					GraphViewSeries tempGraph = new GraphViewSeries("Temperature", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), tempData);
-					GraphViewSeries humidGraph = new GraphViewSeries("Humidity", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), humidData);
-
-					GraphView graphView = new LineGraphView(IndividualDeviceActivity.this, "History");
-
-					graphView.addSeries(tempGraph);
-					graphView.addSeries(humidGraph);
-					// optional - set view port, start=2, size=10
-					graphView.setViewPort(2, 10);
-					graphView.setScalable(true);
-					// optional - legend
-					graphView.setShowLegend(true);
-					graphView.setLegendAlign(LegendAlign.BOTTOM);
-					graphView.setLegendWidth(210);
-					graphView.setHorizontalLabels(timeData);
-					RelativeLayout llIndividualDevice = (RelativeLayout) findViewById(R.id.rlIndividualDevice);
-
-					RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-					p.addRule(RelativeLayout.BELOW, R.id.rl_device_details);
-
-					graphView.setLayoutParams(p);
-					llIndividualDevice.addView(graphView);
-					graphView.setLayoutParams(p);
 				}
 			});
 		}
@@ -373,7 +378,9 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 					}
 					mRefreshActionItem.showProgress(false);
 					isProcessing = false;
-					setData();
+					if (device != null && device.getDescription() != null && device.getDescription().length() > 0) {
+						setData();
+					}
 					processData();
 				}
 			});

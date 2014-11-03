@@ -73,6 +73,8 @@ public class MemberAddNewActivity extends ActionBarActivity {
 					Log.e("Assign", deviceIDToSend + "|" + deviceRoleToSend);
 					bSendRequest.setEnabled(false);
 					new assignMember().execute(deviceIDToSend, deviceRoleToSend);
+				} else {
+					Toast.makeText(MemberAddNewActivity.this, "Please enter a phone number", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

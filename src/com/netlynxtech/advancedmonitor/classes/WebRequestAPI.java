@@ -50,6 +50,7 @@ public class WebRequestAPI {
 				d.setRole(object.getProperty(Consts.ROLE).toString());
 				d.setRequestStatus(object.getProperty(Consts.REQUESTSTATUS).toString());
 				d.setUpdateTimestamp(object.getProperty(Consts.UPDATETIMESTAMP).toString());
+				d.setUdid(object.getProperty(Consts.UDID).toString());
 				list.add(d);
 			}
 
@@ -69,7 +70,7 @@ public class WebRequestAPI {
 		}
 		return list;
 	}
-	
+
 	public ArrayList<DeviceRequest> ListMemberRequests() {
 		ArrayList<DeviceRequest> list = new ArrayList<DeviceRequest>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_LISTMEMBERREQUESTS_METHOD_NAME);
@@ -175,6 +176,42 @@ public class WebRequestAPI {
 		try {
 			Log.e("WebRequest", "RespondToMemberRequest");
 			ht.call(Consts.NOISELYNX_API_RESPONDTOMEMBERREQUEST_SOAP_ACTION, envelope); // call web request
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse(); // get response
+			Log.e("RESULT", result.toString());
+			if (result.getProperty(0).toString().equals("1")) {
+				return "success";
+			} else {
+				return result.getProperty(1).toString();
+			}
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			return "Timed out. Please try again.";
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+	}
+
+	public String RemoveMemberFromDevice(String deviceId, String requesterUDID) {
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_REMOVEMEMBERFROMDEVICE_METHOD_NAME); // create new soap object
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("deviceID", deviceId); // set parameter
+		rpc.addProperty("requesterUDID", requesterUDID); // set parameter
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL); // set base link
+		ht.debug = true;
+		try {
+			Log.e("WebRequest", "RespondToMemberRequest");
+			ht.call(Consts.NOISELYNX_API_REMOVEMEMBERFROMDEVICE_SOAP_ACTION, envelope); // call web request
 			System.err.println(ht.responseDump);
 			SoapObject result = (SoapObject) envelope.getResponse(); // get response
 			Log.e("RESULT", result.toString());

@@ -9,7 +9,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -137,6 +136,8 @@ public class DevicesAdapter extends BaseAdapter {
 		}
 
 		if (item.getEnableOutput1().equals("1")) {
+			holder.sOutputOne.setVisibility(View.VISIBLE);
+			holder.tvOutputOneDescription.setVisibility(View.VISIBLE);
 			holder.sOutputOne.setEnabled(true);
 			holder.tvOutputOneDescription.setText(item.getDescriptionOutput1().trim());
 			Log.e("OUTPUT1", "INSIDE 1");
@@ -199,6 +200,8 @@ public class DevicesAdapter extends BaseAdapter {
 		});
 
 		if (item.getEnableOutput2().equals("1")) {
+			holder.sOutputTwo.setVisibility(View.VISIBLE);
+			holder.tvOutputTwoDescription.setVisibility(View.VISIBLE);
 			holder.sOutputTwo.setEnabled(true);
 			holder.tvOutputTwoDescription.setText(item.getDescriptionOutput2().trim());
 			Log.e("OUTPUT2", "INSIDE 2");
