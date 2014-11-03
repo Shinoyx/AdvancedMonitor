@@ -1934,8 +1934,8 @@ containing a value of this type.
         public static final int vertical_line=0x7f02009b;
     }
     public static final class id {
-        public static final int RelativeLayout1=0x7f0a0094;
-        public static final int RelativeLayout2=0x7f0a0095;
+        public static final int RelativeLayout1=0x7f0a0093;
+        public static final int RelativeLayout2=0x7f0a0094;
         public static final int action_bar=0x7f0a0036;
         public static final int action_bar_activity_content=0x7f0a0015;
         public static final int action_bar_container=0x7f0a0035;
@@ -1952,7 +1952,7 @@ containing a value of this type.
         public static final int action_mode_close_button=0x7f0a003e;
         public static final int activity_chooser_view_content=0x7f0a003f;
         public static final int always=0x7f0a000b;
-        public static final int bCheckPin=0x7f0a008f;
+        public static final int bCheckPin=0x7f0a008e;
         public static final int bConnect=0x7f0a0074;
         public static final int bFinalSetup=0x7f0a0088;
         public static final int bRequestAccept=0x7f0a0082;
@@ -1973,7 +1973,7 @@ containing a value of this type.
         public static final int classic=0x7f0a0031;
         public static final int collapseActionView=0x7f0a000d;
         public static final int default_activity_button=0x7f0a0042;
-        public static final int determinate_progress_indicator=0x7f0a009d;
+        public static final int determinate_progress_indicator=0x7f0a009c;
         public static final int dialog=0x7f0a000e;
         public static final int disableHome=0x7f0a0008;
         public static final int dropdown=0x7f0a000f;
@@ -1987,13 +1987,13 @@ containing a value of this type.
         public static final int etOutput2=0x7f0a0073;
         public static final int etPhoneNo=0x7f0a0084;
         public static final int etPhoneNumber=0x7f0a0079;
-        public static final int etPinNo=0x7f0a0091;
+        public static final int etPinNo=0x7f0a0090;
         public static final int etWifiPassword=0x7f0a0075;
-        public static final int exception_Wrapper=0x7f0a0096;
-        public static final int exception_button=0x7f0a0099;
-        public static final int exception_message=0x7f0a0098;
-        public static final int exception_progressbar=0x7f0a009a;
-        public static final int exception_title=0x7f0a0097;
+        public static final int exception_Wrapper=0x7f0a0095;
+        public static final int exception_button=0x7f0a0098;
+        public static final int exception_message=0x7f0a0097;
+        public static final int exception_progressbar=0x7f0a0099;
+        public static final int exception_title=0x7f0a0096;
         public static final int expand_activities_button=0x7f0a0040;
         public static final int expanded_menu=0x7f0a0046;
         public static final int grayscale=0x7f0a0032;
@@ -2005,17 +2005,17 @@ containing a value of this type.
         public static final int icon=0x7f0a0044;
         public static final int ifRoom=0x7f0a000a;
         public static final int image=0x7f0a0041;
-        public static final int imageView1=0x7f0a008c;
+        public static final int imageView1=0x7f0a009e;
         public static final int indeterminate=0x7f0a001c;
-        public static final int indeterminate_progress_indicator=0x7f0a009c;
-        public static final int ivDeleteUser=0x7f0a008e;
+        public static final int indeterminate_progress_indicator=0x7f0a009b;
+        public static final int ivDeleteUser=0x7f0a008c;
         public static final int ivInputOne=0x7f0a005e;
         public static final int ivInputTwo=0x7f0a0063;
         public static final int linearLayout1=0x7f0a0065;
         public static final int listMode=0x7f0a0001;
         public static final int list_item=0x7f0a0043;
         public static final int llIndividualDevice=0x7f0a0057;
-        public static final int lvDevices=0x7f0a0093;
+        public static final int lvDevices=0x7f0a0092;
         public static final int lvReceivedMemberPermission=0x7f0a007d;
         public static final int lvUsers=0x7f0a0089;
         public static final int map=0x7f0a0078;
@@ -2034,13 +2034,13 @@ containing a value of this type.
         public static final int never=0x7f0a0009;
         public static final int none=0x7f0a0010;
         public static final int normal=0x7f0a0000;
-        public static final int pager=0x7f0a009e;
+        public static final int pager=0x7f0a009d;
         public static final int pie=0x7f0a001b;
         public static final int production=0x7f0a0027;
         public static final int progress_circular=0x7f0a0018;
         public static final int progress_horizontal=0x7f0a0019;
         public static final int radio=0x7f0a0049;
-        public static final int refresh_button=0x7f0a009b;
+        public static final int refresh_button=0x7f0a009a;
         public static final int rlIndividualDevice=0x7f0a0058;
         public static final int rl_device_details=0x7f0a0059;
         public static final int sDeviceList=0x7f0a0076;
@@ -2089,7 +2089,7 @@ containing a value of this type.
         public static final int tvDeviceTimestamp=0x7f0a005c;
         public static final int tvDeviceVoltage=0x7f0a0068;
         public static final int tvError=0x7f0a0086;
-        public static final int tvGCMID=0x7f0a0090;
+        public static final int tvGCMID=0x7f0a008f;
         public static final int tvInputOneDescription=0x7f0a005d;
         public static final int tvInputTwoDescription=0x7f0a0060;
         public static final int tvName=0x7f0a008a;
@@ -2099,7 +2099,7 @@ containing a value of this type.
         public static final int tvRequestorName=0x7f0a0081;
         public static final int tvRequestorTimestamp=0x7f0a007f;
         public static final int tvRole=0x7f0a0080;
-        public static final int tvStatusDesc=0x7f0a0092;
+        public static final int tvStatusDesc=0x7f0a0091;
         public static final int tvTimestamp=0x7f0a008b;
         public static final int up=0x7f0a003b;
         public static final int useLogo=0x7f0a0003;

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvName"
-        android:layout_toLeftOf="@+id/imageView1"
+        android:layout_toLeftOf="@+id/ivDeleteUser"
         android:gravity="right"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
