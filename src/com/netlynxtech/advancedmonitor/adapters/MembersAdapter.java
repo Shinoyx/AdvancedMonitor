@@ -2,6 +2,8 @@ package com.netlynxtech.advancedmonitor.adapters;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,6 +26,7 @@ public class MembersAdapter extends BaseAdapter {
 	ArrayList<DeviceMembers> data;
 	private static LayoutInflater inflater = null;
 	String deviceId;
+	ProgressDialog pd;
 
 	public MembersAdapter(Context context, ArrayList<DeviceMembers> data, String deviceId) {
 		this.context = context;
@@ -73,7 +76,7 @@ public class MembersAdapter extends BaseAdapter {
 		}
 
 		DeviceMembers d = data.get(position);
-		//String udid = d.getUdid();
+		// String udid = d.getUdid();
 		final String memberUdid = d.getUdid();
 		holder.tvName.setText(d.getName());
 		if (d.getRequestStatus().equals("0")) {
@@ -109,6 +112,17 @@ public class MembersAdapter extends BaseAdapter {
 		int position;
 
 		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pd = null;
+			pd = new ProgressDialog(context);
+			pd.setMessage("Removing member..");
+			pd.setCancelable(false);
+			pd.setCanceledOnTouchOutside(false);
+			pd.show();
+		}
+
+		@Override
 		protected Void doInBackground(String... params) {
 			Log.e("RemoveMember", deviceId + "|" + params[0]);
 			position = Integer.valueOf(params[1]);
@@ -118,14 +132,22 @@ public class MembersAdapter extends BaseAdapter {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			if (!res.equals("success")) {
-				Toast.makeText(context, res, Toast.LENGTH_LONG).show();
-			} else {
-				data.remove(position);
-				notifyDataSetChanged();
+			if (pd != null && pd.isShowing()) {
+				pd.dismiss();
 			}
+			super.onPostExecute(result);
+			((Activity) context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					if (!res.equals("success")) {
+						Toast.makeText(context, res, Toast.LENGTH_LONG).show();
+					} else {
+						data.remove(position);
+						notifyDataSetChanged();
+					}
+				}
+			});
+
 		}
 
 	}
