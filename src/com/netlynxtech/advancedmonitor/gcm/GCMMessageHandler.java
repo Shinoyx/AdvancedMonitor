@@ -31,13 +31,12 @@ public class GCMMessageHandler extends IntentService {
 			 * Filter messages based on message type. Since it is likely that GCM will be extended in the future with new message types, just ignore any message types you're not interested in, or that
 			 * you don't recognize.
 			 */
-			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) { // GCM message error 
+			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) { // GCM message error
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) { // this is for checking if the message is deleted on the server. not needed for now
 			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) { // if successfully retreived GCM broadcast
-				//longtitle
-				//shorttitle
-				//body
-				Log.e("Push", extras.toString());
+				// longtitle
+				// shorttitle
+				// body
 				sendNotification(extras);
 			}
 		}

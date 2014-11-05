@@ -15,6 +15,7 @@ import com.netlynxtech.advancedmonitor.classes.DeviceMembers;
 import com.netlynxtech.advancedmonitor.classes.WebRequestAPI;
 
 public class UsersActivity extends ActionBarActivity {
+
 	ArrayList<DeviceMembers> data = new ArrayList<DeviceMembers>();
 	String deviceId;
 	DynamicBox box;

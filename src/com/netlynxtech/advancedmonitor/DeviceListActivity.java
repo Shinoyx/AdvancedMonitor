@@ -111,9 +111,6 @@ public class DeviceListActivity extends ActionBarActivity {
 			break;
 		case R.id.menu_show_requests:
 			startActivity(new Intent(DeviceListActivity.this, ReceivedMemberPermissionActivity.class));
-			break;
-		case R.id.menu_show_messages:
-			startActivity(new Intent(DeviceListActivity.this, MessagesActivity.class));
 
 			break;
 		default:

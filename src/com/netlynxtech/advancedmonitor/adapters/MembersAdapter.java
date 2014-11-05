@@ -147,9 +147,7 @@ public class MembersAdapter extends BaseAdapter {
 					}
 				}
 			});
-
 		}
 
 	}
-
 }
