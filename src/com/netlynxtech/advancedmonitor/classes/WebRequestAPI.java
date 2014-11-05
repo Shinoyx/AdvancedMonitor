@@ -27,10 +27,56 @@ public class WebRequestAPI {
 		return locationList;
 	}
 
+	public ArrayList<Message> GetMessages() {
+		ArrayList<Message> list = new ArrayList<Message>();
+		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETMESSAGES_METHOD_NAME);
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(rpc);
+		HttpTransportSE ht = new HttpTransportSE(Consts.NOISELYNX_API_URL);
+		ht.debug = true;
+		try {
+			// Log.e("WebRequest", "TRY!");
+			ht.call(Consts.NOISELYNX_API_GETMESSAGES_SOAP_ACTION, envelope);
+			System.err.println(ht.responseDump);
+			SoapObject result = (SoapObject) envelope.getResponse();
+
+			for (int i = 0; i < result.getPropertyCount(); i++) {
+				SoapObject object = (SoapObject) result.getProperty(i);
+				Message d = new Message();
+				d.setMessageId(object.getProperty(Consts.MESSAGES_MESSAGE_ID).toString());
+				d.setEventId(object.getProperty(Consts.MESSAGES_MESSAGE_EVENTID).toString());
+				d.setTitle(object.getProperty(Consts.MESSAGES_MESSAGE_TITLE).toString());
+				d.setTimestamp(object.getProperty(Consts.MESSAGES_MESSAGE_TIMESTAMP).toString());
+				d.setDeviceId(object.getProperty(Consts.MESSAGES_MESSAGE_DEVICEID).toString());
+				d.setMessageType(object.getProperty(Consts.MESSAGES_MESSAGE_MESSAGETYPE).toString());
+				d.setMessage(object.getProperty(Consts.MESSAGES_MESSAGE_MESSAGE).toString());
+				d.setAckRequired(object.getProperty(Consts.MESSAGES_MESSAGE_ACKREQUIRED).toString());
+				list.add(d);
+			}
+
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+			// Toast.makeText(context, "Timed out. Please try again", Toast.LENGTH_SHORT).show();
+
+		} catch (HttpResponseException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+			// return e.getMessage();
+		}
+		return list;
+	}
+
 	public ArrayList<DeviceMembers> GetMembers(String deviceId) {
 		ArrayList<DeviceMembers> list = new ArrayList<DeviceMembers>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_GETMEMBERS_METHOD_NAME);
-		rpc.addProperty("udid", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
 		rpc.addProperty("deviceID", deviceId);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
@@ -74,7 +120,7 @@ public class WebRequestAPI {
 	public ArrayList<DeviceRequest> ListMemberRequests() {
 		ArrayList<DeviceRequest> list = new ArrayList<DeviceRequest>();
 		SoapObject rpc = new SoapObject(Consts.NAMESPACE, Consts.NOISELYNX_API_LISTMEMBERREQUESTS_METHOD_NAME);
-		rpc.addProperty("udid", new Utils(context).getDeviceUniqueId());
+		rpc.addProperty("UDID", new Utils(context).getDeviceUniqueId());
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
@@ -431,7 +477,7 @@ public class WebRequestAPI {
 		rpc.addProperty("pin", pin);
 		rpc.addProperty("GCM_ID", gcm_id);
 		rpc.addProperty("UDID", udid);
-		Log.e("TEST", mobileNumber + "|" + pin + "|" + gcm_id + "|" + udid);
+		//Log.e("TEST", mobileNumber + "|" + pin + "|" + gcm_id + "|" + udid);
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.dotNet = true;
 		envelope.setOutputSoapObject(rpc);
