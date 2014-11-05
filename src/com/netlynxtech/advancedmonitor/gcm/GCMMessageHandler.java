@@ -37,6 +37,7 @@ public class GCMMessageHandler extends IntentService {
 				//longtitle
 				//shorttitle
 				//body
+				Log.e("Push", extras.toString());
 				sendNotification(extras);
 			}
 		}
