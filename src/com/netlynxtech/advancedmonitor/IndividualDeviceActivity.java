@@ -90,39 +90,14 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 
 	private void setData() {
 		isProcessing = true;
-		tvDeviceTimestamp.setText(Html.fromHtml("<b><i>" + Utils.parseTime(device.getTimestamp()) + "</b></i>"));
-		tvDeviceTimestamp.setTextColor(Color.parseColor("#A4A4A4"));
+		tvDeviceTimestamp.setText(Utils.parseTime(device.getTimestamp()));
 		tvDeviceId.setText(device.getDeviceID());
 		tvDeviceDescription.setText(device.getDescription());
 		tvInputOneDescription.setText(device.getDescriptionInput1());
 		tvInputTwoDescription.setText(device.getDescriptionInput2());
-		tvDeviceTemperature.setText(Html.fromHtml("Temperature<br>" + "<b><i><font color='#00FF00'>" + device.getTemperature() + " " + (char) 0x00B0 + "C" + "</b></i></font>"));
-		tvDeviceTemperature.setTextColor(Color.WHITE);
-		float temperatureCurrent = Float.parseFloat(device.getTemperature());
-		float temperatureHi = Float.parseFloat(device.getTemperatureHi());
-		float temperatureLo = Float.parseFloat(device.getTemperatureLo());
-		if (temperatureCurrent > temperatureHi) {
-			tvDeviceTemperature.setText(Html.fromHtml("Temperature<br>" + "<b><i><font color='#FF0000'>" + device.getTemperature() + " " + (char) 0x00B0 + "C" + "</b></i></font>"));
-		}
-		if (temperatureCurrent < temperatureLo) {
-			tvDeviceTemperature.setText(Html.fromHtml("Temperature<br>" + "<b><i><font color='#FFFF00'>" + device.getTemperature() + " " + (char) 0x00B0 + "C" + "</b></i></font>"));
-		}
-
-		tvDeviceHumidity.setText(Html.fromHtml("Humidity<br>" + "<b><i><font color='#00FF00'>" + device.getHumidity() + " %" + "</b></i></font>"));
-		tvDeviceHumidity.setTextColor(Color.WHITE);
-		float humidityCurrent = Float.parseFloat(device.getHumidity());
-		float humidityHi = Float.parseFloat(device.getHumidityHi());
-		float humidityLo = Float.parseFloat(device.getHumidityLo());
-		if (humidityCurrent > humidityHi) {
-			tvDeviceHumidity.setText(Html.fromHtml("Humidity<br>" + "<b><i><font color='#FF0000'>" + device.getHumidity() + " %" + "</b></i></font>"));
-		}
-		if (humidityCurrent < humidityLo) {
-			tvDeviceHumidity.setText(Html.fromHtml("Humidity<br>" + "<b><i><font color='#FFFF00'>" + device.getHumidity() + " %" + "</b></i></font>"));
-		}
-
-		tvDeviceVoltage.setText(Html.fromHtml("Voltage<br>" + "<b><i><font color='#00FF00'>" + device.getVoltage() + " V" + "</b></i></font>"));
-		tvDeviceVoltage.setTextColor(Color.WHITE);
-
+		tvDeviceTemperature.setText(Html.fromHtml("Temperature<br>" + device.getTemperature() + (char) 0x00B0 + "c"));
+		tvDeviceHumidity.setText(Html.fromHtml("Humidity<br>" + device.getHumidity() + "%"));
+		tvDeviceVoltage.setText(Html.fromHtml("Voltage<br>" + device.getVoltage() + "V"));
 		if (device.getEnableInput1().equals("1")) {
 			if (device.getInput1().equals("1")) {
 				ivInputOne.setImageDrawable(IndividualDeviceActivity.this.getResources().getDrawable(R.drawable.ic_greendot));
@@ -316,7 +291,6 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 					timing.add(d.get(Consts.GETDEVICES_DATATIMESTAMP));
 				}
 			}
-
 			return null;
 		}
 
@@ -382,7 +356,6 @@ public class IndividualDeviceActivity extends ActionBarActivity {
 			if (!loadedBefore) {
 				box.showLoadingLayout();
 			}
-
 		}
 
 		@Override

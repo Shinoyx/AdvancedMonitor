@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/download2"
     android:orientation="vertical" >
 
     <TextView
@@ -12,9 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/tvTimestamp"
@@ -35,9 +32,7 @@
         android:layout_below="@+id/tvTimestamp"
         android:layout_toRightOf="@+id/textView1"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
-        android:textStyle="italic" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/tvRole"
@@ -47,9 +42,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvRequestStatus"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF"
-        android:textStyle="italic" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/textView1"
@@ -59,8 +52,7 @@
         android:layout_alignBottom="@+id/tvRequestStatus"
         android:layout_alignParentLeft="true"
         android:text="Status : "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
         android:id="@+id/ivDeleteUser"

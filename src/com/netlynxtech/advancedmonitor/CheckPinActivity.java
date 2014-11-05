@@ -67,6 +67,7 @@ public class CheckPinActivity extends ActionBarActivity {
 
 			}
 		});
+
 		final ProgressGenerator progressGenerator = new ProgressGenerator(new OnCompleteListener() {
 
 			@Override

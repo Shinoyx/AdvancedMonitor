@@ -83,7 +83,7 @@ public class Utils {
 			return datetime;
 		}
 	}
-
+	
 	public static String parseTime(String datetime) {
 		final String pattern = "yyyy-MM-dd'T'HH:mm:ss";
 		final SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
@@ -123,8 +123,7 @@ public class Utils {
 	}
 
 	public String pregmatchIP(String text) {
-		// String data = new UDPClass("255.255.255.255", "1025",
-		// Consts.UDP_BROADCAST_TODEVICE).run(); Pattern pattern4 =
+		// String data = new UDPClass("255.255.255.255", "1025", Consts.UDP_BROADCAST_TODEVICE).run(); Pattern pattern4 =
 		Pattern p = Pattern.compile("((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]" + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
 				+ "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}" + "|[1-9][0-9]|[0-9]))");
 		Matcher matcher = p.matcher(text);
